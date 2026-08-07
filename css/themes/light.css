@@ -1,0 +1,57 @@
+/* ============================================================
+   LIGHT THEME (Default)
+   ============================================================ */
+:root {
+    --bg: #f0f4f8;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --primary: #667eea;
+    --primary-dark: #5a67d8;
+    --secondary: #764ba2;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Input and form elements */
+input, select, textarea {
+    background: var(--bg);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+/* Cards and containers */
+.stat-card, .controls-bar, .add-task-form, .task-item,
+.board-column, .calendar-view, .modal {
+    background: var(--card-bg);
+    border-color: var(--border);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+}
+::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+}
+
+/* Task tags in light mode */
+.tag-category {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.tag-status {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.tag-due {
+    background: #f1f5f9;
+    color: #64748b;
+}

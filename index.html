@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster Pro</title>
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Theme CSS (default light) -->
+    <link rel="stylesheet" href="css/themes/light.css" id="themeStylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.png">
+</head>
+<body>
+
+<div class="app" id="app">
+    <!-- ==========================================================
+    HEADER
+    ========================================================== -->
+    <header class="header">
+        <div class="header-left">
+            <h1><i class="fas fa-tasks"></i>TaskMaster Pro</h1>
+            <span class="version-badge">v2.0</span>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="header-btn" id="templateBtn" title="Templates" aria-label="Templates">
+                <i class="fas fa-copy"></i> Templates
+            </button>
+            <button class="header-btn" id="importBtn" title="Import" aria-label="Import tasks">
+                <i class="fas fa-file-import"></i>
+            </button>
+            <button class="header-btn" id="exportBtn" title="Export" aria-label="Export tasks">
+                <i class="fas fa-file-export"></i>
+            </button>
+            <button class="header-btn" id="settingsBtn" title="Settings" aria-label="Settings">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==========================================================
+    STATS
+    ========================================================== -->
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card primary">
+            <div class="number" id="totalTasks">0</div>
+            <div class="label">Total Tasks</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" id="pendingTasks">0</div>
+            <div class="label">Pending</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" id="completedTasks">0</div>
+            <div class="label">Completed</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" id="overdueTasks">0</div>
+            <div class="label">Overdue</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" id="streakDays">0</div>
+            <div class="label">Day Streak</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" id="pointsDisplay">0</div>
+            <div class="label">Points</div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    CONTROLS
+    ========================================================== -->
+    <div class="controls-bar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search tasks..." aria-label="Search tasks">
+        </div>
+        <div class="filter-group" role="tablist">
+            <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">
+                <i class="fas fa-list"></i> All
+            </button>
+            <button class="filter-btn" data-filter="pending" role="tab" aria-selected="false">
+                <i class="fas fa-clock"></i> Pending
+            </button>
+            <button class="filter-btn" data-filter="completed" role="tab" aria-selected="false">
+                <i class="fas fa-check-circle"></i> Done
+            </button>
+            <button class="filter-btn" data-filter="overdue" role="tab" aria-selected="false">
+                <i class="fas fa-exclamation-triangle"></i> Overdue
+            </button>
+        </div>
+        <div class="view-btns" role="group">
+            <button class="view-btn active" data-view="list" aria-label="List view" title="List view">
+                <i class="fas fa-list-ul"></i>
+            </button>
+            <button class="view-btn" data-view="board" aria-label="Board view" title="Board view">
+                <i class="fas fa-columns"></i>
+            </button>
+            <button class="view-btn" data-view="calendar" aria-label="Calendar view" title="Calendar view">
+                <i class="fas fa-calendar-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    ADD TASK FORM - ALL FIELDS REQUIRED
+    ========================================================== -->
+    <form class="add-task-form" id="addTaskForm" novalidate>
+        <div class="form-group" style="flex: 2;">
+            <label for="taskTitle">
+                <i class="fas fa-pencil"></i> Title <span class="required">*</span>
+            </label>
+            <input type="text" id="taskTitle" placeholder="What needs to be done?" required aria-required="true">
+            <span class="field-error" id="titleError">Title is required</span>
+        </div>
+        
+        <div class="form-group" style="flex: 2;">
+            <label for="taskDesc">
+                <i class="fas fa-align-left"></i> Description <span class="required">*</span>
+            </label>
+            <textarea id="taskDesc" placeholder="Enter task details..." required aria-required="true"></textarea>
+            <span class="field-error" id="descError">Description is required</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="taskPriority">
+                <i class="fas fa-flag"></i> Priority <span class="required">*</span>
+            </label>
+            <select id="taskPriority" required aria-required="true">
+                <option value="">Select Priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="critical">Critical</option>
+            </select>
+            <span class="field-error" id="priorityError">Priority is required</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="taskCategory">
+                <i class="fas fa-tag"></i> Category <span class="required">*</span>
+            </label>
+            <select id="taskCategory" required aria-required="true">
+                <option value="">Select Category</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Health">Health</option>
+                <option value="Study">Study</option>
+                <option value="Other">Other</option>
+            </select>
+            <span class="field-error" id="categoryError">Category is required</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="taskDue">
+                <i class="fas fa-calendar"></i> Due Date <span class="required">*</span>
+            </label>
+            <input type="datetime-local" id="taskDue" required aria-required="true">
+            <span class="field-error" id="dueError">Due date is required</span>
+        </div>
+        
+        <div class="form-group" style="min-width:100px;">
+            <label for="taskReminder">
+                <i class="fas fa-clock"></i> Reminder <span class="required">*</span>
+            </label>
+            <select id="taskReminder" required aria-required="true">
+                <option value="">Select Reminder</option>
+                <option value="15min">15 min</option>
+                <option value="30min">30 min</option>
+                <option value="1h">1 hour</option>
+                <option value="2h">2 hours</option>
+                <option value="6h">6 hours</option>
+                <option value="12h">12 hours</option>
+                <option value="1d">1 day</option>
+                <option value="2d">2 days</option>
+                <option value="1d+2h">1 day + 2 hours</option>
+                <option value="2d+6h">2 days + 6 hours</option>
+            </select>
+            <span class="field-error" id="reminderError">Reminder is required</span>
+        </div>
+        
+        <button type="submit" class="add-btn">
+            <i class="fas fa-plus"></i> Add Task
+        </button>
+    </form>
+
+    <!-- ==========================================================
+    TASK LIST HEADER
+    ========================================================== -->
+    <div class="task-list-header">
+        <h2><i class="fas fa-list-ul"></i> <span id="taskCountLabel">Your Tasks</span></h2>
+        <div class="task-actions">
+            <button class="action-btn" id="sortBtn"><i class="fas fa-sort"></i> Sort</button>
+            <button class="action-btn" id="clearCompletedBtn"><i class="fas fa-trash"></i> Clear Done</button>
+            <button class="action-btn" id="selectAllBtn"><i class="fas fa-check-double"></i> Select All</button>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    LIST VIEW
+    ========================================================== -->
+    <div class="task-list" id="taskList">
+        <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>No tasks yet</h3>
+            <p>Add your first task above!</p>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    BOARD VIEW
+    ========================================================== -->
+    <div class="board-view" id="boardView">
+        <div class="board-column" data-status="pending">
+            <h3><i class="fas fa-clock"></i> To Do</h3>
+            <div class="board-tasks"></div>
+        </div>
+        <div class="board-column" data-status="in-progress">
+            <h3><i class="fas fa-spinner"></i> In Progress</h3>
+            <div class="board-tasks"></div>
+        </div>
+        <div class="board-column" data-status="completed">
+            <h3><i class="fas fa-check-circle"></i> Done</h3>
+            <div class="board-tasks"></div>
+        </div>
+        <div class="board-column" data-status="deferred">
+            <h3><i class="fas fa-pause"></i> Deferred</h3>
+            <div class="board-tasks"></div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    CALENDAR VIEW
+    ========================================================== -->
+    <div class="calendar-view" id="calendarView">
+        <div class="calendar-header">
+            <h3 id="calendarMonth">January 2024</h3>
+            <div class="calendar-nav">
+                <button id="calPrev"><i class="fas fa-chevron-left"></i></button>
+                <button id="calToday">Today</button>
+                <button id="calNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+</div>
+
+<!-- ============================================================
+MODAL: Edit Task - ALL FIELDS REQUIRED
+============================================================ -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <h2><i class="fas fa-edit"></i> Edit Task</h2>
+        <form id="editTaskForm" novalidate>
+            <input type="hidden" id="editTaskId">
+            
+            <div class="form-group">
+                <label for="editTitle">Title <span class="required">*</span></label>
+                <input type="text" id="editTitle" required aria-required="true">
+                <span class="field-error" id="editTitleError">Title is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="editDesc">Description <span class="required">*</span></label>
+                <textarea id="editDesc" required aria-required="true"></textarea>
+                <span class="field-error" id="editDescError">Description is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="editPriority">Priority <span class="required">*</span></label>
+                <select id="editPriority" required aria-required="true">
+                    <option value="">Select Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                </select>
+                <span class="field-error" id="editPriorityError">Priority is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="editCategory">Category <span class="required">*</span></label>
+                <select id="editCategory" required aria-required="true">
+                    <option value="">Select Category</option>
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Health">Health</option>
+                    <option value="Study">Study</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span class="field-error" id="editCategoryError">Category is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="editStatus">Status <span class="required">*</span></label>
+                <select id="editStatus" required aria-required="true">
+                    <option value="">Select Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="deferred">Deferred</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <span class="field-error" id="editStatusError">Status is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="editProgress">Progress</label>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <input type="range" id="editProgress" min="0" max="100" value="0" style="flex:1;">
+                    <span id="editProgressLabel" style="min-width:40px;font-weight:600;">0%</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="editDue">Due Date <span class="required">*</span></label>
+                <input type="datetime-local" id="editDue" required aria-required="true">
+                <span class="field-error" id="editDueError">Due date is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="editDuration">Estimated Duration (minutes)</label>
+                <input type="number" id="editDuration" min="0" value="0">
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="closeModalBtn">Cancel</button>
+                <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ============================================================
+MODAL: Templates
+============================================================ -->
+<div class="modal-overlay" id="templateModal">
+    <div class="modal">
+        <h2><i class="fas fa-copy"></i> Task Templates</h2>
+        <div id="templateList" style="max-height:300px;overflow-y:auto;margin-bottom:16px;"></div>
+        <div class="form-group" style="margin-bottom:12px;">
+            <label for="templateName">Save current task as template <span class="required">*</span></label>
+            <div style="display:flex;gap:8px;">
+                <input type="text" id="templateName" placeholder="Template name" style="flex:1;padding:8px 12px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);" required>
+                <button class="add-btn" id="saveTemplateBtn" style="padding:8px 16px;height:auto;">Save</button>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="closeTemplateBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+MODAL: Settings
+============================================================ -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+        <h2><i class="fas fa-cog"></i> Settings</h2>
+        <div class="form-group">
+            <label for="settingsTheme">Theme <span class="required">*</span></label>
+            <select id="settingsTheme" required>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="system">System</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="settingsDefaultPriority">Default Priority <span class="required">*</span></label>
+            <select id="settingsDefaultPriority" required>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="critical">Critical</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="settingsDefaultCategory">Default Category <span class="required">*</span></label>
+            <select id="settingsDefaultCategory" required>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Health">Health</option>
+                <option value="Study">Study</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="settingsDefaultReminder">Default Reminder <span class="required">*</span></label>
+            <select id="settingsDefaultReminder" required>
+                <option value="none">None</option>
+                <option value="15min">15 min</option>
+                <option value="30min">30 min</option>
+                <option value="1h">1 hour</option>
+                <option value="2h">2 hours</option>
+                <option value="6h">6 hours</option>
+                <option value="12h">12 hours</option>
+                <option value="1d">1 day</option>
+                <option value="2d">2 days</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="settingsConfirmDelete"> Confirm before deleting
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="settingsSoundEffects"> Sound effects
+            </label>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="closeSettingsBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+TOAST CONTAINER
+============================================================ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ============================================================
+JAVASCRIPT - MODULAR
+============================================================ -->
+<script type="module">
+    // Import all modules
+    import { TaskManager } from './js/modules/taskManager.js';
+    import { StorageManager } from './js/modules/storage.js';
+    import { UIManager } from './js/modules/ui.js';
+    import { Renderer } from './js/modules/renderer.js';
+    import { TemplateManager } from './js/modules/templates.js';
+    
+    // Initialize the app
+    const storage = new StorageManager();
+    const taskManager = new TaskManager(storage);
+    const renderer = new Renderer(taskManager);
+    const uiManager = new UIManager(taskManager, renderer);
+    const templateManager = new TemplateManager(storage, taskManager);
+    
+    // Export for global access (for inline onclick handlers)
+    window.taskManager = taskManager;
+    window.renderer = renderer;
+    window.uiManager = uiManager;
+    window.templateManager = templateManager;
+    
+    // Initialize
+    taskManager.load();
+    renderer.render();
+    uiManager.init();
+    templateManager.init();
+    
+    console.log('TaskMaster Pro loaded successfully!');
+    console.log('Keyboard shortcuts: Ctrl+N (new task), Esc (close modal)');
+</script>
+
+<!-- Alarm Bar -->
+<div class="alarm-bar" id="alarmBar">
+  <span class="alarm-text" id="alarmText">
+    <i class="fas fa-bell"></i> ⏰ Task due!
+  </span>
+  <button class="alarm-btn" id="stopAlarmBtn">
+    <i class="fas fa-stop"></i> Stop Alarm
+  </button>
+</div>
+
+</body>
+</html>

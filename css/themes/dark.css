@@ -1,0 +1,119 @@
+/* ============================================================
+   DARK THEME
+   ============================================================ */
+[data-theme="dark"] {
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --primary: #818cf8;
+    --primary-dark: #6366f1;
+    --secondary: #a78bfa;
+}
+
+[data-theme="dark"] body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: #0f172a;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .controls-bar,
+[data-theme="dark"] .add-task-form,
+[data-theme="dark"] .task-item,
+[data-theme="dark"] .board-column,
+[data-theme="dark"] .calendar-view,
+[data-theme="dark"] .modal {
+    background: var(--card-bg);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .stat-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+[data-theme="dark"] .tag-category {
+    background: #1e3a5f;
+    color: #60a5fa;
+}
+
+[data-theme="dark"] .tag-status {
+    background: #1e1b4b;
+    color: #818cf8;
+}
+
+[data-theme="dark"] .tag-due {
+    background: #334155;
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .tag-priority-critical {
+    background: #7f1d1d;
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .tag-priority-high {
+    background: #450a0a;
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .tag-priority-medium {
+    background: #451a03;
+    color: #fcd34d;
+}
+
+[data-theme="dark"] .tag-priority-low {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+[data-theme="dark"] .task-item:hover {
+    border-color: var(--primary);
+}
+
+[data-theme="dark"] .calendar-day:hover {
+    border-color: var(--primary);
+}
+
+[data-theme="dark"] .calendar-day.today {
+    border-color: var(--primary);
+}
+
+[data-theme="dark"] .modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .toast {
+    background: var(--card-bg);
+    border-color: var(--border);
+}
+[data-theme="dark"] body,
+[data-theme="dark"] .app,
+[data-theme="dark"] .modal,
+[data-theme="dark"] .task-item {
+  background: var(--card-bg);
+  color: var(--text);
+}
