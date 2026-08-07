@@ -1,7 +1,4 @@
-/**
- * Renderer - Handles all DOM rendering
- */
-
+// Rendering - displays tasks in different views
 export class Renderer {
     constructor(taskManager) {
         this.taskManager = taskManager;
@@ -11,11 +8,13 @@ export class Renderer {
         this.searchTerm = '';
         this.calendarDate = new Date();
         
-        // DOM refs
         this.taskList = document.getElementById('taskList');
         this.boardView = document.getElementById('boardView');
         this.calendarView = document.getElementById('calendarView');
-        this.statsElements = {
+        this.calendarGrid = document.getElementById('calendarGrid');
+        this.calendarMonth = document.getElementById('calendarMonth');
+        
+        this.stats = {
             total: document.getElementById('totalTasks'),
             pending: document.getElementById('pendingTasks'),
             completed: document.getElementById('completedTasks'),
@@ -26,50 +25,73 @@ export class Renderer {
         this.taskCountLabel = document.getElementById('taskCountLabel');
     }
 
-    /**
-     * Main render method
-     */
     render() {
-        const filtered = this.taskManager.getFilteredTasks(
-            this.currentFilter,
-            this.searchTerm,
-            this.sortOrder
-        );
+        const filtered = this.getFilteredTasks();
         const stats = this.taskManager.getStats();
         
         // Update stats
-        this.statsElements.total.textContent = stats.total;
-        this.statsElements.pending.textContent = stats.pending;
-        this.statsElements.completed.textContent = stats.completed;
-        this.statsElements.overdue.textContent = stats.overdue;
-        this.statsElements.streak.textContent = this.taskManager.streakDays;
-        this.statsElements.points.textContent = this.taskManager.points;
-        this.taskCountLabel.textContent = `${filtered.length} task${filtered.length !== 1 ? 's' : ''}`;
+        this.stats.total.textContent = stats.total;
+        this.stats.pending.textContent = stats.pending;
+        this.stats.completed.textContent = stats.completed;
+        this.stats.overdue.textContent = stats.overdue;
+        this.stats.streak.textContent = this.taskManager.streakDays;
+        this.stats.points.textContent = this.taskManager.points;
+        this.taskCountLabel.textContent = filtered.length + ' task' + (filtered.length !== 1 ? 's' : '');
 
-        // Render based on current view
-        switch (this.currentView) {
-            case 'list':
-                this.renderList(filtered);
-                this.boardView.classList.remove('active');
-                this.calendarView.classList.remove('active');
-                this.taskList.style.display = 'flex';
-                break;
-            case 'board':
-                this.renderBoard(filtered);
-                this.taskList.style.display = 'none';
-                this.calendarView.classList.remove('active');
-                break;
-            case 'calendar':
-                this.renderCalendar();
-                this.taskList.style.display = 'none';
-                this.boardView.classList.remove('active');
-                break;
+        // Render view
+        if (this.currentView === 'list') {
+            this.renderList(filtered);
+            this.boardView.classList.remove('active');
+            this.calendarView.classList.remove('active');
+            this.taskList.style.display = 'flex';
+        } else if (this.currentView === 'board') {
+            this.renderBoard(filtered);
+            this.taskList.style.display = 'none';
+            this.calendarView.classList.remove('active');
+        } else if (this.currentView === 'calendar') {
+            this.renderCalendar();
+            this.taskList.style.display = 'none';
+            this.boardView.classList.remove('active');
         }
     }
 
-    /**
-     * Render list view
-     */
+    getFilteredTasks() {
+        let filtered = [...this.taskManager.tasks];
+        
+        // Search
+        const search = this.searchTerm.toLowerCase().trim();
+        if (search) {
+            filtered = filtered.filter(t => 
+                t.title.toLowerCase().includes(search) ||
+                t.description.toLowerCase().includes(search) ||
+                t.category.toLowerCase().includes(search)
+            );
+        }
+        
+        // Filter
+        switch (this.currentFilter) {
+            case 'pending': filtered = filtered.filter(t => t.status === 'pending' || t.status === 'in-progress'); break;
+            case 'completed': filtered = filtered.filter(t => t.status === 'completed'); break;
+            case 'overdue': filtered = filtered.filter(t => this.taskManager.isOverdue(t)); break;
+            default: break;
+        }
+        
+        // Sort
+        switch (this.sortOrder) {
+            case 'newest': filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); break;
+            case 'oldest': filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); break;
+            case 'priority': {
+                const order = { critical: 0, high: 1, medium: 2, low: 3 };
+                filtered.sort((a, b) => order[a.priority] - order[b.priority]);
+                break;
+            }
+            case 'due': filtered.sort((a, b) => (a.dueDate || '9999') > (b.dueDate || '9999') ? 1 : -1); break;
+            default: break;
+        }
+        
+        return filtered;
+    }
+
     renderList(filtered) {
         if (!filtered.length) {
             this.taskList.innerHTML = `
@@ -93,25 +115,20 @@ export class Renderer {
                         <div class="task-title">${this.escapeHtml(task.title)}</div>
                         ${task.description ? `<div class="task-description">${this.escapeHtml(task.description)}</div>` : ''}
                         <div class="task-meta">
-                            <span class="task-tag ${this.getPriorityClass(task.priority)}">${this.getPriorityLabel(task.priority)}</span>
-                            <span class="task-tag tag-category"><i class="fas fa-tag"></i> ${this.escapeHtml(task.category)}</span>
+                            <span class="task-tag tag-priority-${task.priority}">${this.getPriorityLabel(task.priority)}</span>
+                            <span class="task-tag tag-category">${this.escapeHtml(task.category)}</span>
                             <span class="task-tag tag-status">${this.getStatusLabel(task.status)}</span>
-                            <span class="task-tag ${overdue ? 'tag-overdue' : 'tag-due'}">
-                                <i class="fas fa-calendar-alt"></i> ${this.formatDate(task.dueDate)}
-                                ${overdue ? ' ⚠️ OVERDUE' : ''}
-                            </span>
-                            ${task.reminder !== 'none' ? `<span class="task-tag tag-due"><i class="fas fa-bell"></i> ${this.getReminderLabel(task.reminder)}</span>` : ''}
-                            ${task.estimatedDuration ? `<span class="task-tag tag-due"><i class="fas fa-clock"></i> ${task.estimatedDuration}m</span>` : ''}
+                            <span class="task-tag ${overdue ? 'tag-overdue' : 'tag-due'}">${this.formatDate(task.dueDate)}${overdue ? ' ⚠️' : ''}</span>
+                            ${task.reminder !== 'none' ? `<span class="task-tag tag-due">🔔 ${task.reminder}</span>` : ''}
                         </div>
-                        ${this.renderSubtasks(task)}
                         <div class="task-progress">
                             <div class="progress-bar"><div class="fill" style="width:${task.progress}%"></div></div>
                             <span class="progress-text">${task.progress}%</span>
                         </div>
                     </div>
                     <div class="task-actions-right">
-                        <button class="edit" data-id="${task.id}" title="Edit"><i class="fas fa-pen"></i></button>
-                        <button class="delete" data-id="${task.id}" title="Delete"><i class="fas fa-trash"></i></button>
+                        <button class="edit" data-id="${task.id}"><i class="fas fa-pen"></i></button>
+                        <button class="delete" data-id="${task.id}"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             `;
@@ -119,146 +136,94 @@ export class Renderer {
         this.taskList.innerHTML = html;
     }
 
-    /**
-     * Render subtasks for a task
-     */
-    renderSubtasks(task) {
-        if (task.subtasks && task.subtasks.length) {
-            let html = `
-                <div style="margin-top:8px;padding-left:20px;border-left:2px solid var(--border);">
-            `;
-            task.subtasks.forEach(st => {
-                html += `
-                    <div style="display:flex;align-items:center;gap:6px;margin:2px 0;font-size:13px;">
-                        <input type="checkbox" ${st.completed ? 'checked' : ''} 
-                               onchange="window.renderer.toggleSubtask('${task.id}','${st.id}')">
-                        <span style="${st.completed ? 'text-decoration:line-through;color:var(--text-secondary)' : ''}">${this.escapeHtml(st.title)}</span>
-                    </div>
-                `;
-            });
-            html += `
-                    <div style="display:flex;gap:6px;margin-top:4px;">
-                        <input type="text" id="subtaskInput_${task.id}" placeholder="Add subtask..." 
-                               style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:12px;">
-                        <button onclick="window.renderer.addSubtaskFromUI('${task.id}')" 
-                                style="padding:4px 10px;background:var(--primary);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">
-                            Add
-                        </button>
-                    </div>
-                </div>
-            `;
-            return html;
-        }
-        return `
-            <div style="margin-top:4px;">
-                <input type="text" id="subtaskInput_${task.id}" placeholder="Add subtask..." 
-                       style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:12px;width:200px;">
-                <button onclick="window.renderer.addSubtaskFromUI('${task.id}')" 
-                        style="padding:4px 10px;background:var(--primary);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">
-                    Add
-                </button>
-            </div>
-        `;
-    }
-
-    /**
-     * Render board view
-     */
     renderBoard(filtered) {
         this.boardView.classList.add('active');
         const columns = {
-            'pending': { label: 'To Do', icon: 'fa-clock' },
-            'in-progress': { label: 'In Progress', icon: 'fa-spinner' },
-            'completed': { label: 'Done', icon: 'fa-check-circle' },
-            'deferred': { label: 'Deferred', icon: 'fa-pause' },
-            'cancelled': { label: 'Cancelled', icon: 'fa-times-circle' }
+            'pending': 'To Do',
+            'in-progress': 'In Progress',
+            'completed': 'Done',
+            'deferred': 'Deferred'
         };
-
+        
         document.querySelectorAll('.board-column').forEach(col => {
             const status = col.dataset.status;
-            const tasksInCol = filtered.filter(t => t.status === status);
+            const tasks = filtered.filter(t => t.status === status);
             const container = col.querySelector('.board-tasks');
-            
-            if (!tasksInCol.length) {
-                container.innerHTML = `<div style="color:var(--text-secondary);font-size:13px;text-align:center;padding:16px 0;">No tasks</div>`;
+            if (!tasks.length) {
+                container.innerHTML = '<div style="color:var(--text-secondary);padding:16px;text-align:center;">No tasks</div>';
                 return;
             }
-            
-            container.innerHTML = tasksInCol.map(task => `
-                <div class="task-item ${task.status === 'completed' ? 'completed' : ''}" style="padding:10px 12px;margin-bottom:6px;cursor:pointer;" 
+            container.innerHTML = tasks.map(task => `
+                <div class="task-item ${task.status === 'completed' ? 'completed' : ''}" 
+                     style="padding:10px;margin-bottom:6px;cursor:pointer;"
                      onclick="window.renderer.openEditModal('${task.id}')">
-                    <div style="flex:1;min-width:0;">
-                        <div style="font-weight:600;font-size:14px;">${this.escapeHtml(task.title)}</div>
-                        <div style="font-size:11px;color:var(--text-secondary);display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;">
-                            <span class="task-tag ${this.getPriorityClass(task.priority)}" style="font-size:9px;padding:1px 8px;">${this.getPriorityLabel(task.priority)}</span>
-                            <span class="task-tag tag-category" style="font-size:9px;padding:1px 8px;">${this.escapeHtml(task.category)}</span>
+                    <div style="flex:1;">
+                        <div style="font-weight:600;">${this.escapeHtml(task.title)}</div>
+                        <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">
+                            ${this.getPriorityLabel(task.priority)} · ${this.escapeHtml(task.category)}
                         </div>
                     </div>
-                    <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''} 
-                           style="width:18px;height:18px;flex-shrink:0;" 
+                    <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''}
                            onclick="event.stopPropagation(); window.renderer.toggleTask('${task.id}')">
                 </div>
             `).join('');
         });
     }
 
-    /**
-     * Render calendar view
-     */
     renderCalendar() {
         this.calendarView.classList.add('active');
         const year = this.calendarDate.getFullYear();
         const month = this.calendarDate.getMonth();
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const daysInMonth = lastDay.getDate();
-        const startDay = firstDay.getDay();
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
         const today = new Date();
         
-        document.getElementById('calendarMonth').textContent = 
-            firstDay.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        this.calendarMonth.textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
         
         let grid = '';
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         dayNames.forEach(d => grid += `<div class="calendar-day-header">${d}</div>`);
         
-        for (let i = 0; i < startDay; i++) {
-            grid += `<div class="calendar-day other-month"><span class="day-number"></span></div>`;
+        for (let i = 0; i < firstDay; i++) {
+            grid += `<div class="calendar-day other-month"></div>`;
         }
         
         for (let d = 1; d <= daysInMonth; d++) {
             const dateObj = new Date(year, month, d);
             const dateStr = dateObj.toISOString().slice(0, 10);
             const isToday = dateObj.toDateString() === today.toDateString();
-            const dayTasks = this.taskManager.tasks.filter(t => 
-                t.dueDate && t.dueDate.slice(0, 10) === dateStr
-            );
-            const overdueTasks = dayTasks.filter(t => 
-                this.taskManager.isOverdue(t) && t.status !== 'completed'
-            );
+            const dayTasks = this.taskManager.tasks.filter(t => t.dueDate && t.dueDate.slice(0, 10) === dateStr);
             
             grid += `
                 <div class="calendar-day ${isToday ? 'today' : ''}">
                     <div class="day-number">${d}</div>
                     <div class="day-tasks">
-                        ${dayTasks.slice(0, 3).map(t => `
-                            <div class="day-task ${overdueTasks.includes(t) ? 'overdue' : ''} ${t.status === 'completed' ? 'completed' : ''}"
+                        ${dayTasks.slice(0, 2).map(t => `
+                            <div class="day-task ${t.status === 'completed' ? 'completed' : ''}"
                                  onclick="window.renderer.openEditModal('${t.id}')"
                                  title="${this.escapeHtml(t.title)}">
-                                ${this.escapeHtml(t.title.length > 20 ? t.title.slice(0, 20) + '…' : t.title)}
+                                ${this.escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}
                             </div>
                         `).join('')}
-                        ${dayTasks.length > 3 ? `<div style="font-size:10px;color:var(--text-secondary);margin-top:2px;">+${dayTasks.length - 3} more</div>` : ''}
+                        ${dayTasks.length > 2 ? `<div style="font-size:10px;color:var(--text-secondary);">+${dayTasks.length - 2}</div>` : ''}
                     </div>
                 </div>
             `;
         }
-        document.getElementById('calendarGrid').innerHTML = grid;
+        this.calendarGrid.innerHTML = grid;
     }
 
-    /**
-     * Helper methods
-     */
+    openEditModal(id) {
+        if (window.uiManager) {
+            window.uiManager.openEditModal(id);
+        }
+    }
+
+    toggleTask(id) {
+        this.taskManager.toggleCompletion(id);
+        this.render();
+    }
+
     escapeHtml(text) {
         if (!text) return '';
         const div = document.createElement('div');
@@ -271,131 +236,21 @@ export class Renderer {
         return map[p] || p;
     }
 
-    getPriorityClass(p) {
-        return `tag-priority-${p}`;
-    }
-
-    getStatusLabel(status) {
-        const map = {
-            'pending': 'Pending',
-            'in-progress': 'In Progress',
-            'completed': 'Completed',
-            'deferred': 'Deferred',
-            'cancelled': 'Cancelled'
-        };
-        return map[status] || status;
-    }
-
-    getReminderLabel(val) {
-        const map = {
-            'none': 'None',
-            '15min': '15 min',
-            '30min': '30 min',
-            '1h': '1 hour',
-            '2h': '2 hours',
-            '6h': '6 hours',
-            '12h': '12 hours',
-            '1d': '1 day',
-            '2d': '2 days',
-            '1d+2h': '1 day + 2 hours',
-            '2d+6h': '2 days + 6 hours'
-        };
-        return map[val] || val;
+    getStatusLabel(s) {
+        const map = { pending: 'Pending', 'in-progress': 'In Progress', completed: 'Completed', deferred: 'Deferred', cancelled: 'Cancelled' };
+        return map[s] || s;
     }
 
     formatDate(d) {
         if (!d) return 'No date';
         const dt = new Date(d);
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
-        const diff = Math.floor((date - today) / 86400000);
-        if (diff === 0) return 'Today ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        if (diff === 1) return 'Tomorrow ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        if (diff === -1) return 'Yesterday ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         return dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
 
-    /**
-     * UI action methods (exposed to window)
-     */
-    toggleTask(id) {
-        this.taskManager.toggleCompletion(id);
-        this.render();
-    }
-
-    toggleSubtask(taskId, subtaskId) {
-        this.taskManager.toggleSubtask(taskId, subtaskId);
-        this.render();
-    }
-
-    addSubtaskFromUI(taskId) {
-        const input = document.getElementById(`subtaskInput_${taskId}`);
-        if (input && input.value.trim()) {
-            this.taskManager.addSubtask(taskId, input.value);
-            input.value = '';
-            this.render();
-        }
-    }
-
-    openEditModal(id) {
-        if (window.uiManager) {
-            window.uiManager.openEditModal(id);
-        }
-    }
-
-    /**
-     * Set view
-     */
-    setView(view) {
-        this.currentView = view;
-        this.render();
-    }
-
-    /**
-     * Set filter
-     */
-    setFilter(filter) {
-        this.currentFilter = filter;
-        this.render();
-    }
-
-    /**
-     * Set search
-     */
-    setSearch(term) {
-        this.searchTerm = term;
-        this.render();
-    }
-
-    /**
-     * Set sort
-     */
-    setSort(order) {
-        this.sortOrder = order;
-        this.render();
-    }
-
-    /**
-     * Navigate calendar
-     */
-    navigateCalendar(direction) {
-        this.calendarDate.setMonth(this.calendarDate.getMonth() + direction);
-        this.render();
-    }
-
-    /**
-     * Reset calendar to today
-     */
-    resetCalendar() {
-        this.calendarDate = new Date();
-        this.render();
-    }
-
-    /**
-     * Re-render (called when data changes)
-     */
-    refresh() {
-        this.render();
-    }
+    setView(view) { this.currentView = view; this.render(); }
+    setFilter(filter) { this.currentFilter = filter; this.render(); }
+    setSearch(term) { this.searchTerm = term; this.render(); }
+    setSort(order) { this.sortOrder = order; this.render(); }
+    navigateCalendar(dir) { this.calendarDate.setMonth(this.calendarDate.getMonth() + dir); this.render(); }
+    resetCalendar() { this.calendarDate = new Date(); this.render(); }
 }
