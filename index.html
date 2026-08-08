@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaskMaster Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
     <style>
-        /* ===== COMPLETE CSS ===== */
+        /* ===== COMPLETE CSS (same as before + auth styles) ===== */
         :root {
             --primary: #667eea;
             --secondary: #764ba2;
@@ -38,9 +38,127 @@
             padding: 20px;
             transition: 0.3s;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .app { max-width: 1200px; margin: 0; }
+        .app { max-width: 1200px; margin: 0; width: 100%; }
 
+        /* ===== AUTH ===== */
+        .auth-container {
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 40px 32px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .auth-container h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .auth-container h1 i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        .auth-container .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .auth-container .form-group {
+            margin-bottom: 16px;
+        }
+        .auth-container .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .auth-container .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .auth-container .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .auth-container .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .auth-container .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.3);
+        }
+        .auth-container .auth-switch {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .auth-container .auth-switch a {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .auth-container .auth-switch a:hover { text-decoration: underline; }
+        .auth-container .auth-error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .auth-container .auth-error.visible { display: block; }
+        .auth-container .auth-success {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .auth-container .auth-success.visible { display: block; }
+
+        /* User badge in header */
+        .user-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        .user-badge i { font-size: 14px; }
+
+        /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 16px 24px;
@@ -110,61 +228,10 @@
         }
         .dropdown-menu .menu-item:hover { background: var(--bg); }
         .dropdown-menu .menu-item i { width: 20px; color: var(--primary); font-size: 16px; }
+        .dropdown-menu .menu-item.danger i { color: var(--error); }
         .dropdown-menu .menu-divider { height: 1px; background: var(--border); margin: 4px 12px; }
 
-        .alarm-settings-group {
-            padding: 8px 18px;
-        }
-        .alarm-settings-group label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            cursor: pointer;
-        }
-        .alarm-settings-group select {
-            padding: 4px 8px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            background: var(--bg);
-            color: var(--text);
-            font-size: 13px;
-            margin-left: 4px;
-        }
-        .alarm-settings-group .toggle-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            margin-top: 4px;
-        }
-        .toggle-switch {
-            position: relative;
-            width: 40px;
-            height: 22px;
-            background: var(--border);
-            border-radius: 12px;
-            transition: 0.3s;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .toggle-switch.active { background: var(--primary); }
-        .toggle-switch .toggle-dot {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 18px;
-            height: 18px;
-            background: white;
-            border-radius: 50%;
-            transition: 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .toggle-switch.active .toggle-dot { left: 20px; }
-
+        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -181,8 +248,7 @@
         .stat-card .number { font-size: 24px; font-weight: 700; color: var(--primary); }
         .stat-card .label { font-size: 12px; color: var(--text-secondary); }
         .stat-card.primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; }
-        .stat-card.primary .number,
-        .stat-card.primary .label { color: white; }
+        .stat-card.primary .number, .stat-card.primary .label { color: white; }
 
         .controls {
             background: var(--card);
@@ -216,14 +282,12 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
         }
-        .filter-group,
-        .view-group {
+        .filter-group, .view-group {
             display: flex;
             gap: 4px;
             flex-wrap: wrap;
         }
-        .filter-btn,
-        .view-btn {
+        .filter-btn, .view-btn {
             padding: 6px 14px;
             border: 2px solid var(--border);
             background: transparent;
@@ -233,10 +297,8 @@
             color: var(--text-secondary);
             transition: 0.3s;
         }
-        .filter-btn:hover,
-        .view-btn:hover { border-color: var(--primary); color: var(--text); }
-        .filter-btn.active,
-        .view-btn.active {
+        .filter-btn:hover, .view-btn:hover { border-color: var(--primary); color: var(--text); }
+        .filter-btn.active, .view-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
@@ -266,9 +328,7 @@
             text-transform: uppercase;
         }
         .form-group label .req { color: var(--error); }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 8px 12px;
             border: 2px solid var(--border);
@@ -278,9 +338,7 @@
             font-size: 14px;
             font-family: inherit;
         }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
         }
@@ -439,18 +497,9 @@
         .tag-due { background: var(--border); color: var(--text-secondary); }
         .tag-overdue { background: #fee2e2; color: #dc2626; }
         .tag-repeat { background: #f3e8ff; color: #7c3aed; }
-        .tag-duration {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .tag-duration.overdue {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .tag-recurring {
-            background: #fef3c7;
-            color: #92400e;
-        }
+        .tag-duration { background: #d1fae5; color: #065f46; }
+        .tag-duration.overdue { background: #fee2e2; color: #991b1b; }
+        .tag-recurring { background: #fef3c7; color: #92400e; }
 
         .task-progress {
             margin-top: 6px;
@@ -497,8 +546,7 @@
         }
         .task-actions-right .complete-btn:hover { background: #d1fae5; }
 
-        .board-view,
-        .calendar-view { display: none; }
+        .board-view, .calendar-view { display: none; }
         .board-view.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-height: 500px; }
         .board-column {
             background: var(--card);
@@ -741,7 +789,6 @@
         }
         .snooze-options .snooze-item:hover { background: var(--bg); }
 
-        /* Productivity Insights Panel */
         .insights-panel {
             background: var(--card);
             border: 2px solid var(--border);
@@ -809,10 +856,7 @@
             .hamburger-btn span { display: none; }
             .dropdown-menu { position: fixed; top: 70px; right: 20px; left: 20px; width: auto; }
             .snooze-options { right: 10px; left: 10px; bottom: 80px; }
-            .insights-panel .insights-header {
-                flex-direction: column;
-                text-align: center;
-            }
+            .insights-panel .insights-header { flex-direction: column; text-align: center; }
         }
         @media (max-width: 480px) {
             .board-view.active { grid-template-columns: 1fr; }
@@ -823,15 +867,53 @@
     </style>
 </head>
 <body>
-<div class="app" id="app">
+
+<!-- ===== AUTH CONTAINER ===== -->
+<div id="authContainer" class="auth-container">
+    <h1><i class="fas fa-tasks"></i>TaskMaster Pro</h1>
+    <p class="subtitle">Sign in to manage your tasks</p>
+    
+    <div id="authError" class="auth-error"></div>
+    <div id="authSuccess" class="auth-success"></div>
+    
+    <form id="authForm">
+        <div id="authFields">
+            <div class="form-group" id="nameGroup">
+                <label>Full Name</label>
+                <input type="text" id="authName" placeholder="Enter your name" />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="authEmail" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="authPassword" placeholder="Enter your password" required />
+            </div>
+        </div>
+        <button type="submit" class="auth-btn" id="authBtn">Sign In</button>
+    </form>
+    
+    <div class="auth-switch">
+        <span id="authSwitchText">Don't have an account?</span>
+        <a id="authSwitchLink">Sign Up</a>
+    </div>
+</div>
+
+<!-- ===== APP CONTAINER ===== -->
+<div id="appContainer" class="app" style="display:none;">
     <header class="header">
         <h1><i class="fas fa-tasks"></i>TaskMaster Pro</h1>
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
-            <i class="fas fa-bars"></i>
-            <span>Menu</span>
-        </button>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <span class="user-badge"><i class="fas fa-user"></i> <span id="userNameDisplay">User</span></span>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+                <span>Menu</span>
+            </button>
+        </div>
         <div class="dropdown-menu" id="dropdownMenu">
             <button class="menu-item" id="menuThemeToggle"><i class="fas fa-moon"></i> Toggle Theme</button>
+            <button class="menu-item" id="menuLogout"><i class="fas fa-sign-out-alt danger"></i> Logout</button>
             <div class="menu-divider"></div>
             <div class="alarm-settings-group">
                 <label class="toggle-label">
@@ -876,7 +958,6 @@
         <div class="stat-card"><div class="number" id="productivityScore">0</div><div class="label">Productivity</div></div>
     </div>
 
-    <!-- ===== INSIGHTS PANEL ===== -->
     <div class="insights-panel" id="insightsPanel">
         <div class="insights-header">
             <h3><i class="fas fa-brain"></i> Productivity Insights</h3>
@@ -938,7 +1019,6 @@
                 <option value="Study">Study</option>
                 <option value="Other">Other</option>
             </select>
-            <div class="field-error" id="categoryError">Category is required</div>
         </div>
         <div class="form-group">
             <label>Due Date <span class="req">*</span></label>
@@ -960,7 +1040,6 @@
                 <option value="1d+2h">1d+2h</option>
                 <option value="2d+6h">2d+6h</option>
             </select>
-            <div class="field-error" id="reminderError">Reminder is required</div>
         </div>
         <div class="form-group" style="min-width:100px;">
             <label>Repeat interval</label>
@@ -977,7 +1056,6 @@
                 <option value="3600">1h</option>
             </select>
         </div>
-        <!-- NEW: Recurrence -->
         <div class="form-group" style="min-width:100px;">
             <label>Recurrence</label>
             <select id="taskRecurrence">
@@ -1085,8 +1163,8 @@
                 <div class="field-error" id="editPriorityError">Priority is required</div>
             </div>
             <div class="form-group">
-                <label>Category <span class="req">*</span></label>
-                <select id="editCategory" required>
+                <label>Category</label>
+                <select id="editCategory">
                     <option value="Work">Work</option>
                     <option value="Personal">Personal</option>
                     <option value="Shopping">Shopping</option>
@@ -1094,7 +1172,6 @@
                     <option value="Study">Study</option>
                     <option value="Other">Other</option>
                 </select>
-                <div class="field-error" id="editCategoryError">Category is required</div>
             </div>
             <div class="form-group">
                 <label>Status <span class="req">*</span></label>
@@ -1230,11 +1307,161 @@
 
 <script>
 // ================================================================
-// TASKMASTER PRO - with Recurrence, Productivity Score, Natural Language
+// TASKMASTER PRO - with Login/Register
 // ================================================================
 
 (function() {
     'use strict';
+
+    // ─── AUTH SYSTEM ────────────────────────────────────────
+    const AUTH_KEY = 'taskMasterAuth';
+    let currentUser = null;
+
+    function getUsers() {
+        try {
+            const raw = localStorage.getItem('taskMasterUsers');
+            return raw ? JSON.parse(raw) : {};
+        } catch(e) { return {}; }
+    }
+
+    function saveUsers(users) {
+        localStorage.setItem('taskMasterUsers', JSON.stringify(users));
+    }
+
+    function getCurrentUser() {
+        try {
+            const raw = localStorage.getItem(AUTH_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch(e) { return null; }
+    }
+
+    function saveCurrentUser(user) {
+        localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+        currentUser = user;
+    }
+
+    function logoutUser() {
+        localStorage.removeItem(AUTH_KEY);
+        currentUser = null;
+        document.getElementById('authContainer').style.display = 'block';
+        document.getElementById('appContainer').style.display = 'none';
+        showToast('👋 Logged out successfully', 'info');
+    }
+
+    // ─── AUTH UI ───────────────────────────────────────────
+    const authContainer = document.getElementById('authContainer');
+    const appContainer = document.getElementById('appContainer');
+    const authForm = document.getElementById('authForm');
+    const authBtn = document.getElementById('authBtn');
+    const authSwitchLink = document.getElementById('authSwitchLink');
+    const authSwitchText = document.getElementById('authSwitchText');
+    const authError = document.getElementById('authError');
+    const authSuccess = document.getElementById('authSuccess');
+    const authName = document.getElementById('authName');
+    const authEmail = document.getElementById('authEmail');
+    const authPassword = document.getElementById('authPassword');
+    const nameGroup = document.getElementById('nameGroup');
+    let isLogin = true;
+
+    function showAuthError(msg) {
+        authError.textContent = msg;
+        authError.className = 'auth-error visible';
+        authSuccess.className = 'auth-success';
+    }
+
+    function showAuthSuccess(msg) {
+        authSuccess.textContent = msg;
+        authSuccess.className = 'auth-success visible';
+        authError.className = 'auth-error';
+    }
+
+    function clearAuthMessages() {
+        authError.className = 'auth-error';
+        authSuccess.className = 'auth-success';
+    }
+
+    function toggleAuthMode() {
+        isLogin = !isLogin;
+        if (isLogin) {
+            authBtn.textContent = 'Sign In';
+            authSwitchText.textContent = "Don't have an account?";
+            authSwitchLink.textContent = 'Sign Up';
+            nameGroup.style.display = 'none';
+            document.querySelector('.subtitle').textContent = 'Sign in to manage your tasks';
+        } else {
+            authBtn.textContent = 'Sign Up';
+            authSwitchText.textContent = 'Already have an account?';
+            authSwitchLink.textContent = 'Sign In';
+            nameGroup.style.display = 'block';
+            document.querySelector('.subtitle').textContent = 'Create your account';
+        }
+        clearAuthMessages();
+    }
+
+    authSwitchLink.addEventListener('click', toggleAuthMode);
+
+    authForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        clearAuthMessages();
+        const email = authEmail.value.trim();
+        const password = authPassword.value.trim();
+        const name = authName.value.trim();
+
+        if (!email || !password) {
+            showAuthError('Please fill in all fields');
+            return;
+        }
+
+        if (!isLogin && !name) {
+            showAuthError('Please enter your name');
+            return;
+        }
+
+        const users = getUsers();
+
+        if (isLogin) {
+            // Login
+            if (!users[email]) {
+                showAuthError('No account found with this email');
+                return;
+            }
+            if (users[email].password !== password) {
+                showAuthError('Incorrect password');
+                return;
+            }
+            // Login success
+            saveCurrentUser({ email, name: users[email].name });
+            showAuthSuccess('✅ Welcome back, ' + users[email].name + '!');
+            setTimeout(() => {
+                showApp();
+            }, 500);
+        } else {
+            // Register
+            if (users[email]) {
+                showAuthError('An account with this email already exists');
+                return;
+            }
+            users[email] = { password, name };
+            saveUsers(users);
+            saveCurrentUser({ email, name });
+            showAuthSuccess('✅ Account created! Welcome, ' + name + '!');
+            setTimeout(() => {
+                showApp();
+            }, 500);
+        }
+    });
+
+    function showApp() {
+        authContainer.style.display = 'none';
+        appContainer.style.display = 'block';
+        document.getElementById('userNameDisplay').textContent = currentUser ? currentUser.name : 'User';
+        // Load user data
+        loadData();
+        render();
+    }
+
+    // ─── LOGOUT ─────────────────────────────────────────────
+    document.getElementById('menuLogout').addEventListener('click', logoutUser);
 
     // ─── STATE ───────────────────────────────────────────
     let tasks = [];
@@ -1262,192 +1489,42 @@
     let snoozeTimeout = null;
 
     const $ = id => document.getElementById(id);
-    const taskList = $('taskList');
-    const boardView = $('boardView');
-    const calendarView = $('calendarView');
-    const addForm = $('addForm');
-    const searchInput = $('searchInput');
-    const alarmBar = $('alarmBar');
-    const alarmText = $('alarmText');
-    const alarmCountdown = $('alarmCountdown');
-    const alarmStatus = $('alarmStatus');
-    const stopAlarmBtn = $('stopAlarmBtn');
-    const snoozeBtn = $('snoozeBtn');
-    const snoozeOptions = $('snoozeOptions');
-    const dropdownMenu = $('dropdownMenu');
-    const hamburgerBtn = $('hamburgerBtn');
-    const alarmToggle = $('alarmToggle');
-    const alarmRepeatSelect = $('alarmRepeatInterval');
-    const alarmSoundSelect = $('alarmSoundSelect');
-    const soundToggle = $('soundToggle');
-    const completedToggle = $('completedToggle');
-    const completedList = $('completedList');
-    const completedToggleIcon = $('completedToggleIcon');
-    const completedCountBadge = $('completedCountBadge');
 
-    // ─── NATURAL LANGUAGE PARSING ──────────────────────────
-    const CATEGORY_KEYWORDS = {
-        'Work': ['project', 'report', 'meeting', 'client', 'boss', 'deadline', 'presentation', 'work'],
-        'Personal': ['personal', 'family', 'friend', 'hobby', 'relax', 'self'],
-        'Shopping': ['buy', 'shop', 'store', 'grocery', 'market', 'purchase'],
-        'Health': ['gym', 'workout', 'exercise', 'diet', 'doctor', 'appointment', 'medication', 'health'],
-        'Study': ['study', 'exam', 'test', 'quiz', 'assignment', 'homework', 'learn', 'school']
-    };
+    // ─── STORAGE (User-specific) ──────────────────────────
+    function getStorageKey() {
+        return 'taskMasterData_' + (currentUser ? currentUser.email : 'guest');
+    }
 
-    function parseNaturalLanguage(input) {
-        const text = input.toLowerCase();
-        
-        // Extract date
-        let dueDate = '';
-        const datePatterns = [
-            { regex: /tomorrow/i, offset: 1 },
-            { regex: /today/i, offset: 0 },
-            { regex: /next monday/i, offset: getNextDayOffset(1) },
-            { regex: /next tuesday/i, offset: getNextDayOffset(2) },
-            { regex: /next wednesday/i, offset: getNextDayOffset(3) },
-            { regex: /next thursday/i, offset: getNextDayOffset(4) },
-            { regex: /next friday/i, offset: getNextDayOffset(5) },
-            { regex: /next saturday/i, offset: getNextDayOffset(6) },
-            { regex: /next sunday/i, offset: getNextDayOffset(0) },
+    function saveData() {
+        if (!currentUser) return;
+        try {
+            localStorage.setItem(getStorageKey(), JSON.stringify({
+                tasks, points, streak: streakDays, lastCompletion: lastCompletionDate
+            }));
+        } catch(e) {}
+    }
+
+    function loadData() {
+        if (!currentUser) return;
+        try {
+            const raw = localStorage.getItem(getStorageKey());
+            if (raw) {
+                const data = JSON.parse(raw);
+                tasks = data.tasks || [];
+                points = data.points || 0;
+                streakDays = data.streak || 0;
+                lastCompletionDate = data.lastCompletion || null;
+                return;
+            }
+        } catch(e) {}
+        tasks = [
+            { id: '1', title: 'Complete project proposal', description: 'Finish Q4 proposal', priority: 'high', category: 'Work', status: 'pending', progress: 0, dueDate: new Date(Date.now() + 86400000).toISOString().slice(0, 16), reminder: '1d', repeatInterval: null, recurrence: 'none', recurrenceCount: 0, subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null },
+            { id: '2', title: 'Buy groceries', description: 'Milk, eggs, bread', priority: 'medium', category: 'Shopping', status: 'pending', progress: 0, dueDate: new Date().toISOString().slice(0, 16), reminder: '2h', repeatInterval: null, recurrence: 'none', recurrenceCount: 0, subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null }
         ];
-        
-        for (const p of datePatterns) {
-            if (p.regex.test(text)) {
-                const date = new Date();
-                date.setDate(date.getDate() + p.offset);
-                date.setHours(9, 0, 0, 0);
-                dueDate = date.toISOString().slice(0, 16);
-                break;
-            }
-        }
-        
-        // Try to find "by [date]" or "on [date]"
-        const dateMatch = text.match(/(?:by|on|before)\s+(\d{1,2}\/\d{1,2}\/\d{4})/);
-        if (dateMatch) {
-            const parts = dateMatch[1].split('/');
-            const d = new Date(parts[2], parts[0] - 1, parts[1]);
-            if (!isNaN(d.getTime())) {
-                d.setHours(17, 0, 0, 0);
-                dueDate = d.toISOString().slice(0, 16);
-            }
-        }
-        
-        // Extract priority
-        let priority = 'medium';
-        if (/\b(urgent|critical|asap|immediate|emergency)\b/.test(text)) priority = 'critical';
-        else if (/\b(important|high|major)\b/.test(text)) priority = 'high';
-        else if (/\b(low|minor|small)\b/.test(text)) priority = 'low';
-        
-        // Extract category
-        let category = 'Other';
-        let maxScore = 0;
-        for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
-            let score = keywords.filter(kw => text.includes(kw)).length;
-            if (score > maxScore) {
-                maxScore = score;
-                category = cat;
-            }
-        }
-        
-        // Extract title (everything before "by", "on", "before", "tomorrow", etc.)
-        let title = input;
-        const cutWords = [' by ', ' on ', ' before ', ' tomorrow', ' today', ' next '];
-        for (const word of cutWords) {
-            const idx = input.toLowerCase().indexOf(word);
-            if (idx > 0) {
-                title = input.substring(0, idx).trim();
-                break;
-            }
-        }
-        if (!title || title.length < 2) title = input;
-        
-        return { title, dueDate, priority, category };
+        saveData();
     }
 
-    function getNextDayOffset(targetDay) {
-        const now = new Date();
-        const currentDay = now.getDay();
-        let diff = targetDay - currentDay;
-        if (diff <= 0) diff += 7;
-        return diff;
-    }
-
-    // ─── PRODUCTIVITY SCORE ──────────────────────────────────
-    function calculateProductivityScore() {
-        const total = tasks.length;
-        if (total === 0) return 0;
-        
-        const completed = tasks.filter(t => t.status === 'completed').length;
-        const overdue = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled' && isOverdue(t)).length;
-        const pending = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length;
-        
-        // Score components
-        const completionRatio = completed / total;
-        const overduePenalty = Math.min(overdue * 5, 30);
-        const streakBonus = Math.min(streakDays * 2, 20);
-        const pendingBonus = pending === 0 ? 10 : 0;
-        
-        let score = (completionRatio * 70) - overduePenalty + streakBonus + pendingBonus;
-        return Math.max(0, Math.min(100, Math.round(score)));
-    }
-
-    function generateInsights() {
-        const total = tasks.length;
-        const completed = tasks.filter(t => t.status === 'completed').length;
-        const overdue = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled' && isOverdue(t)).length;
-        const pending = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length;
-        const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
-        
-        const insights = [];
-        const icons = {
-            good: '<i class="fas fa-check-circle good"></i>',
-            warning: '<i class="fas fa-exclamation-triangle warning"></i>',
-            danger: '<i class="fas fa-times-circle danger"></i>',
-            info: '<i class="fas fa-info-circle"></i>'
-        };
-        
-        if (total === 0) {
-            insights.push(`${icons.info} Start adding tasks to track your productivity!`);
-            return insights;
-        }
-        
-        if (completionRate >= 80) {
-            insights.push(`${icons.good} 🔥 Outstanding! You've completed ${completionRate}% of your tasks.`);
-        } else if (completionRate >= 50) {
-            insights.push(`${icons.good} Good progress! You've completed ${completionRate}% of your tasks.`);
-        } else if (completionRate >= 30) {
-            insights.push(`${icons.warning} Keep going! You've completed ${completionRate}% of your tasks.`);
-        } else {
-            insights.push(`${icons.danger} Focus! Only ${completionRate}% of tasks completed.`);
-        }
-        
-        if (overdue > 0) {
-            insights.push(`${icons.danger} ⚠️ ${overdue} overdue task${overdue > 1 ? 's' : ''} – tackle these first!`);
-        }
-        
-        if (streakDays > 0) {
-            insights.push(`${icons.good} ⭐ ${streakDays} day streak! Keep it going!`);
-        } else if (pending > 0) {
-            insights.push(`${icons.info} 💪 Complete a task today to start your streak!`);
-        }
-        
-        if (pending === 0 && total > 0) {
-            insights.push(`${icons.good} 🎉 All tasks completed! Enjoy the feeling!`);
-        }
-        
-        if (pending > 0 && overdue === 0 && completionRate < 50) {
-            insights.push(`${icons.info} 📋 Focus on completing ${pending} pending task${pending > 1 ? 's' : ''}.`);
-        }
-        
-        // Smart tip
-        if (pending > 5) {
-            insights.push(`${icons.info} 💡 Break large tasks into smaller steps for faster progress.`);
-        }
-        
-        return insights;
-    }
-
-    // ─── LOAD / SAVE ALARM SETTINGS ──────────────────────
+    // ─── ALARM SETTINGS ──────────────────────────────────
     function loadAlarmSettings() {
         try {
             const raw = localStorage.getItem('alarmSettings');
@@ -1457,12 +1534,12 @@
                 alarmRepeatInterval = settings.interval || 60;
                 alarmSound = settings.sound || 'beep';
                 soundEnabled = settings.soundEnabled !== undefined ? settings.soundEnabled : true;
-                alarmRepeatSelect.value = alarmRepeatInterval;
-                alarmSoundSelect.value = alarmSound;
-                if (alarmEnabled) alarmToggle.classList.add('active');
-                else alarmToggle.classList.remove('active');
-                if (soundEnabled) soundToggle.classList.add('active');
-                else soundToggle.classList.remove('active');
+                $('alarmRepeatInterval').value = alarmRepeatInterval;
+                $('alarmSoundSelect').value = alarmSound;
+                if (alarmEnabled) $('alarmToggle').classList.add('active');
+                else $('alarmToggle').classList.remove('active');
+                if (soundEnabled) $('soundToggle').classList.add('active');
+                else $('soundToggle').classList.remove('active');
             }
         } catch(e) {}
     }
@@ -1479,7 +1556,7 @@
     }
 
     // ─── ALARM TOGGLES ──────────────────────────────────
-    alarmToggle.addEventListener('click', function() {
+    $('alarmToggle').addEventListener('click', function() {
         alarmEnabled = !alarmEnabled;
         this.classList.toggle('active');
         saveAlarmSettings();
@@ -1487,34 +1564,34 @@
         showToast(alarmEnabled ? '🔔 Alarm enabled' : '🔕 Alarm disabled', 'info');
     });
 
-    alarmRepeatSelect.addEventListener('change', function() {
+    $('alarmRepeatInterval').addEventListener('change', function() {
         alarmRepeatInterval = parseInt(this.value);
         saveAlarmSettings();
         showToast('⏱️ Global repeat set to ' + this.options[this.selectedIndex].text, 'info');
         if (alarmActive && !isSnoozed) startCountdown();
     });
 
-    alarmSoundSelect.addEventListener('change', function() {
+    $('alarmSoundSelect').addEventListener('change', function() {
         alarmSound = this.value;
         saveAlarmSettings();
         showToast('🔊 Alarm sound set to ' + this.options[this.selectedIndex].text, 'info');
     });
 
-    soundToggle.addEventListener('click', function() {
+    $('soundToggle').addEventListener('click', function() {
         soundEnabled = !soundEnabled;
         this.classList.toggle('active');
         saveAlarmSettings();
         showToast(soundEnabled ? '🔊 Sound on' : '🔇 Sound off (vibrate only)', 'info');
     });
 
-    // ─── MENU ──────────────────────────────────────────────────
-    hamburgerBtn.addEventListener('click', function(e) {
+    // ─── HAMBURGER MENU ──────────────────────────────────
+    $('hamburgerBtn').addEventListener('click', function(e) {
         e.stopPropagation();
-        dropdownMenu.classList.toggle('active');
+        $('dropdownMenu').classList.toggle('active');
     });
     document.addEventListener('click', function(e) {
-        if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-            dropdownMenu.classList.remove('active');
+        if (!$('dropdownMenu').contains(e.target) && !$('hamburgerBtn').contains(e.target)) {
+            $('dropdownMenu').classList.remove('active');
         }
     });
 
@@ -1525,50 +1602,8 @@
         const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
         settings.theme = next;
         localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
-        dropdownMenu.classList.remove('active');
+        $('dropdownMenu').classList.remove('active');
     });
-
-    $('menuTemplates').addEventListener('click', function() {
-        renderTemplates();
-        $('templateModal').classList.add('active');
-        dropdownMenu.classList.remove('active');
-    });
-
-    $('menuExport').addEventListener('click', function() { exportData(); dropdownMenu.classList.remove('active'); });
-    $('menuImport').addEventListener('click', function() { importData(); dropdownMenu.classList.remove('active'); });
-    $('menuSettings').addEventListener('click', function() {
-        loadSettings();
-        $('settingsModal').classList.add('active');
-        dropdownMenu.classList.remove('active');
-    });
-
-    // ─── STORAGE ─────────────────────────────────────────
-    function saveData() {
-        try {
-            localStorage.setItem('taskMasterData', JSON.stringify({
-                tasks, points, streak: streakDays, lastCompletion: lastCompletionDate
-            }));
-        } catch(e) {}
-    }
-
-    function loadData() {
-        try {
-            const raw = localStorage.getItem('taskMasterData');
-            if (raw) {
-                const data = JSON.parse(raw);
-                tasks = data.tasks || [];
-                points = data.points || 0;
-                streakDays = data.streak || 0;
-                lastCompletionDate = data.lastCompletion || null;
-                return;
-            }
-        } catch(e) {}
-        tasks = [
-            { id: '1', title: 'Complete project proposal', description: 'Finish Q4 proposal', priority: 'high', category: 'Work', status: 'pending', progress: 0, dueDate: new Date(Date.now() + 86400000).toISOString().slice(0, 16), reminder: '1d', repeatInterval: null, recurrence: 'none', recurrenceCount: 0, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null },
-            { id: '2', title: 'Buy groceries', description: 'Milk, eggs, bread', priority: 'medium', category: 'Shopping', status: 'pending', progress: 0, dueDate: new Date().toISOString().slice(0, 16), reminder: '2h', repeatInterval: null, recurrence: 'none', recurrenceCount: 0, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null }
-        ];
-        saveData();
-    }
 
     // ─── HELPERS ──────────────────────────────────────────
     function generateId() { return Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8); }
@@ -1609,40 +1644,25 @@
         return prefix + parts.join(' ');
     }
 
-    // ─── RECURRENCE HANDLING ─────────────────────────────
+    // ─── RECURRENCE ──────────────────────────────────────
     function getNextRecurrenceDate(task) {
         if (!task.dueDate) return null;
         const due = new Date(task.dueDate);
-        const now = new Date();
-        
         switch (task.recurrence) {
-            case 'daily':
-                due.setDate(due.getDate() + 1);
-                break;
-            case 'weekly':
-                due.setDate(due.getDate() + 7);
-                break;
-            case 'monthly':
-                due.setMonth(due.getMonth() + 1);
-                break;
-            case 'custom':
-                const days = task.customDays || 3;
-                due.setDate(due.getDate() + days);
-                break;
-            default:
-                return null;
+            case 'daily': due.setDate(due.getDate() + 1); break;
+            case 'weekly': due.setDate(due.getDate() + 7); break;
+            case 'monthly': due.setMonth(due.getMonth() + 1); break;
+            case 'custom': const days = task.customDays || 3; due.setDate(due.getDate() + days); break;
+            default: return null;
         }
-        
         return due.toISOString().slice(0, 16);
     }
 
     function handleRecurrence(task) {
         if (!task.recurrence || task.recurrence === 'none') return;
         if (task.status !== 'completed') return;
-        
         const nextDue = getNextRecurrenceDate(task);
         if (!nextDue) return;
-        
         const newTask = {
             id: generateId(),
             title: task.title,
@@ -1664,6 +1684,47 @@
         };
         tasks.unshift(newTask);
         showToast(`🔄 Recurring task created: "${newTask.title}"`, 'info');
+    }
+
+    // ─── PRODUCTIVITY ──────────────────────────────────
+    function calculateProductivityScore() {
+        const total = tasks.length;
+        if (total === 0) return 0;
+        const completed = tasks.filter(t => t.status === 'completed').length;
+        const overdue = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled' && isOverdue(t)).length;
+        const pending = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length;
+        const completionRatio = completed / total;
+        const overduePenalty = Math.min(overdue * 5, 30);
+        const streakBonus = Math.min(streakDays * 2, 20);
+        const pendingBonus = pending === 0 ? 10 : 0;
+        let score = (completionRatio * 70) - overduePenalty + streakBonus + pendingBonus;
+        return Math.max(0, Math.min(100, Math.round(score)));
+    }
+
+    function generateInsights() {
+        const total = tasks.length;
+        const completed = tasks.filter(t => t.status === 'completed').length;
+        const overdue = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled' && isOverdue(t)).length;
+        const pending = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length;
+        const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
+        const insights = [];
+        const icons = {
+            good: '<i class="fas fa-check-circle good"></i>',
+            warning: '<i class="fas fa-exclamation-triangle warning"></i>',
+            danger: '<i class="fas fa-times-circle danger"></i>',
+            info: '<i class="fas fa-info-circle"></i>'
+        };
+        if (total === 0) { insights.push(`${icons.info} Start adding tasks to track your productivity!`); return insights; }
+        if (completionRate >= 80) insights.push(`${icons.good} 🔥 Outstanding! You've completed ${completionRate}% of your tasks.`);
+        else if (completionRate >= 50) insights.push(`${icons.good} Good progress! You've completed ${completionRate}% of your tasks.`);
+        else if (completionRate >= 30) insights.push(`${icons.warning} Keep going! You've completed ${completionRate}% of your tasks.`);
+        else insights.push(`${icons.danger} Focus! Only ${completionRate}% of tasks completed.`);
+        if (overdue > 0) insights.push(`${icons.danger} ⚠️ ${overdue} overdue task${overdue > 1 ? 's' : ''} – tackle these first!`);
+        if (streakDays > 0) insights.push(`${icons.good} ⭐ ${streakDays} day streak! Keep it going!`);
+        else if (pending > 0) insights.push(`${icons.info} 💪 Complete a task today to start your streak!`);
+        if (pending === 0 && total > 0) insights.push(`${icons.good} 🎉 All tasks completed! Enjoy the feeling!`);
+        if (pending > 5) insights.push(`${icons.info} 💡 Break large tasks into smaller steps for faster progress.`);
+        return insights;
     }
 
     // ─── CRUD ─────────────────────────────────────────────
@@ -1704,7 +1765,6 @@
         if (task.status === 'completed' && !wasCompleted) {
             task.completedAt = new Date().toISOString();
             updateStreak();
-            // Handle recurrence
             handleRecurrence(task);
             if (alarmActive) {
                 const stillDue = tasks.filter(t => {
@@ -1765,6 +1825,102 @@
         saveData();
     }
 
+    // ─── RECURRENCE UI ──────────────────────────────────
+    document.getElementById('taskRecurrence').addEventListener('change', function() {
+        document.getElementById('customDaysGroup').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+    document.getElementById('editRecurrence').addEventListener('change', function() {
+        document.getElementById('editCustomDaysGroup').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // ─── AI ADD ──────────────────────────────────────────
+    const CATEGORY_KEYWORDS = {
+        'Work': ['project', 'report', 'meeting', 'client', 'boss', 'deadline', 'presentation', 'work'],
+        'Personal': ['personal', 'family', 'friend', 'hobby', 'relax', 'self'],
+        'Shopping': ['buy', 'shop', 'store', 'grocery', 'market', 'purchase'],
+        'Health': ['gym', 'workout', 'exercise', 'diet', 'doctor', 'appointment', 'medication', 'health'],
+        'Study': ['study', 'exam', 'test', 'quiz', 'assignment', 'homework', 'learn', 'school']
+    };
+
+    function parseNaturalLanguage(input) {
+        const text = input.toLowerCase();
+        let dueDate = '';
+        const datePatterns = [
+            { regex: /tomorrow/i, offset: 1 },
+            { regex: /today/i, offset: 0 },
+            { regex: /next monday/i, offset: getNextDayOffset(1) },
+            { regex: /next tuesday/i, offset: getNextDayOffset(2) },
+            { regex: /next wednesday/i, offset: getNextDayOffset(3) },
+            { regex: /next thursday/i, offset: getNextDayOffset(4) },
+            { regex: /next friday/i, offset: getNextDayOffset(5) },
+            { regex: /next saturday/i, offset: getNextDayOffset(6) },
+            { regex: /next sunday/i, offset: getNextDayOffset(0) },
+        ];
+        for (const p of datePatterns) {
+            if (p.regex.test(text)) {
+                const date = new Date();
+                date.setDate(date.getDate() + p.offset);
+                date.setHours(9, 0, 0, 0);
+                dueDate = date.toISOString().slice(0, 16);
+                break;
+            }
+        }
+        const dateMatch = text.match(/(?:by|on|before)\s+(\d{1,2}\/\d{1,2}\/\d{4})/);
+        if (dateMatch) {
+            const parts = dateMatch[1].split('/');
+            const d = new Date(parts[2], parts[0] - 1, parts[1]);
+            if (!isNaN(d.getTime())) {
+                d.setHours(17, 0, 0, 0);
+                dueDate = d.toISOString().slice(0, 16);
+            }
+        }
+        let priority = 'medium';
+        if (/\b(urgent|critical|asap|immediate|emergency)\b/.test(text)) priority = 'critical';
+        else if (/\b(important|high|major)\b/.test(text)) priority = 'high';
+        else if (/\b(low|minor|small)\b/.test(text)) priority = 'low';
+        let category = 'Other';
+        let maxScore = 0;
+        for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+            let score = keywords.filter(kw => text.includes(kw)).length;
+            if (score > maxScore) { maxScore = score; category = cat; }
+        }
+        let title = input;
+        const cutWords = [' by ', ' on ', ' before ', ' tomorrow', ' today', ' next '];
+        for (const word of cutWords) {
+            const idx = input.toLowerCase().indexOf(word);
+            if (idx > 0) { title = input.substring(0, idx).trim(); break; }
+        }
+        if (!title || title.length < 2) title = input;
+        return { title, dueDate, priority, category };
+    }
+
+    function getNextDayOffset(targetDay) {
+        const now = new Date();
+        const currentDay = now.getDay();
+        let diff = targetDay - currentDay;
+        if (diff <= 0) diff += 7;
+        return diff;
+    }
+
+    document.getElementById('aiAddBtn').addEventListener('click', function() {
+        const input = prompt('✨ Describe your task in natural language:\n\nExample: "Buy groceries tomorrow at 5pm"');
+        if (!input) return;
+        const parsed = parseNaturalLanguage(input);
+        if (!parsed.title || parsed.title.length < 2) {
+            showToast('❌ Could not understand. Please try again.', 'error');
+            return;
+        }
+        document.getElementById('taskTitle').value = parsed.title;
+        document.getElementById('taskDesc').value = 'Added via AI';
+        document.getElementById('taskPriority').value = parsed.priority;
+        document.getElementById('taskCategory').value = parsed.category;
+        if (parsed.dueDate) {
+            document.getElementById('taskDue').value = parsed.dueDate;
+        }
+        showToast(`🧠 AI parsed: "${parsed.title}" (${parsed.priority}, ${parsed.category})`, 'success');
+        document.getElementById('taskTitle').focus();
+    });
+
     // ─── ALARM ──────────────────────────────────────────────
     function getReminderMinutes(reminder) {
         const map = {
@@ -1802,7 +1958,7 @@
             triggerAlarm(dueTasks);
         } else if (dueTasks.length > 0 && alarmActive && alarmEnabled) {
             const titles = dueTasks.map(t => t.title).join(', ');
-            alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
+            $('alarmText').innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
             pendingAlarmTasks = dueTasks;
         } else if (dueTasks.length === 0 && alarmActive) {
             stopAlarm();
@@ -1814,9 +1970,9 @@
         isSnoozed = false;
         pendingAlarmTasks = tasks;
         const titles = tasks.map(t => t.title).join(', ');
-        alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
-        alarmBar.classList.add('active');
-        alarmStatus.textContent = '🔔 Ringing';
+        $('alarmText').innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
+        $('alarmBar').classList.add('active');
+        $('alarmStatus').textContent = '🔔 Ringing';
 
         let intervals = tasks.map(t => getTaskRepeatInterval(t));
         let minInterval = Math.min(...intervals);
@@ -1896,7 +2052,7 @@
         if (snoozeTimeout) { clearTimeout(snoozeTimeout); snoozeTimeout = null; }
         let seconds = intervalSeconds || alarmRepeatInterval;
         updateCountdownDisplay(seconds);
-        alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '🔔 Ringing';
+        $('alarmStatus').textContent = isSnoozed ? '😴 Snoozed' : '🔔 Ringing';
 
         alarmCountdownTimer = setInterval(() => {
             seconds--;
@@ -1918,11 +2074,11 @@
                     let minInterval = Math.min(...intervals);
                     seconds = minInterval;
                     updateCountdownDisplay(seconds);
-                    alarmStatus.textContent = '🔔 Ringing';
+                    $('alarmStatus').textContent = '🔔 Ringing';
                 } else {
                     clearInterval(alarmCountdownTimer);
                     alarmCountdownTimer = null;
-                    alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '';
+                    $('alarmStatus').textContent = isSnoozed ? '😴 Snoozed' : '';
                 }
             } else {
                 updateCountdownDisplay(seconds);
@@ -1931,16 +2087,16 @@
     }
 
     function updateCountdownDisplay(seconds) {
-        if (seconds < 60) { alarmCountdown.textContent = `🔁 Repeats in: ${seconds}s`; } 
-        else if (seconds < 3600) { const mins = Math.floor(seconds / 60); const secs = seconds % 60; alarmCountdown.textContent = `🔁 Repeats in: ${mins}m ${secs}s`; } 
-        else { const hrs = Math.floor(seconds / 3600); const mins = Math.floor((seconds % 3600) / 60); alarmCountdown.textContent = `🔁 Repeats in: ${hrs}h ${mins}m`; }
+        if (seconds < 60) { $('alarmCountdown').textContent = `🔁 Repeats in: ${seconds}s`; } 
+        else if (seconds < 3600) { const mins = Math.floor(seconds / 60); const secs = seconds % 60; $('alarmCountdown').textContent = `🔁 Repeats in: ${mins}m ${secs}s`; } 
+        else { const hrs = Math.floor(seconds / 3600); const mins = Math.floor((seconds % 3600) / 60); $('alarmCountdown').textContent = `🔁 Repeats in: ${hrs}h ${mins}m`; }
     }
 
     // ─── SNOOZE ──────────────────────────────────────────
-    snoozeBtn.addEventListener('click', function(e) { e.stopPropagation(); snoozeOptions.classList.toggle('active'); });
-    document.addEventListener('click', function() { snoozeOptions.classList.remove('active'); });
+    $('snoozeBtn').addEventListener('click', function(e) { e.stopPropagation(); $('snoozeOptions').classList.toggle('active'); });
+    document.addEventListener('click', function() { $('snoozeOptions').classList.remove('active'); });
     document.querySelectorAll('.snooze-item').forEach(item => {
-        item.addEventListener('click', function() { snoozeAlarm(parseInt(this.dataset.minutes)); snoozeOptions.classList.remove('active'); });
+        item.addEventListener('click', function() { snoozeAlarm(parseInt(this.dataset.minutes)); $('snoozeOptions').classList.remove('active'); });
     });
 
     function snoozeAlarm(minutes) {
@@ -1952,14 +2108,14 @@
         if (alarmCountdownTimer) { clearInterval(alarmCountdownTimer); alarmCountdownTimer = null; }
 
         isSnoozed = true;
-        alarmStatus.textContent = `😴 Snoozed for ${minutes}m`;
-        alarmCountdown.textContent = `⏰ Snooze ends in ${minutes}m`;
+        $('alarmStatus').textContent = `😴 Snoozed for ${minutes}m`;
+        $('alarmCountdown').textContent = `⏰ Snooze ends in ${minutes}m`;
 
         if (snoozeTimeout) clearTimeout(snoozeTimeout);
         snoozeTimeout = setTimeout(() => {
             if (alarmActive && alarmEnabled) {
                 isSnoozed = false;
-                alarmStatus.textContent = '🔔 Ringing';
+                $('alarmStatus').textContent = '🔔 Ringing';
                 if (soundEnabled) playAlarmSound();
                 if (navigator.vibrate) {
                     navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
@@ -1988,11 +2144,11 @@
     }
 
     function stopAlarm() {
-        alarmActive = false; isSnoozed = false; alarmBar.classList.remove('active');
+        alarmActive = false; isSnoozed = false; $('alarmBar').classList.remove('active');
         if (alarmCountdownTimer) { clearInterval(alarmCountdownTimer); alarmCountdownTimer = null; }
         if (snoozeTimeout) { clearTimeout(snoozeTimeout); snoozeTimeout = null; }
-        alarmCountdown.textContent = '🔁 Repeats in: --';
-        alarmStatus.textContent = '';
+        $('alarmCountdown').textContent = '🔁 Repeats in: --';
+        $('alarmStatus').textContent = '';
         if (vibrationInterval) { clearInterval(vibrationInterval); vibrationInterval = null; if (navigator.vibrate) navigator.vibrate(0); }
         if (alarmInterval) { clearInterval(alarmInterval); alarmInterval = null; }
         if (alarmOscillator) { try { alarmOscillator.stop(); } catch(e) {} alarmOscillator = null; }
@@ -2001,18 +2157,20 @@
         showToast('🔕 Alarm stopped', 'info');
     }
 
+    $('stopAlarmBtn').addEventListener('click', stopAlarm);
+
     // ─── COMPLETED SECTION ──────────────────────────────────
-    completedToggle.addEventListener('click', function() {
-        const isOpen = completedList.classList.toggle('open');
-        completedToggleIcon.className = isOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
+    $('completedToggle').addEventListener('click', function() {
+        const isOpen = $('completedList').classList.toggle('open');
+        $('completedToggleIcon').className = isOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
         if (isOpen) renderCompletedTasks();
     });
 
     function renderCompletedTasks() {
         const completed = tasks.filter(t => t.status === 'completed');
-        completedCountBadge.textContent = completed.length;
+        $('completedCountBadge').textContent = completed.length;
         if (!completed.length) {
-            completedList.innerHTML = `<div style="color:var(--text-secondary);text-align:center;padding:12px;">No completed tasks</div>`;
+            $('completedList').innerHTML = `<div style="color:var(--text-secondary);text-align:center;padding:12px;">No completed tasks</div>`;
             return;
         }
         let html = '';
@@ -2039,14 +2197,14 @@
                 </div>
             `;
         });
-        completedList.innerHTML = html;
-        completedList.querySelectorAll('.task-checkbox').forEach(cb => {
+        $('completedList').innerHTML = html;
+        $('completedList').querySelectorAll('.task-checkbox').forEach(cb => {
             cb.addEventListener('change', function(e) { const id = this.closest('.task-item').dataset.id; toggleCompletion(id); render(); });
         });
-        completedList.querySelectorAll('.edit').forEach(btn => {
+        $('completedList').querySelectorAll('.edit').forEach(btn => {
             btn.addEventListener('click', function(e) { e.stopPropagation(); const id = this.dataset.id; editTaskById(id); });
         });
-        completedList.querySelectorAll('.delete').forEach(btn => {
+        $('completedList').querySelectorAll('.delete').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const id = this.dataset.id;
@@ -2056,35 +2214,6 @@
             });
         });
     }
-
-    // ─── RECURRENCE UI ──────────────────────────────────
-    document.getElementById('taskRecurrence').addEventListener('change', function() {
-        document.getElementById('customDaysGroup').style.display = this.value === 'custom' ? 'block' : 'none';
-    });
-    document.getElementById('editRecurrence').addEventListener('change', function() {
-        document.getElementById('editCustomDaysGroup').style.display = this.value === 'custom' ? 'block' : 'none';
-    });
-
-    // ─── AI ADD BUTTON ────────────────────────────────────
-    document.getElementById('aiAddBtn').addEventListener('click', function() {
-        const input = prompt('✨ Describe your task in natural language:\n\nExample: "Buy groceries tomorrow at 5pm"');
-        if (!input) return;
-        const parsed = parseNaturalLanguage(input);
-        if (!parsed.title || parsed.title.length < 2) {
-            showToast('❌ Could not understand. Please try again.', 'error');
-            return;
-        }
-        // Fill the form with parsed data
-        document.getElementById('taskTitle').value = parsed.title;
-        document.getElementById('taskDesc').value = 'Added via AI';
-        document.getElementById('taskPriority').value = parsed.priority;
-        document.getElementById('taskCategory').value = parsed.category;
-        if (parsed.dueDate) {
-            document.getElementById('taskDue').value = parsed.dueDate;
-        }
-        showToast(`🧠 AI parsed: "${parsed.title}" (${parsed.priority}, ${parsed.category})`, 'success');
-        document.getElementById('taskTitle').focus();
-    });
 
     // ─── FILTER & SEARCH ──────────────────────────────────
     function getFilteredTasks() {
@@ -2148,12 +2277,10 @@
         $('pointsDisplay').textContent = points;
         $('productivityScore').textContent = productivityScore + '%';
 
-        // Color the score
         const scoreEl = $('productivityScore');
         if (productivityScore >= 80) scoreEl.className = 'number gold';
         else scoreEl.className = 'number';
 
-        // Update insights
         const insights = generateInsights();
         const insightsList = $('insightsList');
         if (insights.length) {
@@ -2163,22 +2290,22 @@
         }
 
         $('taskCountLabel').textContent = filtered.length + ' task' + (filtered.length !== 1 ? 's' : '');
-        completedCountBadge.textContent = completed;
+        $('completedCountBadge').textContent = completed;
 
         if (currentView === 'list') {
             renderList(filtered);
-            boardView.classList.remove('active');
-            calendarView.classList.remove('active');
-            taskList.style.display = 'flex';
+            $('boardView').classList.remove('active');
+            $('calendarView').classList.remove('active');
+            $('taskList').style.display = 'flex';
         } else if (currentView === 'board') {
             const allFiltered = getFilteredTasksAll();
             renderBoard(allFiltered);
-            taskList.style.display = 'none';
-            calendarView.classList.remove('active');
+            $('taskList').style.display = 'none';
+            $('calendarView').classList.remove('active');
         } else if (currentView === 'calendar') {
             renderCalendar();
-            taskList.style.display = 'none';
-            boardView.classList.remove('active');
+            $('taskList').style.display = 'none';
+            $('boardView').classList.remove('active');
         }
 
         if (!window._alarmChecker) {
@@ -2186,12 +2313,12 @@
             setTimeout(checkDueTasks, 2000);
         }
 
-        if (completedList.classList.contains('open')) { renderCompletedTasks(); }
+        if ($('completedList').classList.contains('open')) { renderCompletedTasks(); }
     }
 
     function renderList(filtered) {
         if (!filtered.length) {
-            taskList.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><h3>${tasks.length ? 'No matching tasks' : 'No tasks yet'}</h3><p>${tasks.length ? 'Try adjusting your filters.' : 'Add your first task above!'}</p></div>`;
+            $('taskList').innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><h3>${tasks.length ? 'No matching tasks' : 'No tasks yet'}</h3><p>${tasks.length ? 'Try adjusting your filters.' : 'Add your first task above!'}</p></div>`;
             return;
         }
         let html = '';
@@ -2231,14 +2358,14 @@
                 </div>
             `;
         });
-        taskList.innerHTML = html;
-        taskList.querySelectorAll('.complete-btn').forEach(btn => {
+        $('taskList').innerHTML = html;
+        $('taskList').querySelectorAll('.complete-btn').forEach(btn => {
             btn.addEventListener('click', function(e) { e.stopPropagation(); const id = this.dataset.id; toggleCompletion(id); render(); });
         });
     }
 
     function renderBoard(filtered) {
-        boardView.classList.add('active');
+        $('boardView').classList.add('active');
         document.querySelectorAll('.board-column').forEach(col => {
             const status = col.dataset.status;
             const tasksInCol = filtered.filter(t => t.status === status);
@@ -2261,7 +2388,7 @@
     }
 
     function renderCalendar() {
-        calendarView.classList.add('active');
+        $('calendarView').classList.add('active');
         const year = calendarDate.getFullYear();
         const month = calendarDate.getMonth();
         const firstDay = new Date(year, month, 1).getDay();
@@ -2476,184 +2603,197 @@
         input.click();
     }
 
-    // ─── INIT ──────────────────────────────────────────────
-    function init() {
+    // ─── FORM HANDLERS ──────────────────────────────────
+    $('addForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const title = $('taskTitle').value.trim();
+        const description = $('taskDesc').value.trim();
+        const priority = $('taskPriority').value;
+        const category = $('taskCategory').value;
+        const dueDate = $('taskDue').value;
+        const reminder = $('taskReminder').value;
+        const repeatInterval = $('taskRepeatInterval').value;
+        const recurrence = $('taskRecurrence').value;
+        const customDays = recurrence === 'custom' ? parseInt($('taskCustomDays').value) || 3 : null;
+
+        clearErrors();
+        let valid = true;
+        if (!title) { showError('titleError'); valid = false; }
+        if (!description) { showError('descError'); valid = false; }
+        if (!priority) { showError('priorityError'); valid = false; }
+        if (!dueDate) { showError('dueError'); valid = false; }
+        if (!valid) { showToast('Please fill in all required fields', 'warning'); return; }
+
+        addTask(title, description, priority, category, dueDate, reminder, repeatInterval, recurrence, customDays);
+        $('addForm').reset();
+        document.getElementById('customDaysGroup').style.display = 'none';
+        showToast('Task added!', 'success');
+    });
+
+    $('searchInput').addEventListener('input', function() { searchTerm = this.value; render(); });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.dataset.filter;
+            render();
+        });
+    });
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentView = this.dataset.view;
+            render();
+        });
+    });
+
+    $('sortBtn').addEventListener('click', function() {
+        const orders = ['newest', 'oldest', 'priority', 'due'];
+        const labels = { newest: 'Newest', oldest: 'Oldest', priority: 'Priority', due: 'Due Date' };
+        let idx = orders.indexOf(sortOrder);
+        idx = (idx + 1) % orders.length;
+        sortOrder = orders[idx];
+        this.innerHTML = `<i class="fas fa-sort"></i> ${labels[sortOrder]}`;
+        render();
+    });
+
+    $('clearCompletedBtn').addEventListener('click', function() {
+        const completed = tasks.filter(t => t.status === 'completed');
+        if (!completed.length) { showToast('No completed tasks', 'info'); return; }
+        if (confirm(`Delete ${completed.length} completed tasks?`)) {
+            clearCompleted();
+            showToast('Cleared completed tasks', 'success');
+        }
+    });
+
+    $('selectAllBtn').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('.task-checkbox:not(:checked)');
+        if (!checkboxes.length) { showToast('All tasks done', 'info'); return; }
+        checkboxes.forEach(cb => {
+            const id = cb.closest('.task-item')?.dataset.id;
+            if (id) toggleCompletion(id);
+        });
+        showToast(`Completed ${checkboxes.length} tasks`, 'success');
+    });
+
+    $('taskList').addEventListener('change', function(e) {
+        if (e.target.classList.contains('task-checkbox')) {
+            const id = e.target.closest('.task-item')?.dataset.id;
+            if (id) toggleCompletion(id);
+        }
+    });
+
+    $('taskList').addEventListener('click', function(e) {
+        const deleteBtn = e.target.closest('.delete');
+        if (deleteBtn) {
+            const id = deleteBtn.dataset.id;
+            const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
+            if (settings.confirmDelete !== false) {
+                if (confirm('Delete this task?')) { deleteTask(id); showToast('Task deleted', 'info'); }
+            } else { deleteTask(id); showToast('Task deleted', 'info'); }
+            return;
+        }
+        const editBtn = e.target.closest('.edit');
+        if (editBtn) { editTaskById(editBtn.dataset.id); }
+    });
+
+    $('calPrev').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() - 1); render(); });
+    $('calNext').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() + 1); render(); });
+    $('calToday').addEventListener('click', function() { calendarDate = new Date(); render(); });
+
+    $('editForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = $('editId').value;
+        const title = $('editTitle').value.trim();
+        const description = $('editDesc').value.trim();
+        const priority = $('editPriority').value;
+        const category = $('editCategory').value;
+        const status = $('editStatus').value;
+        const progress = parseInt($('editProgress').value);
+        const dueDate = $('editDue').value;
+        const duration = parseInt($('editDuration').value) || 0;
+        const repeatInterval = $('editRepeatInterval').value;
+        const recurrence = $('editRecurrence').value;
+        const customDays = recurrence === 'custom' ? parseInt($('editCustomDays').value) || 3 : null;
+
+        clearEditErrors();
+        let valid = true;
+        if (!title) { showError('editTitleError'); valid = false; }
+        if (!description) { showError('editDescError'); valid = false; }
+        if (!priority) { showError('editPriorityError'); valid = false; }
+        if (!status) { showError('editStatusError'); valid = false; }
+        if (!dueDate) { showError('editDueError'); valid = false; }
+        if (!valid) { showToast('Please fill in all required fields', 'warning'); return; }
+
+        updateTask(id, {
+            title, description, priority, category, status, progress, dueDate,
+            estimatedDuration: duration,
+            repeatInterval: repeatInterval === 'default' ? null : parseInt(repeatInterval),
+            recurrence: recurrence,
+            customDays: customDays
+        });
+        closeEditModal();
+        showToast('Task updated!', 'success');
+    });
+
+    $('closeEditBtn').addEventListener('click', closeEditModal);
+    $('editProgress').addEventListener('input', function() { $('editProgressLabel').textContent = this.value + '%'; });
+
+    $('closeTemplateBtn').addEventListener('click', function() { $('templateModal').classList.remove('active'); });
+    $('saveTemplateBtn').addEventListener('click', saveTemplate);
+
+    $('closeSettingsBtn').addEventListener('click', function() { saveSettings(); $('settingsModal').classList.remove('active'); });
+
+    // ─── TEMPLATES BUTTON ──────────────────────────────────
+    $('menuTemplates').addEventListener('click', function() {
+        renderTemplates();
+        $('templateModal').classList.add('active');
+        $('dropdownMenu').classList.remove('active');
+    });
+
+    $('menuExport').addEventListener('click', function() { exportData(); $('dropdownMenu').classList.remove('active'); });
+    $('menuImport').addEventListener('click', function() { importData(); $('dropdownMenu').classList.remove('active'); });
+    $('menuSettings').addEventListener('click', function() {
+        loadSettings();
+        $('settingsModal').classList.add('active');
+        $('dropdownMenu').classList.remove('active');
+    });
+
+    // ─── KEYBOARD SHORTCUTS ──────────────────────────────
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'n') { e.preventDefault(); $('taskTitle').focus(); }
+        if (e.key === 'Escape') {
+            $('editModal').classList.remove('active');
+            $('templateModal').classList.remove('active');
+            $('settingsModal').classList.remove('active');
+            $('dropdownMenu').classList.remove('active');
+            $('snoozeOptions').classList.remove('active');
+        }
+    });
+
+    // ─── CHECK AUTH ON LOAD ──────────────────────────────
+    const user = getCurrentUser();
+    if (user) {
+        currentUser = user;
+        document.getElementById('userNameDisplay').textContent = user.name;
+        authContainer.style.display = 'none';
+        appContainer.style.display = 'block';
         loadData();
         loadTemplates();
         loadSettings();
         loadAlarmSettings();
         render();
         renderTemplates();
-
-        stopAlarmBtn.addEventListener('click', stopAlarm);
-
-        addForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = $('taskTitle').value.trim();
-            const description = $('taskDesc').value.trim();
-            const priority = $('taskPriority').value;
-            const category = $('taskCategory').value;
-            const dueDate = $('taskDue').value;
-            const reminder = $('taskReminder').value;
-            const repeatInterval = $('taskRepeatInterval').value;
-            const recurrence = $('taskRecurrence').value;
-            const customDays = recurrence === 'custom' ? parseInt($('taskCustomDays').value) || 3 : null;
-
-            clearErrors();
-            let valid = true;
-            if (!title) { showError('titleError'); valid = false; }
-            if (!description) { showError('descError'); valid = false; }
-            if (!priority) { showError('priorityError'); valid = false; }
-            if (!dueDate) { showError('dueError'); valid = false; }
-            if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
-
-            addTask(title, description, priority, category, dueDate, reminder, repeatInterval, recurrence, customDays);
-            addForm.reset();
-            document.getElementById('customDaysGroup').style.display = 'none';
-            showToast('Task added!', 'success');
-        });
-
-        searchInput.addEventListener('input', function() { searchTerm = this.value; render(); });
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                render();
-            });
-        });
-
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentView = this.dataset.view;
-                render();
-            });
-        });
-
-        $('sortBtn').addEventListener('click', function() {
-            const orders = ['newest', 'oldest', 'priority', 'due'];
-            const labels = { newest: 'Newest', oldest: 'Oldest', priority: 'Priority', due: 'Due Date' };
-            let idx = orders.indexOf(sortOrder);
-            idx = (idx + 1) % orders.length;
-            sortOrder = orders[idx];
-            this.innerHTML = `<i class="fas fa-sort"></i> ${labels[sortOrder]}`;
-            render();
-        });
-
-        $('clearCompletedBtn').addEventListener('click', function() {
-            const completed = tasks.filter(t => t.status === 'completed');
-            if (!completed.length) { showToast('No completed tasks', 'info'); return; }
-            if (confirm(`Delete ${completed.length} completed tasks?`)) {
-                clearCompleted();
-                showToast('Cleared completed tasks', 'success');
-            }
-        });
-
-        $('selectAllBtn').addEventListener('click', function() {
-            const checkboxes = document.querySelectorAll('.task-checkbox:not(:checked)');
-            if (!checkboxes.length) { showToast('All tasks done', 'info'); return; }
-            checkboxes.forEach(cb => {
-                const id = cb.closest('.task-item')?.dataset.id;
-                if (id) toggleCompletion(id);
-            });
-            showToast(`Completed ${checkboxes.length} tasks`, 'success');
-        });
-
-        taskList.addEventListener('change', function(e) {
-            if (e.target.classList.contains('task-checkbox')) {
-                const id = e.target.closest('.task-item')?.dataset.id;
-                if (id) toggleCompletion(id);
-            }
-        });
-
-        taskList.addEventListener('click', function(e) {
-            const deleteBtn = e.target.closest('.delete');
-            if (deleteBtn) {
-                const id = deleteBtn.dataset.id;
-                const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
-                if (settings.confirmDelete !== false) {
-                    if (confirm('Delete this task?')) { deleteTask(id); showToast('Task deleted', 'info'); }
-                } else { deleteTask(id); showToast('Task deleted', 'info'); }
-                return;
-            }
-            const editBtn = e.target.closest('.edit');
-            if (editBtn) { editTaskById(editBtn.dataset.id); }
-        });
-
-        $('calPrev').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() - 1); render(); });
-        $('calNext').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() + 1); render(); });
-        $('calToday').addEventListener('click', function() { calendarDate = new Date(); render(); });
-
-        $('editForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = $('editId').value;
-            const title = $('editTitle').value.trim();
-            const description = $('editDesc').value.trim();
-            const priority = $('editPriority').value;
-            const category = $('editCategory').value;
-            const status = $('editStatus').value;
-            const progress = parseInt($('editProgress').value);
-            const dueDate = $('editDue').value;
-            const duration = parseInt($('editDuration').value) || 0;
-            const repeatInterval = $('editRepeatInterval').value;
-            const recurrence = $('editRecurrence').value;
-            const customDays = recurrence === 'custom' ? parseInt($('editCustomDays').value) || 3 : null;
-
-            clearEditErrors();
-            let valid = true;
-            if (!title) { showError('editTitleError'); valid = false; }
-            if (!description) { showError('editDescError'); valid = false; }
-            if (!priority) { showError('editPriorityError'); valid = false; }
-            if (!category) { showError('editCategoryError'); valid = false; }
-            if (!status) { showError('editStatusError'); valid = false; }
-            if (!dueDate) { showError('editDueError'); valid = false; }
-            if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
-
-            updateTask(id, {
-                title, description, priority, category, status, progress, dueDate,
-                estimatedDuration: duration,
-                repeatInterval: repeatInterval === 'default' ? null : parseInt(repeatInterval),
-                recurrence: recurrence,
-                customDays: customDays
-            });
-            closeEditModal();
-            showToast('Task updated!', 'success');
-        });
-
-        $('closeEditBtn').addEventListener('click', closeEditModal);
-        $('editProgress').addEventListener('input', function() { $('editProgressLabel').textContent = this.value + '%'; });
-
-        $('closeTemplateBtn').addEventListener('click', function() { $('templateModal').classList.remove('active'); });
-        $('saveTemplateBtn').addEventListener('click', saveTemplate);
-
-        $('closeSettingsBtn').addEventListener('click', function() { saveSettings(); $('settingsModal').classList.remove('active'); });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'n') { e.preventDefault(); $('taskTitle').focus(); }
-            if (e.key === 'Escape') {
-                $('editModal').classList.remove('active');
-                $('templateModal').classList.remove('active');
-                $('settingsModal').classList.remove('active');
-                dropdownMenu.classList.remove('active');
-                snoozeOptions.classList.remove('active');
-            }
-        });
-
-        console.log('✅ TaskMaster Pro loaded with RECURRENCE, PRODUCTIVITY SCORE & NATURAL LANGUAGE!');
-        showToast('🤖 AI features active! Try the ✨ AI Add button.', 'info');
+        console.log('✅ TaskMaster Pro loaded – Welcome back, ' + user.name + '!');
+        showToast('👋 Welcome back, ' + user.name + '!', 'success');
+    } else {
+        authContainer.style.display = 'block';
+        appContainer.style.display = 'none';
     }
 
-    window.toggleCompletion = toggleCompletion;
-    window.editTaskById = editTaskById;
-    window.applyTemplate = applyTemplate;
-    window.deleteTemplate = deleteTemplate;
-    window.showToast = showToast;
-    window.stopAlarm = stopAlarm;
-
-    document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
 </body>
