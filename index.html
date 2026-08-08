@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskMaster Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         /* ===== COMPLETE CSS ===== */
         :root {
             --primary: #667eea;
-            --secondary: #764ba2;
+            --secondary: #4b4ca2;
             --bg: #f0f4f8;
             --card: #ffffff;
             --text: #1e293b;
@@ -19,7 +18,7 @@
             --shadow: 0 4px 12px rgba(0,0,0,0.08);
             --radius: 12px;
             --error: #dc2626;
-            --success: #059669;
+            --success: #056196;
         }
         [data-theme="dark"] {
             --bg: #0f172a;
@@ -1005,7 +1004,7 @@
 
 <script>
 // ================================================================
-// TASKMASTER PRO - WITH REPEATING ALARM
+// TASKMASTER PRO - WITH REPEATING ALARM (FIXED)
 // ================================================================
 
 (function() {
@@ -1027,7 +1026,7 @@
     let alarmEnabled = true;
     let alarmRepeatInterval = 60; // seconds
     let alarmTimer = null;
-    let alarmCountdown = null;
+    let alarmCountdownTimer = null;  // ← FIXED: renamed to avoid duplicate
     let alarmAudioCtx = null;
     let alarmOscillator = null;
     let alarmInterval = null;
@@ -1202,7 +1201,6 @@
         if (task.status === 'completed' && !wasCompleted) {
             task.completedAt = new Date().toISOString();
             updateStreak();
-            // Check if this was an alarm task
             if (alarmActive) {
                 const stillDue = tasks.filter(t => {
                     if (t.status === 'completed' || t.status === 'cancelled') return false;
@@ -1300,7 +1298,6 @@
         if (dueTasks.length > 0 && !alarmActive && alarmEnabled) {
             triggerAlarm(dueTasks);
         } else if (dueTasks.length > 0 && alarmActive && alarmEnabled) {
-            // Update alarm text if new tasks added
             const titles = dueTasks.map(t => t.title).join(', ');
             alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
             pendingAlarmTasks = dueTasks;
@@ -1316,14 +1313,12 @@
         alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
         alarmBar.classList.add('active');
         
-        // Start countdown for next repeat
         startCountdown();
 
         if ('Notification' in window && Notification.permission === 'default') {
             Notification.requestPermission();
         }
 
-        // Initial vibration
         if (navigator.vibrate) {
             navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
             vibrationInterval = setInterval(() => {
@@ -1387,18 +1382,15 @@
         let seconds = alarmRepeatInterval;
         updateCountdownDisplay(seconds);
         
-        if (alarmCountdown) clearInterval(alarmCountdown);
-        alarmCountdown = setInterval(() => {
+        if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);  // ← FIXED: using the renamed variable
+        alarmCountdownTimer = setInterval(() => {
             seconds--;
             if (seconds <= 0) {
-                // Repeat the alarm
                 if (alarmActive && alarmEnabled) {
-                    // Re-trigger alarm sound and vibration
                     playAlarmSound();
                     if (navigator.vibrate) {
                         navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
                     }
-                    // Show notification again
                     if ('Notification' in window && Notification.permission === 'granted') {
                         pendingAlarmTasks.forEach(task => {
                             new Notification('⏰ Task Still Due!', {
@@ -1411,8 +1403,8 @@
                     }
                     seconds = alarmRepeatInterval;
                 } else {
-                    clearInterval(alarmCountdown);
-                    alarmCountdown = null;
+                    clearInterval(alarmCountdownTimer);  // ← FIXED: using the renamed variable
+                    alarmCountdownTimer = null;
                     return;
                 }
             }
@@ -1438,9 +1430,9 @@
         alarmActive = false;
         alarmBar.classList.remove('active');
         
-        if (alarmCountdown) {
-            clearInterval(alarmCountdown);
-            alarmCountdown = null;
+        if (alarmCountdownTimer) {  // ← FIXED: using the renamed variable
+            clearInterval(alarmCountdownTimer);
+            alarmCountdownTimer = null;
         }
         alarmCountdown.textContent = '🔁 Repeats in: --';
 
