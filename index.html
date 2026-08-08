@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaskMaster Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" type="image/png" href="favicon.png"/>
     <style>
-        /* ===== COMPLETE CSS ===== */
+        /* ===== COMPLETE CSS (same as before) ===== */
         :root {
             --primary: #667eea;
             --secondary: #764ba2;
@@ -20,7 +20,6 @@
             --radius: 12px;
             --error: #dc2626;
             --success: #059669;
-            --alarm-color: #dc2626;
         }
         [data-theme="dark"] {
             --bg: #0f172a;
@@ -40,7 +39,7 @@
             min-height: 100vh;
         }
         .app { max-width: 1200px; margin: 0; }
-        
+
         /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -57,7 +56,7 @@
         }
         .header h1 { font-size: 22px; }
         .header h1 i { margin-right: 10px; }
-        
+
         /* ===== HAMBURGER MENU ===== */
         .hamburger-btn {
             background: rgba(255,255,255,0.15);
@@ -74,7 +73,7 @@
         }
         .hamburger-btn:hover { background: rgba(255,255,255,0.3); }
         .hamburger-btn span { font-size: 14px; font-weight: 500; }
-        
+
         /* ===== DROPDOWN MENU ===== */
         .dropdown-menu {
             display: none;
@@ -114,7 +113,7 @@
         .dropdown-menu .menu-item:hover { background: var(--bg); }
         .dropdown-menu .menu-item i { width: 20px; color: var(--primary); font-size: 16px; }
         .dropdown-menu .menu-divider { height: 1px; background: var(--border); margin: 4px 12px; }
-        
+
         /* Alarm Settings in Dropdown */
         .alarm-settings-group {
             padding: 8px 18px;
@@ -186,8 +185,9 @@
         .stat-card .number { font-size: 24px; font-weight: 700; color: var(--primary); }
         .stat-card .label { font-size: 12px; color: var(--text-secondary); }
         .stat-card.primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; }
-        .stat-card.primary .number, .stat-card.primary .label { color: white; }
-        
+        .stat-card.primary .number,
+        .stat-card.primary .label { color: white; }
+
         /* ===== CONTROLS ===== */
         .controls {
             background: var(--card);
@@ -221,12 +221,14 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
         }
-        .filter-group, .view-group {
+        .filter-group,
+        .view-group {
             display: flex;
             gap: 4px;
             flex-wrap: wrap;
         }
-        .filter-btn, .view-btn {
+        .filter-btn,
+        .view-btn {
             padding: 6px 14px;
             border: 2px solid var(--border);
             background: transparent;
@@ -236,13 +238,15 @@
             color: var(--text-secondary);
             transition: 0.3s;
         }
-        .filter-btn:hover, .view-btn:hover { border-color: var(--primary); color: var(--text); }
-        .filter-btn.active, .view-btn.active {
+        .filter-btn:hover,
+        .view-btn:hover { border-color: var(--primary); color: var(--text); }
+        .filter-btn.active,
+        .view-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        
+
         /* ===== ADD TASK FORM ===== */
         .add-form {
             background: var(--card);
@@ -268,7 +272,9 @@
             text-transform: uppercase;
         }
         .form-group label .req { color: var(--error); }
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 8px 12px;
             border: 2px solid var(--border);
@@ -278,7 +284,9 @@
             font-size: 14px;
             font-family: inherit;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
         }
@@ -305,7 +313,7 @@
             gap: 8px;
         }
         .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
-        
+
         /* ===== TASK LIST ===== */
         .task-header {
             display: flex;
@@ -316,7 +324,11 @@
             margin-bottom: 15px;
         }
         .task-header h2 { font-size: 18px; }
-        .task-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .task-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
         .action-btn {
             padding: 6px 14px;
             border: 2px solid var(--border);
@@ -332,7 +344,8 @@
         }
         .action-btn:hover { border-color: var(--primary); color: var(--text); }
         .action-btn.danger:hover { border-color: var(--error); color: var(--error); }
-        
+
+        /* Main task list (pending + active) */
         .task-list {
             display: flex;
             flex-direction: column;
@@ -341,6 +354,43 @@
             overflow-y: auto;
             padding-right: 4px;
         }
+
+        /* Completed tasks section */
+        .completed-section {
+            margin-top: 20px;
+            border-top: 2px dashed var(--border);
+            padding-top: 12px;
+        }
+        .completed-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+            width: 100%;
+            justify-content: center;
+        }
+        .completed-toggle:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+        .completed-list {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .completed-list.open { display: flex; }
+
         .task-item {
             background: var(--card);
             border: 2px solid var(--border);
@@ -350,32 +400,15 @@
             align-items: flex-start;
             gap: 12px;
             transition: 0.3s;
-            position: relative;
         }
         .task-item:hover { border-color: var(--primary); }
-        .task-item.completed { opacity: 0.6; }
-        .task-item.completed .task-title { text-decoration: line-through; }
-        
-        /* ===== VISUAL CUE: ALARM ACTIVE ===== */
-        .task-item.alarm-active {
-            border-color: var(--alarm-color);
-            border-width: 3px;
-            animation: alarmPulse 1.5s infinite;
-            background: rgba(220, 38, 38, 0.05);
+        .task-item.completed {
+            opacity: 0.7;
+            background: var(--bg);
         }
-        [data-theme="dark"] .task-item.alarm-active {
-            background: rgba(220, 38, 38, 0.15);
+        .task-item.completed .task-title {
+            text-decoration: line-through;
         }
-        @keyframes alarmPulse {
-            0%, 100% { border-color: var(--alarm-color); box-shadow: 0 0 0 0 rgba(220,38,38,0.3); }
-            50% { border-color: #f87171; box-shadow: 0 0 20px rgba(220,38,38,0.15); }
-        }
-        
-        /* ===== VISUAL CUE: OVERDUE ===== */
-        .task-item.overdue:not(.completed) {
-            border-left: 4px solid var(--alarm-color);
-        }
-        
         .task-checkbox {
             margin-top: 3px;
             width: 20px;
@@ -407,22 +440,18 @@
         .tag-category { background: #dbeafe; color: #2563eb; }
         .tag-status { background: #e0e7ff; color: #4338ca; }
         .tag-due { background: var(--border); color: var(--text-secondary); }
-        .tag-overdue { background: #fee2e2; color: #dc2626; animation: overduePulse 2s infinite; }
-        @keyframes overduePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
+        .tag-overdue { background: #fee2e2; color: #dc2626; }
         .tag-repeat { background: #f3e8ff; color: #7c3aed; }
-        .tag-alarm {
-            background: #dc2626;
-            color: white;
-            animation: alarmTagPulse 1s infinite;
+        /* New tag for due duration */
+        .tag-duration {
+            background: #d1fae5;
+            color: #065f46;
         }
-        @keyframes alarmTagPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .tag-duration.overdue {
+            background: #fee2e2;
+            color: #991b1b;
         }
-        
+
         .task-progress {
             margin-top: 6px;
             display: flex;
@@ -447,6 +476,7 @@
             display: flex;
             gap: 4px;
             flex-shrink: 0;
+            align-items: center;
         }
         .task-actions-right button {
             background: none;
@@ -461,9 +491,15 @@
         .task-actions-right button:hover { background: var(--border); color: var(--text); }
         .task-actions-right button.delete:hover { background: #fee2e2; color: #dc2626; }
         .task-actions-right button.edit:hover { background: #dbeafe; color: #2563eb; }
-        
+        .task-actions-right .complete-btn {
+            color: var(--success);
+            font-weight: 600;
+        }
+        .task-actions-right .complete-btn:hover { background: #d1fae5; }
+
         /* ===== BOARD & CALENDAR ===== */
-        .board-view, .calendar-view { display: none; }
+        .board-view,
+        .calendar-view { display: none; }
         .board-view.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-height: 500px; }
         .board-column {
             background: var(--card);
@@ -484,8 +520,7 @@
         }
         .board-column .task-item { padding: 10px 12px; margin-bottom: 6px; cursor: pointer; }
         .board-column .task-item .task-checkbox { width: 18px; height: 18px; }
-        .board-column .task-item.alarm-active { border-width: 2px; }
-        
+
         .calendar-view.active { display: block; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; max-height: 500px; overflow-y: auto; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
         .calendar-header h3 { font-size: 18px; }
@@ -529,23 +564,22 @@
             cursor: pointer;
         }
         .calendar-day .day-task.completed { background: var(--success); opacity: 0.6; }
-        .calendar-day .day-task.alarm-active {
-            background: var(--alarm-color);
-            animation: alarmTagPulse 1s infinite;
-        }
         .calendar-day.today { border-color: var(--primary); border-width: 2px; }
         .calendar-day.other-month .day-number { opacity: 0.3; }
-        
+
         /* ===== EMPTY STATE ===== */
         .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
         .empty-state i { font-size: 40px; opacity: 0.3; margin-bottom: 10px; }
         .empty-state h3 { color: var(--text); margin-bottom: 4px; }
-        
+
         /* ===== MODALS ===== */
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(0,0,0,0.5);
             backdrop-filter: blur(4px);
             z-index: 1000;
@@ -594,7 +628,7 @@
             color: white;
         }
         .modal-actions .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
-        
+
         /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
@@ -632,7 +666,7 @@
             from { opacity: 0; transform: translateX(100px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        
+
         /* ===== ALARM BAR ===== */
         .alarm-bar {
             display: none;
@@ -685,7 +719,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
-        /* Snooze dropdown inside alarm bar */
         .snooze-options {
             display: none;
             position: absolute;
@@ -712,7 +745,7 @@
             text-align: left;
         }
         .snooze-options .snooze-item:hover { background: var(--bg); }
-        
+
         /* ===== WATERMARK ===== */
         .watermark {
             text-align: center;
@@ -724,7 +757,7 @@
             opacity: 0.7;
         }
         .watermark strong { color: var(--primary); }
-        
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .board-view.active { grid-template-columns: 1fr 1fr; }
@@ -786,6 +819,23 @@
                         <option value="3600">1 hour</option>
                     </select>
                 </label>
+                <!-- Custom Alarm Sound -->
+                <label style="margin-top:6px;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+                    Alarm sound:
+                    <select id="alarmSoundSelect">
+                        <option value="beep">Beep</option>
+                        <option value="bell">Bell</option>
+                        <option value="buzzer">Buzzer</option>
+                        <option value="silent">Silent</option>
+                    </select>
+                </label>
+                <!-- Silent/Vibrate Mode (Sound on/off) -->
+                <label class="toggle-label" style="margin-top:6px;">
+                    <span>🔊 Sound</span>
+                    <div class="toggle-switch active" id="soundToggle">
+                        <div class="toggle-dot"></div>
+                    </div>
+                </label>
             </div>
             <div class="menu-divider"></div>
             <button class="menu-item" id="menuTemplates"><i class="fas fa-copy"></i> Templates</button>
@@ -810,7 +860,7 @@
     <div class="controls">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search tasks...">
+            <input type="text" id="searchInput" placeholder="Search tasks..." />
         </div>
         <div class="filter-group">
             <button class="filter-btn active" data-filter="all">All</button>
@@ -829,7 +879,7 @@
     <form class="add-form" id="addForm">
         <div class="form-group" style="flex:2;">
             <label>Title <span class="req">*</span></label>
-            <input type="text" id="taskTitle" placeholder="What needs to be done?" required>
+            <input type="text" id="taskTitle" placeholder="What needs to be done?" required />
             <div class="field-error" id="titleError">Title is required</div>
         </div>
         <div class="form-group" style="flex:2;">
@@ -863,7 +913,7 @@
         </div>
         <div class="form-group">
             <label>Due Date <span class="req">*</span></label>
-            <input type="datetime-local" id="taskDue" required>
+            <input type="datetime-local" id="taskDue" required />
             <div class="field-error" id="dueError">Due date is required</div>
         </div>
         <div class="form-group" style="min-width:100px;">
@@ -883,7 +933,6 @@
             </select>
             <div class="field-error" id="reminderError">Reminder is required</div>
         </div>
-        <!-- NEW: Repeat interval per task -->
         <div class="form-group" style="min-width:100px;">
             <label>Repeat interval</label>
             <select id="taskRepeatInterval">
@@ -912,12 +961,16 @@
         </div>
     </div>
 
-    <div class="task-list" id="taskList">
-        <div class="empty-state">
-            <i class="fas fa-inbox"></i>
-            <h3>No tasks yet</h3>
-            <p>Add your first task above!</p>
-        </div>
+    <!-- Active/Pending tasks -->
+    <div class="task-list" id="taskList"></div>
+
+    <!-- ===== COMPLETED TASKS SECTION ===== -->
+    <div class="completed-section" id="completedSection">
+        <button class="completed-toggle" id="completedToggle">
+            <i class="fas fa-chevron-right" id="completedToggleIcon"></i>
+            Show Completed Tasks (<span id="completedCountBadge">0</span>)
+        </button>
+        <div class="completed-list" id="completedList"></div>
     </div>
 
     <!-- ===== BOARD VIEW ===== -->
@@ -955,7 +1008,6 @@
         <button class="alarm-btn snooze-btn" id="snoozeBtn"><i class="fas fa-clock"></i> Snooze</button>
         <button class="alarm-btn" id="stopAlarmBtn"><i class="fas fa-stop"></i> Stop</button>
     </div>
-    <!-- Snooze options dropdown -->
     <div class="snooze-options" id="snoozeOptions">
         <button class="snooze-item" data-minutes="5">5 minutes</button>
         <button class="snooze-item" data-minutes="10">10 minutes</button>
@@ -969,10 +1021,10 @@
     <div class="modal">
         <h2><i class="fas fa-edit"></i> Edit Task</h2>
         <form id="editForm">
-            <input type="hidden" id="editId">
+            <input type="hidden" id="editId" />
             <div class="form-group">
                 <label>Title <span class="req">*</span></label>
-                <input type="text" id="editTitle" required>
+                <input type="text" id="editTitle" required />
                 <div class="field-error" id="editTitleError">Title is required</div>
             </div>
             <div class="form-group">
@@ -1016,20 +1068,19 @@
             <div class="form-group">
                 <label>Progress</label>
                 <div style="display:flex;align-items:center;gap:10px;">
-                    <input type="range" id="editProgress" min="0" max="100" value="0" style="flex:1;">
+                    <input type="range" id="editProgress" min="0" max="100" value="0" style="flex:1;" />
                     <span id="editProgressLabel" style="min-width:40px;font-weight:600;">0%</span>
                 </div>
             </div>
             <div class="form-group">
                 <label>Due Date <span class="req">*</span></label>
-                <input type="datetime-local" id="editDue" required>
+                <input type="datetime-local" id="editDue" required />
                 <div class="field-error" id="editDueError">Due date is required</div>
             </div>
             <div class="form-group">
                 <label>Duration (minutes)</label>
-                <input type="number" id="editDuration" min="0" value="0">
+                <input type="number" id="editDuration" min="0" value="0" />
             </div>
-            <!-- Repeat interval in edit -->
             <div class="form-group">
                 <label>Repeat interval</label>
                 <select id="editRepeatInterval">
@@ -1060,7 +1111,7 @@
         <div class="form-group">
             <label>Save as template</label>
             <div style="display:flex;gap:8px;">
-                <input type="text" id="templateName" placeholder="Template name" style="flex:1;padding:8px 12px;border:2px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);">
+                <input type="text" id="templateName" placeholder="Template name" style="flex:1;padding:8px 12px;border:2px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);" />
                 <button class="add-btn" id="saveTemplateBtn" style="padding:8px 16px;height:auto;">Save</button>
             </div>
         </div>
@@ -1116,7 +1167,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label><input type="checkbox" id="settingsConfirmDelete"> Confirm before deleting</label>
+            <label><input type="checkbox" id="settingsConfirmDelete" /> Confirm before deleting</label>
         </div>
         <div class="modal-actions">
             <button type="button" class="btn-cancel" id="closeSettingsBtn">Close</button>
@@ -1126,431 +1177,675 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
+<!-- ================================================================ -->
 <script>
-// ================================================================
-// TASKMASTER PRO - PER-TASK REPEAT INTERVALS + SNOOZE + VISUAL CUES
-// ================================================================
+    // ================================================================
+    // TASKMASTER PRO – with Complete Button, Completed Section,
+    // Custom Alarm Sound, Silent Mode, and Due Duration
+    // ================================================================
 
-(function() {
-    'use strict';
+    (function() {
+        'use strict';
 
-    // ─── STATE ───────────────────────────────────────────
-    let tasks = [];
-    let points = 0;
-    let streakDays = 0;
-    let lastCompletionDate = null;
-    let currentFilter = 'all';
-    let currentView = 'list';
-    let sortOrder = 'newest';
-    let searchTerm = '';
-    let calendarDate = new Date();
-    
-    // Alarm State
-    let alarmActive = false;
-    let alarmEnabled = true;
-    let alarmRepeatInterval = 60; // seconds (global default)
-    let alarmCountdownTimer = null;
-    let alarmAudioCtx = null;
-    let alarmOscillator = null;
-    let alarmInterval = null;
-    let vibrationInterval = null;
-    let pendingAlarmTasks = [];
-    let isSnoozed = false;
-    let snoozeTimeout = null;
+        // ─── STATE ───────────────────────────────────────────
+        let tasks = [];
+        let points = 0;
+        let streakDays = 0;
+        let lastCompletionDate = null;
+        let currentFilter = 'all';
+        let currentView = 'list';
+        let sortOrder = 'newest';
+        let searchTerm = '';
+        let calendarDate = new Date();
 
-    // ─── DOM REFS ─────────────────────────────────────────
-    const $ = id => document.getElementById(id);
-    const taskList = $('taskList');
-    const boardView = $('boardView');
-    const calendarView = $('calendarView');
-    const addForm = $('addForm');
-    const searchInput = $('searchInput');
-    const alarmBar = $('alarmBar');
-    const alarmText = $('alarmText');
-    const alarmCountdown = $('alarmCountdown');
-    const alarmStatus = $('alarmStatus');
-    const stopAlarmBtn = $('stopAlarmBtn');
-    const snoozeBtn = $('snoozeBtn');
-    const snoozeOptions = $('snoozeOptions');
-    const dropdownMenu = $('dropdownMenu');
-    const hamburgerBtn = $('hamburgerBtn');
-    const alarmToggle = $('alarmToggle');
-    const alarmRepeatSelect = $('alarmRepeatInterval');
+        // Alarm State
+        let alarmActive = false;
+        let alarmEnabled = true;
+        let alarmRepeatInterval = 60;
+        let alarmSound = 'beep';
+        let soundEnabled = true;
+        let alarmCountdownTimer = null;
+        let alarmAudioCtx = null;
+        let alarmOscillator = null;
+        let alarmInterval = null;
+        let vibrationInterval = null;
+        let pendingAlarmTasks = [];
+        let isSnoozed = false;
+        let snoozeTimeout = null;
 
-    // ─── LOAD ALARM SETTINGS ─────────────────────────────
-    function loadAlarmSettings() {
-        try {
-            const raw = localStorage.getItem('alarmSettings');
-            if (raw) {
-                const settings = JSON.parse(raw);
-                alarmEnabled = settings.enabled !== undefined ? settings.enabled : true;
-                alarmRepeatInterval = settings.interval || 60;
-                alarmRepeatSelect.value = alarmRepeatInterval;
-                if (alarmEnabled) {
-                    alarmToggle.classList.add('active');
-                } else {
-                    alarmToggle.classList.remove('active');
+        // ─── DOM REFS ─────────────────────────────────────────
+        const $ = id => document.getElementById(id);
+        const taskList = $('taskList');
+        const boardView = $('boardView');
+        const calendarView = $('calendarView');
+        const addForm = $('addForm');
+        const searchInput = $('searchInput');
+        const alarmBar = $('alarmBar');
+        const alarmText = $('alarmText');
+        const alarmCountdown = $('alarmCountdown');
+        const alarmStatus = $('alarmStatus');
+        const stopAlarmBtn = $('stopAlarmBtn');
+        const snoozeBtn = $('snoozeBtn');
+        const snoozeOptions = $('snoozeOptions');
+        const dropdownMenu = $('dropdownMenu');
+        const hamburgerBtn = $('hamburgerBtn');
+        const alarmToggle = $('alarmToggle');
+        const alarmRepeatSelect = $('alarmRepeatInterval');
+        const alarmSoundSelect = $('alarmSoundSelect');
+        const soundToggle = $('soundToggle');
+        const completedToggle = $('completedToggle');
+        const completedList = $('completedList');
+        const completedToggleIcon = $('completedToggleIcon');
+        const completedCountBadge = $('completedCountBadge');
+
+        // ─── LOAD ALARM SETTINGS ─────────────────────────────
+        function loadAlarmSettings() {
+            try {
+                const raw = localStorage.getItem('alarmSettings');
+                if (raw) {
+                    const settings = JSON.parse(raw);
+                    alarmEnabled = settings.enabled !== undefined ? settings.enabled : true;
+                    alarmRepeatInterval = settings.interval || 60;
+                    alarmSound = settings.sound || 'beep';
+                    soundEnabled = settings.soundEnabled !== undefined ? settings.soundEnabled : true;
+                    alarmRepeatSelect.value = alarmRepeatInterval;
+                    alarmSoundSelect.value = alarmSound;
+                    if (alarmEnabled) alarmToggle.classList.add('active');
+                    else alarmToggle.classList.remove('active');
+                    if (soundEnabled) soundToggle.classList.add('active');
+                    else soundToggle.classList.remove('active');
+                }
+            } catch(e) {}
+        }
+
+        function saveAlarmSettings() {
+            try {
+                localStorage.setItem('alarmSettings', JSON.stringify({
+                    enabled: alarmEnabled,
+                    interval: alarmRepeatInterval,
+                    sound: alarmSound,
+                    soundEnabled: soundEnabled
+                }));
+            } catch(e) {}
+        }
+
+        // ─── ALARM TOGGLES ──────────────────────────────────
+        alarmToggle.addEventListener('click', function() {
+            alarmEnabled = !alarmEnabled;
+            this.classList.toggle('active');
+            saveAlarmSettings();
+            if (!alarmEnabled && alarmActive) stopAlarm();
+            showToast(alarmEnabled ? '🔔 Alarm enabled' : '🔕 Alarm disabled', 'info');
+        });
+
+        alarmRepeatSelect.addEventListener('change', function() {
+            alarmRepeatInterval = parseInt(this.value);
+            saveAlarmSettings();
+            showToast('⏱️ Global repeat set to ' + this.options[this.selectedIndex].text, 'info');
+            if (alarmActive && !isSnoozed) startCountdown();
+        });
+
+        alarmSoundSelect.addEventListener('change', function() {
+            alarmSound = this.value;
+            saveAlarmSettings();
+            showToast('🔊 Alarm sound set to ' + this.options[this.selectedIndex].text, 'info');
+        });
+
+        soundToggle.addEventListener('click', function() {
+            soundEnabled = !soundEnabled;
+            this.classList.toggle('active');
+            saveAlarmSettings();
+            showToast(soundEnabled ? '🔊 Sound on' : '🔇 Sound off (vibrate only)', 'info');
+        });
+
+        // ─── HAMBURGER MENU ───────────────────────────────────
+        hamburgerBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
+        document.addEventListener('click', function(e) {
+            if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        // ─── MENU ITEMS ──────────────────────────────────────
+        $('menuThemeToggle').addEventListener('click', function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
+            settings.theme = next;
+            localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
+            dropdownMenu.classList.remove('active');
+        });
+
+        $('menuTemplates').addEventListener('click', function() {
+            renderTemplates();
+            $('templateModal').classList.add('active');
+            dropdownMenu.classList.remove('active');
+        });
+
+        $('menuExport').addEventListener('click', function() { exportData();
+            dropdownMenu.classList.remove('active'); });
+        $('menuImport').addEventListener('click', function() { importData();
+            dropdownMenu.classList.remove('active'); });
+        $('menuSettings').addEventListener('click', function() {
+            loadSettings();
+            $('settingsModal').classList.add('active');
+            dropdownMenu.classList.remove('active');
+        });
+
+        // ─── STORAGE ─────────────────────────────────────────
+        function saveData() {
+            try {
+                localStorage.setItem('taskMasterData', JSON.stringify({
+                    tasks,
+                    points,
+                    streak: streakDays,
+                    lastCompletion: lastCompletionDate
+                }));
+            } catch(e) {}
+        }
+
+        function loadData() {
+            try {
+                const raw = localStorage.getItem('taskMasterData');
+                if (raw) {
+                    const data = JSON.parse(raw);
+                    tasks = data.tasks || [];
+                    points = data.points || 0;
+                    streakDays = data.streak || 0;
+                    lastCompletionDate = data.lastCompletion || null;
+                    return;
+                }
+            } catch(e) {}
+            tasks = [{
+                id: '1',
+                title: 'Complete project proposal',
+                description: 'Finish Q4 proposal',
+                priority: 'high',
+                category: 'Work',
+                status: 'pending',
+                progress: 0,
+                dueDate: new Date(Date.now() + 86400000).toISOString().slice(0, 16),
+                reminder: '1d',
+                repeatInterval: null,
+                subtasks: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                completedAt: null
+            }, {
+                id: '2',
+                title: 'Buy groceries',
+                description: 'Milk, eggs, bread',
+                priority: 'medium',
+                category: 'Shopping',
+                status: 'pending',
+                progress: 0,
+                dueDate: new Date().toISOString().slice(0, 16),
+                reminder: '2h',
+                repeatInterval: null,
+                subtasks: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                completedAt: null
+            }];
+            saveData();
+        }
+
+        // ─── HELPERS ──────────────────────────────────────────
+        function generateId() { return Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8); }
+
+        function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div');
+            div.textContent = text; return div.innerHTML; }
+
+        function getPriorityLabel(p) { const map = { critical: 'Critical', high: 'High', medium: 'Medium',
+                low: 'Low' }; return map[p] || p; }
+
+        function getStatusLabel(s) { const map = { pending: 'Pending', 'in-progress': 'In Progress',
+                completed: 'Completed', deferred: 'Deferred', cancelled: 'Cancelled' }; return map[s] || s; }
+
+        function formatDate(d) { if (!d) return 'No date'; const dt = new Date(d); return dt.toLocaleDateString() + ' ' +
+                dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+
+        function isOverdue(task) { if (task.status === 'completed' || task.status === 'cancelled') return false; if (!task
+                .dueDate) return false; return new Date(task.dueDate) < new Date(); }
+
+        function getReminderLabel(val) { const map = { 'none': 'None', '15min': '15 min', '30min': '30 min', '1h': '1 hour',
+                '2h': '2 hours', '6h': '6 hours', '12h': '12 hours', '1d': '1 day', '2d': '2 days', '1d+2h': '1 day + 2 hours',
+                '2d+6h': '2 days + 6 hours' }; return map[val] || val; }
+
+        function getRepeatLabel(val) { if (!val || val === 'default' || val === null) return 'Default'; const map = { '30': '30s',
+                '60': '1m', '120': '2m', '180': '3m', '300': '5m', '600': '10m', '900': '15m', '1800': '30m',
+                '3600': '1h' }; return map[val] || val; }
+
+        // ─── NEW: Get due duration string ────────────────────
+        function getDueDuration(task) {
+            if (!task.dueDate) return '';
+            const now = new Date();
+            const due = new Date(task.dueDate);
+            const diffMs = due - now;
+            const isFuture = diffMs > 0;
+            const absMs = Math.abs(diffMs);
+            const seconds = Math.floor(absMs / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const remainingHours = hours % 24;
+            const remainingMinutes = minutes % 60;
+
+            let parts = [];
+            if (days > 0) parts.push(days + 'd');
+            if (remainingHours > 0) parts.push(remainingHours + 'h');
+            if (remainingMinutes > 0 && days === 0) parts.push(remainingMinutes + 'm');
+
+            if (parts.length === 0) {
+                if (seconds < 60) return isFuture ? 'Due now' : 'Just now';
+                if (minutes < 60) return isFuture ? `Due in ${minutes}m` : `${minutes}m overdue`;
+                return isFuture ? 'Due soon' : 'Overdue';
+            }
+
+            const prefix = isFuture ? 'Due in ' : 'Overdue by ';
+            return prefix + parts.join(' ');
+        }
+
+        // ─── CRUD ─────────────────────────────────────────────
+        function addTask(title, description, priority, category, dueDate, reminder, repeatInterval) {
+            const task = {
+                id: generateId(),
+                title: title.trim(),
+                description: description.trim() || '',
+                priority: priority || 'medium',
+                category: category || 'Other',
+                status: 'pending',
+                progress: 0,
+                dueDate: dueDate || '',
+                estimatedDuration: 0,
+                actualDuration: 0,
+                reminder: reminder || 'none',
+                repeatInterval: repeatInterval && repeatInterval !== 'default' ? parseInt(repeatInterval) : null,
+                subtasks: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                completedAt: null
+            };
+            tasks.unshift(task);
+            saveData();
+            render();
+            return task;
+        }
+
+        function updateTask(id, updates) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return null;
+            const wasCompleted = task.status === 'completed';
+            Object.assign(task, updates);
+            task.updatedAt = new Date().toISOString();
+            if (task.status === 'completed' && !wasCompleted) {
+                task.completedAt = new Date().toISOString();
+                updateStreak();
+                if (alarmActive) {
+                    const stillDue = tasks.filter(t => {
+                        if (t.status === 'completed' || t.status === 'cancelled') return false;
+                        if (!t.dueDate) return false;
+                        return new Date(t.dueDate) <= new Date();
+                    });
+                    if (stillDue.length === 0) stopAlarm();
                 }
             }
-        } catch(e) {}
-    }
-
-    function saveAlarmSettings() {
-        try {
-            localStorage.setItem('alarmSettings', JSON.stringify({
-                enabled: alarmEnabled,
-                interval: alarmRepeatInterval
-            }));
-        } catch(e) {}
-    }
-
-    // ─── ALARM TOGGLE ─────────────────────────────────────
-    alarmToggle.addEventListener('click', function() {
-        alarmEnabled = !alarmEnabled;
-        this.classList.toggle('active');
-        saveAlarmSettings();
-        if (!alarmEnabled && alarmActive) {
-            stopAlarm();
+            saveData();
+            render();
+            return task;
         }
-        showToast(alarmEnabled ? '🔔 Alarm enabled' : '🔕 Alarm disabled', 'info');
-    });
 
-    alarmRepeatSelect.addEventListener('change', function() {
-        alarmRepeatInterval = parseInt(this.value);
-        saveAlarmSettings();
-        showToast('⏱️ Global repeat set to ' + this.options[this.selectedIndex].text, 'info');
-        if (alarmActive && !isSnoozed) {
-            startCountdown();
-        }
-    });
-
-    // ─── HAMBURGER MENU ───────────────────────────────────
-    hamburgerBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('active');
-    });
-    document.addEventListener('click', function(e) {
-        if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-            dropdownMenu.classList.remove('active');
-        }
-    });
-
-    // ─── MENU ITEMS ──────────────────────────────────────
-    $('menuThemeToggle').addEventListener('click', function() {
-        const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-        const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
-        settings.theme = next;
-        localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
-        dropdownMenu.classList.remove('active');
-    });
-
-    $('menuTemplates').addEventListener('click', function() {
-        renderTemplates();
-        $('templateModal').classList.add('active');
-        dropdownMenu.classList.remove('active');
-    });
-
-    $('menuExport').addEventListener('click', function() { exportData(); dropdownMenu.classList.remove('active'); });
-    $('menuImport').addEventListener('click', function() { importData(); dropdownMenu.classList.remove('active'); });
-    $('menuSettings').addEventListener('click', function() {
-        loadSettings();
-        $('settingsModal').classList.add('active');
-        dropdownMenu.classList.remove('active');
-    });
-
-    // ─── STORAGE ─────────────────────────────────────────
-    function saveData() {
-        try {
-            localStorage.setItem('taskMasterData', JSON.stringify({
-                tasks, points, streak: streakDays, lastCompletion: lastCompletionDate
-            }));
-        } catch(e) {}
-    }
-
-    function loadData() {
-        try {
-            const raw = localStorage.getItem('taskMasterData');
-            if (raw) {
-                const data = JSON.parse(raw);
-                tasks = data.tasks || [];
-                points = data.points || 0;
-                streakDays = data.streak || 0;
-                lastCompletionDate = data.lastCompletion || null;
-                return;
-            }
-        } catch(e) {}
-        tasks = [
-            { id: '1', title: 'Complete project proposal', description: 'Finish Q4 proposal', priority: 'high', category: 'Work', status: 'pending', progress: 0, dueDate: new Date(Date.now() + 86400000).toISOString().slice(0,16), reminder: '1d', repeatInterval: null, subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null },
-            { id: '2', title: 'Buy groceries', description: 'Milk, eggs, bread', priority: 'medium', category: 'Shopping', status: 'pending', progress: 0, dueDate: new Date().toISOString().slice(0,16), reminder: '2h', repeatInterval: null, subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null }
-        ];
-        saveData();
-    }
-
-    // ─── HELPERS ──────────────────────────────────────────
-    function generateId() { return Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8); }
-    function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
-    function getPriorityLabel(p) { const map = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' }; return map[p] || p; }
-    function getStatusLabel(s) { const map = { pending: 'Pending', 'in-progress': 'In Progress', completed: 'Completed', deferred: 'Deferred', cancelled: 'Cancelled' }; return map[s] || s; }
-    function formatDate(d) { if (!d) return 'No date'; const dt = new Date(d); return dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
-    function isOverdue(task) { if (task.status === 'completed' || task.status === 'cancelled') return false; if (!task.dueDate) return false; return new Date(task.dueDate) < new Date(); }
-    function getReminderLabel(val) { const map = { 'none': 'None', '15min': '15 min', '30min': '30 min', '1h': '1 hour', '2h': '2 hours', '6h': '6 hours', '12h': '12 hours', '1d': '1 day', '2d': '2 days', '1d+2h': '1 day + 2 hours', '2d+6h': '2 days + 6 hours' }; return map[val] || val; }
-    function getRepeatLabel(val) {
-        if (!val || val === 'default' || val === null) return 'Default';
-        const map = { '30':'30s', '60':'1m', '120':'2m', '180':'3m', '300':'5m', '600':'10m', '900':'15m', '1800':'30m', '3600':'1h' };
-        return map[val] || val;
-    }
-
-    // ─── CRUD ─────────────────────────────────────────────
-    function addTask(title, description, priority, category, dueDate, reminder, repeatInterval) {
-        const task = {
-            id: generateId(),
-            title: title.trim(),
-            description: description.trim() || '',
-            priority: priority || 'medium',
-            category: category || 'Other',
-            status: 'pending',
-            progress: 0,
-            dueDate: dueDate || '',
-            estimatedDuration: 0,
-            actualDuration: 0,
-            reminder: reminder || 'none',
-            repeatInterval: repeatInterval && repeatInterval !== 'default' ? parseInt(repeatInterval) : null,
-            subtasks: [],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            completedAt: null
-        };
-        tasks.unshift(task);
-        saveData();
-        render();
-        return task;
-    }
-
-    function updateTask(id, updates) {
-        const task = tasks.find(t => t.id === id);
-        if (!task) return null;
-        const wasCompleted = task.status === 'completed';
-        Object.assign(task, updates);
-        task.updatedAt = new Date().toISOString();
-        if (task.status === 'completed' && !wasCompleted) {
-            task.completedAt = new Date().toISOString();
-            updateStreak();
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveData();
+            render();
             if (alarmActive) {
                 const stillDue = tasks.filter(t => {
                     if (t.status === 'completed' || t.status === 'cancelled') return false;
                     if (!t.dueDate) return false;
                     return new Date(t.dueDate) <= new Date();
                 });
-                if (stillDue.length === 0) {
-                    stopAlarm();
-                }
+                if (stillDue.length === 0) stopAlarm();
             }
         }
-        saveData();
-        render();
-        return task;
-    }
 
-    function deleteTask(id) {
-        tasks = tasks.filter(t => t.id !== id);
-        saveData();
-        render();
-        if (alarmActive) {
-            const stillDue = tasks.filter(t => {
-                if (t.status === 'completed' || t.status === 'cancelled') return false;
-                if (!t.dueDate) return false;
-                return new Date(t.dueDate) <= new Date();
+        function toggleCompletion(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            if (task.status === 'completed') {
+                updateTask(id, { status: 'pending', progress: 0, completedAt: null });
+            } else {
+                updateTask(id, { status: 'completed', progress: 100 });
+            }
+        }
+
+        function clearCompleted() {
+            tasks = tasks.filter(t => t.status !== 'completed');
+            saveData();
+            render();
+        }
+
+        function updateStreak() {
+            const today = new Date().toDateString();
+            if (lastCompletionDate === today) return;
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            if (lastCompletionDate === yesterday.toDateString()) {
+                streakDays++;
+            } else if (lastCompletionDate !== today) {
+                streakDays = 1;
+            }
+            lastCompletionDate = today;
+            points += 5;
+            saveData();
+        }
+
+        // ─── REPEATING ALARM SYSTEM ──────────────────────────
+        function getReminderMinutes(reminder) {
+            const map = {
+                '15min': 15,
+                '30min': 30,
+                '1h': 60,
+                '2h': 120,
+                '6h': 360,
+                '12h': 720,
+                '1d': 1440,
+                '2d': 2880,
+                '1d+2h': 1560,
+                '2d+6h': 3240
+            };
+            return map[reminder] || 0;
+        }
+
+        function getTaskRepeatInterval(task) {
+            if (task.repeatInterval && task.repeatInterval > 0) return task.repeatInterval;
+            return alarmRepeatInterval;
+        }
+
+        function checkDueTasks() {
+            if (!alarmEnabled) return;
+            const now = new Date();
+            const dueTasks = tasks.filter(task => {
+                if (task.status === 'completed' || task.status === 'cancelled') return false;
+                if (!task.dueDate) return false;
+                const dueDate = new Date(task.dueDate);
+                if (dueDate <= now) return true;
+                if (task.reminder && task.reminder !== 'none') {
+                    const reminderMinutes = getReminderMinutes(task.reminder);
+                    if (reminderMinutes > 0) {
+                        const reminderTime = new Date(dueDate.getTime() - reminderMinutes * 60000);
+                        const timeDiff = Math.abs(now - reminderTime);
+                        if (timeDiff < 300000) return true;
+                    }
+                }
+                return false;
             });
-            if (stillDue.length === 0) {
+
+            if (dueTasks.length > 0 && !alarmActive && alarmEnabled) {
+                triggerAlarm(dueTasks);
+            } else if (dueTasks.length > 0 && alarmActive && alarmEnabled) {
+                const titles = dueTasks.map(t => t.title).join(', ');
+                alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
+                pendingAlarmTasks = dueTasks;
+            } else if (dueTasks.length === 0 && alarmActive) {
                 stopAlarm();
             }
         }
-    }
 
-    function toggleCompletion(id) {
-        const task = tasks.find(t => t.id === id);
-        if (!task) return;
-        if (task.status === 'completed') {
-            updateTask(id, { status: 'pending', progress: 0, completedAt: null });
-        } else {
-            updateTask(id, { status: 'completed', progress: 100 });
-        }
-    }
-
-    function clearCompleted() {
-        tasks = tasks.filter(t => t.status !== 'completed');
-        saveData();
-        render();
-    }
-
-    function updateStreak() {
-        const today = new Date().toDateString();
-        if (lastCompletionDate === today) return;
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        if (lastCompletionDate === yesterday.toDateString()) {
-            streakDays++;
-        } else if (lastCompletionDate !== today) {
-            streakDays = 1;
-        }
-        lastCompletionDate = today;
-        points += 5;
-        saveData();
-    }
-
-    // ─── REPEATING ALARM SYSTEM ──────────────────────────
-    function getReminderMinutes(reminder) {
-        const map = {
-            '15min': 15, '30min': 30, '1h': 60, '2h': 120, '6h': 360,
-            '12h': 720, '1d': 1440, '2d': 2880, '1d+2h': 1560, '2d+6h': 3240
-        };
-        return map[reminder] || 0;
-    }
-
-    function getTaskRepeatInterval(task) {
-        if (task.repeatInterval && task.repeatInterval > 0) {
-            return task.repeatInterval;
-        }
-        return alarmRepeatInterval;
-    }
-
-    function checkDueTasks() {
-        if (!alarmEnabled) return;
-        
-        const now = new Date();
-        const dueTasks = tasks.filter(task => {
-            if (task.status === 'completed' || task.status === 'cancelled') return false;
-            if (!task.dueDate) return false;
-            
-            const dueDate = new Date(task.dueDate);
-            if (dueDate <= now) return true;
-            
-            if (task.reminder && task.reminder !== 'none') {
-                const reminderMinutes = getReminderMinutes(task.reminder);
-                if (reminderMinutes > 0) {
-                    const reminderTime = new Date(dueDate.getTime() - reminderMinutes * 60000);
-                    const timeDiff = Math.abs(now - reminderTime);
-                    if (timeDiff < 300000) return true;
-                }
-            }
-            return false;
-        });
-
-        if (dueTasks.length > 0 && !alarmActive && alarmEnabled) {
-            triggerAlarm(dueTasks);
-        } else if (dueTasks.length > 0 && alarmActive && alarmEnabled) {
-            const titles = dueTasks.map(t => t.title).join(', ');
+        function triggerAlarm(tasks) {
+            alarmActive = true;
+            isSnoozed = false;
+            pendingAlarmTasks = tasks;
+            const titles = tasks.map(t => t.title).join(', ');
             alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
-            pendingAlarmTasks = dueTasks;
-            // Update visual cues
-            render();
-        } else if (dueTasks.length === 0 && alarmActive) {
-            stopAlarm();
-        }
-    }
+            alarmBar.classList.add('active');
+            alarmStatus.textContent = '🔔 Ringing';
 
-    function triggerAlarm(tasks) {
-        alarmActive = true;
-        isSnoozed = false;
-        pendingAlarmTasks = tasks;
-        const titles = tasks.map(t => t.title).join(', ');
-        alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
-        alarmBar.classList.add('active');
-        alarmStatus.textContent = '🔔 Ringing';
-        
-        let intervals = tasks.map(t => getTaskRepeatInterval(t));
-        let minInterval = Math.min(...intervals);
-        startCountdown(minInterval);
+            let intervals = tasks.map(t => getTaskRepeatInterval(t));
+            let minInterval = Math.min(...intervals);
+            startCountdown(minInterval);
 
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
 
-        if (navigator.vibrate) {
-            navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
-            vibrationInterval = setInterval(() => {
-                if (alarmActive && alarmEnabled && !isSnoozed) navigator.vibrate([200, 100, 200, 100, 200]);
-            }, 5000);
-        }
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+                vibrationInterval = setInterval(() => {
+                    if (alarmActive && alarmEnabled && !isSnoozed) navigator.vibrate([200, 100, 200, 100, 200]);
+                }, 5000);
+            }
 
-        playAlarmSound();
+            if (soundEnabled) {
+                playAlarmSound();
+            } else {
+                alarmInterval = setInterval(() => {
+                    // silent keep-alive
+                }, 1000);
+            }
 
-        if ('Notification' in window && Notification.permission === 'granted') {
-            tasks.forEach(task => {
-                new Notification('⏰ Task Due!', {
-                    body: `"${task.title}" is due now!`,
-                    icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
-                    requireInteraction: true,
-                    vibrate: [200, 100, 200]
+            if ('Notification' in window && Notification.permission === 'granted') {
+                tasks.forEach(task => {
+                    new Notification('⏰ Task Due!', {
+                        body: `"${task.title}" is due now!`,
+                        icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
+                        requireInteraction: true,
+                        vibrate: [200, 100, 200]
+                    });
                 });
-            });
+            }
+
+            showToast('⏰ Task due! ' + titles, 'warning');
         }
 
-        // Update visual cues on tasks
-        render();
-        showToast('⏰ Task due! ' + titles, 'warning');
-    }
+        function playAlarmSound() {
+            if (alarmInterval) {
+                clearInterval(alarmInterval);
+                alarmInterval = null;
+            }
+            if (alarmOscillator) {
+                try { alarmOscillator.stop(); } catch(e) {}
+                alarmOscillator = null;
+            }
+            if (alarmAudioCtx) {
+                try { alarmAudioCtx.close(); } catch(e) {}
+                alarmAudioCtx = null;
+            }
 
-    function playAlarmSound() {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.type = 'square';
-            oscillator.frequency.value = 880;
-            gainNode.gain.value = 0.3;
-            oscillator.start();
-            
-            alarmAudioCtx = audioCtx;
-            alarmOscillator = oscillator;
+            try {
+                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
 
-            let toggle = true;
-            alarmInterval = setInterval(() => {
-                if (!alarmActive || !alarmEnabled || isSnoozed) {
-                    oscillator.stop();
-                    audioCtx.close();
-                    clearInterval(alarmInterval);
-                    alarmInterval = null;
-                    return;
+                switch (alarmSound) {
+                    case 'bell':
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = 880;
+                        break;
+                    case 'buzzer':
+                        oscillator.type = 'sawtooth';
+                        oscillator.frequency.value = 440;
+                        break;
+                    case 'silent':
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = 0;
+                        gainNode.gain.value = 0;
+                        break;
+                    default:
+                        oscillator.type = 'square';
+                        oscillator.frequency.value = 880;
+                        break;
                 }
-                toggle = !toggle;
-                if (toggle) {
+
+                if (alarmSound !== 'silent') {
+                    gainNode.gain.value = 0.3;
                     oscillator.start();
                 } else {
-                    oscillator.stop();
+                    oscillator.start();
+                    gainNode.gain.value = 0;
                 }
-            }, 400);
-        } catch (e) {
-            console.warn('Audio not supported:', e);
-        }
-    }
 
-    function startCountdown(intervalSeconds) {
-        if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);
-        if (snoozeTimeout) {
-            clearTimeout(snoozeTimeout);
-            snoozeTimeout = null;
+                alarmAudioCtx = audioCtx;
+                alarmOscillator = oscillator;
+
+                let toggle = true;
+                alarmInterval = setInterval(() => {
+                    if (!alarmActive || !alarmEnabled || isSnoozed) {
+                        oscillator.stop();
+                        audioCtx.close();
+                        clearInterval(alarmInterval);
+                        alarmInterval = null;
+                        return;
+                    }
+                    if (alarmSound !== 'silent' && soundEnabled) {
+                        toggle = !toggle;
+                        if (toggle) {
+                            oscillator.start();
+                        } else {
+                            oscillator.stop();
+                        }
+                    }
+                }, 400);
+            } catch (e) {
+                console.warn('Audio not supported:', e);
+            }
         }
-        let seconds = intervalSeconds || alarmRepeatInterval;
-        updateCountdownDisplay(seconds);
-        alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '🔔 Ringing';
-        
-        alarmCountdownTimer = setInterval(() => {
-            seconds--;
-            if (seconds <= 0) {
-                if (alarmActive && alarmEnabled && !isSnoozed) {
-                    playAlarmSound();
+
+        function startCountdown(intervalSeconds) {
+            if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);
+            if (snoozeTimeout) {
+                clearTimeout(snoozeTimeout);
+                snoozeTimeout = null;
+            }
+            let seconds = intervalSeconds || alarmRepeatInterval;
+            updateCountdownDisplay(seconds);
+            alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '🔔 Ringing';
+
+            alarmCountdownTimer = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                    if (alarmActive && alarmEnabled && !isSnoozed) {
+                        if (soundEnabled) {
+                            playAlarmSound();
+                        } else {
+                            if (navigator.vibrate) {
+                                navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+                            }
+                        }
+                        if (navigator.vibrate) {
+                            navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+                        }
+                        if ('Notification' in window && Notification.permission === 'granted') {
+                            pendingAlarmTasks.forEach(task => {
+                                new Notification('⏰ Task Still Due!', {
+                                    body: `"${task.title}" is still pending!`,
+                                    icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
+                                    requireInteraction: true,
+                                    vibrate: [200, 100, 200]
+                                });
+                            });
+                        }
+                        let intervals = pendingAlarmTasks.map(t => getTaskRepeatInterval(t));
+                        let minInterval = Math.min(...intervals);
+                        seconds = minInterval;
+                        updateCountdownDisplay(seconds);
+                        alarmStatus.textContent = '🔔 Ringing';
+                    } else {
+                        clearInterval(alarmCountdownTimer);
+                        alarmCountdownTimer = null;
+                        alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '';
+                    }
+                } else {
+                    updateCountdownDisplay(seconds);
+                }
+            }, 1000);
+        }
+
+        function updateCountdownDisplay(seconds) {
+            if (seconds < 60) {
+                alarmCountdown.textContent = `🔁 Repeats in: ${seconds}s`;
+            } else if (seconds < 3600) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                alarmCountdown.textContent = `🔁 Repeats in: ${mins}m ${secs}s`;
+            } else {
+                const hrs = Math.floor(seconds / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                alarmCountdown.textContent = `🔁 Repeats in: ${hrs}h ${mins}m`;
+            }
+        }
+
+        // ─── SNOOZE ──────────────────────────────────────────
+        snoozeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            snoozeOptions.classList.toggle('active');
+        });
+        document.addEventListener('click', function() {
+            snoozeOptions.classList.remove('active');
+        });
+
+        document.querySelectorAll('.snooze-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const minutes = parseInt(this.dataset.minutes);
+                snoozeAlarm(minutes);
+                snoozeOptions.classList.remove('active');
+            });
+        });
+
+        function snoozeAlarm(minutes) {
+            if (!alarmActive) return;
+            if (alarmInterval) {
+                clearInterval(alarmInterval);
+                alarmInterval = null;
+            }
+            if (alarmOscillator) {
+                try { alarmOscillator.stop(); } catch(e) {}
+                alarmOscillator = null;
+            }
+            if (alarmAudioCtx) {
+                try { alarmAudioCtx.close(); } catch(e) {}
+                alarmAudioCtx = null;
+            }
+            if (vibrationInterval) {
+                clearInterval(vibrationInterval);
+                vibrationInterval = null;
+                if (navigator.vibrate) navigator.vibrate(0);
+            }
+            if (alarmCountdownTimer) {
+                clearInterval(alarmCountdownTimer);
+                alarmCountdownTimer = null;
+            }
+
+            isSnoozed = true;
+            alarmStatus.textContent = `😴 Snoozed for ${minutes}m`;
+            alarmCountdown.textContent = `⏰ Snooze ends in ${minutes}m`;
+
+            if (snoozeTimeout) clearTimeout(snoozeTimeout);
+            snoozeTimeout = setTimeout(() => {
+                if (alarmActive && alarmEnabled) {
+                    isSnoozed = false;
+                    alarmStatus.textContent = '🔔 Ringing';
+                    if (soundEnabled) {
+                        playAlarmSound();
+                    }
                     if (navigator.vibrate) {
                         navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+                        vibrationInterval = setInterval(() => {
+                            if (alarmActive && alarmEnabled && !isSnoozed) navigator.vibrate([200, 100,
+                                200, 100, 200
+                            ]);
+                        }, 5000);
                     }
                     if ('Notification' in window && Notification.permission === 'granted') {
                         pendingAlarmTasks.forEach(task => {
-                            new Notification('⏰ Task Still Due!', {
-                                body: `"${task.title}" is still pending!`,
+                            new Notification('⏰ Snooze ended!', {
+                                body: `"${task.title}" is still due!`,
                                 icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
                                 requireInteraction: true,
                                 vibrate: [200, 100, 200]
@@ -1559,679 +1854,764 @@
                     }
                     let intervals = pendingAlarmTasks.map(t => getTaskRepeatInterval(t));
                     let minInterval = Math.min(...intervals);
-                    seconds = minInterval;
-                    updateCountdownDisplay(seconds);
-                    alarmStatus.textContent = '🔔 Ringing';
-                } else {
-                    clearInterval(alarmCountdownTimer);
-                    alarmCountdownTimer = null;
-                    alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '';
+                    startCountdown(minInterval);
+                    showToast('⏰ Snooze ended!', 'warning');
                 }
-            } else {
-                updateCountdownDisplay(seconds);
+                snoozeTimeout = null;
+            }, minutes * 60000);
+
+            showToast(`😴 Snoozed for ${minutes} minutes`, 'info');
+        }
+
+        function stopAlarm() {
+            alarmActive = false;
+            isSnoozed = false;
+            alarmBar.classList.remove('active');
+
+            if (alarmCountdownTimer) {
+                clearInterval(alarmCountdownTimer);
+                alarmCountdownTimer = null;
             }
-        }, 1000);
-    }
-
-    function updateCountdownDisplay(seconds) {
-        if (seconds < 60) {
-            alarmCountdown.textContent = `🔁 Repeats in: ${seconds}s`;
-        } else if (seconds < 3600) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            alarmCountdown.textContent = `🔁 Repeats in: ${mins}m ${secs}s`;
-        } else {
-            const hrs = Math.floor(seconds / 3600);
-            const mins = Math.floor((seconds % 3600) / 60);
-            alarmCountdown.textContent = `🔁 Repeats in: ${hrs}h ${mins}m`;
-        }
-    }
-
-    // ─── SNOOZE ──────────────────────────────────────────
-    snoozeBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        snoozeOptions.classList.toggle('active');
-    });
-    document.addEventListener('click', function() {
-        snoozeOptions.classList.remove('active');
-    });
-
-    document.querySelectorAll('.snooze-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const minutes = parseInt(this.dataset.minutes);
-            snoozeAlarm(minutes);
-            snoozeOptions.classList.remove('active');
-        });
-    });
-
-    function snoozeAlarm(minutes) {
-        if (!alarmActive) return;
-        if (alarmInterval) {
-            clearInterval(alarmInterval);
-            alarmInterval = null;
-        }
-        if (alarmOscillator) {
-            try { alarmOscillator.stop(); } catch(e) {}
-            alarmOscillator = null;
-        }
-        if (alarmAudioCtx) {
-            try { alarmAudioCtx.close(); } catch(e) {}
-            alarmAudioCtx = null;
-        }
-        if (vibrationInterval) {
-            clearInterval(vibrationInterval);
-            vibrationInterval = null;
-            if (navigator.vibrate) navigator.vibrate(0);
-        }
-        if (alarmCountdownTimer) {
-            clearInterval(alarmCountdownTimer);
-            alarmCountdownTimer = null;
-        }
-
-        isSnoozed = true;
-        alarmStatus.textContent = `😴 Snoozed for ${minutes}m`;
-        alarmCountdown.textContent = `⏰ Snooze ends in ${minutes}m`;
-
-        if (snoozeTimeout) clearTimeout(snoozeTimeout);
-        snoozeTimeout = setTimeout(() => {
-            if (alarmActive && alarmEnabled) {
-                isSnoozed = false;
-                alarmStatus.textContent = '🔔 Ringing';
-                playAlarmSound();
-                if (navigator.vibrate) {
-                    navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
-                    vibrationInterval = setInterval(() => {
-                        if (alarmActive && alarmEnabled && !isSnoozed) navigator.vibrate([200, 100, 200, 100, 200]);
-                    }, 5000);
-                }
-                if ('Notification' in window && Notification.permission === 'granted') {
-                    pendingAlarmTasks.forEach(task => {
-                        new Notification('⏰ Snooze ended!', {
-                            body: `"${task.title}" is still due!`,
-                            icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
-                            requireInteraction: true,
-                            vibrate: [200, 100, 200]
-                        });
-                    });
-                }
-                let intervals = pendingAlarmTasks.map(t => getTaskRepeatInterval(t));
-                let minInterval = Math.min(...intervals);
-                startCountdown(minInterval);
-                render();
-                showToast('⏰ Snooze ended!', 'warning');
+            if (snoozeTimeout) {
+                clearTimeout(snoozeTimeout);
+                snoozeTimeout = null;
             }
-            snoozeTimeout = null;
-        }, minutes * 60000);
+            alarmCountdown.textContent = '🔁 Repeats in: --';
+            alarmStatus.textContent = '';
 
-        render();
-        showToast(`😴 Snoozed for ${minutes} minutes`, 'info');
-    }
-
-    function stopAlarm() {
-        alarmActive = false;
-        isSnoozed = false;
-        alarmBar.classList.remove('active');
-        
-        if (alarmCountdownTimer) {
-            clearInterval(alarmCountdownTimer);
-            alarmCountdownTimer = null;
-        }
-        if (snoozeTimeout) {
-            clearTimeout(snoozeTimeout);
-            snoozeTimeout = null;
-        }
-        alarmCountdown.textContent = '🔁 Repeats in: --';
-        alarmStatus.textContent = '';
-
-        if (vibrationInterval) {
-            clearInterval(vibrationInterval);
-            vibrationInterval = null;
-            if (navigator.vibrate) navigator.vibrate(0);
-        }
-
-        if (alarmInterval) {
-            clearInterval(alarmInterval);
-            alarmInterval = null;
-        }
-        if (alarmOscillator) {
-            try { alarmOscillator.stop(); } catch(e) {}
-            alarmOscillator = null;
-        }
-        if (alarmAudioCtx) {
-            try { alarmAudioCtx.close(); } catch(e) {}
-            alarmAudioCtx = null;
-        }
-
-        pendingAlarmTasks = [];
-        render();
-        showToast('🔕 Alarm stopped', 'info');
-    }
-
-    // ─── FILTER & SEARCH ──────────────────────────────────
-    function getFilteredTasks() {
-        let filtered = [...tasks];
-        const search = searchTerm.toLowerCase().trim();
-        if (search) {
-            filtered = filtered.filter(t =>
-                t.title.toLowerCase().includes(search) ||
-                t.description.toLowerCase().includes(search) ||
-                t.category.toLowerCase().includes(search)
-            );
-        }
-        switch (currentFilter) {
-            case 'pending': filtered = filtered.filter(t => t.status === 'pending' || t.status === 'in-progress'); break;
-            case 'completed': filtered = filtered.filter(t => t.status === 'completed'); break;
-            case 'overdue': filtered = filtered.filter(t => isOverdue(t)); break;
-            default: break;
-        }
-        switch (sortOrder) {
-            case 'newest': filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); break;
-            case 'oldest': filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); break;
-            case 'priority': { const order = { critical: 0, high: 1, medium: 2, low: 3 }; filtered.sort((a, b) => order[a.priority] - order[b.priority]); break; }
-            case 'due': filtered.sort((a, b) => (a.dueDate || '9999') > (b.dueDate || '9999') ? 1 : -1); break;
-            default: break;
-        }
-        return filtered;
-    }
-
-    // ─── RENDER ────────────────────────────────────────────
-    function render() {
-        const filtered = getFilteredTasks();
-        const total = tasks.length;
-        const pending = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length;
-        const completed = tasks.filter(t => t.status === 'completed').length;
-        const overdue = tasks.filter(t => isOverdue(t)).length;
-
-        $('totalTasks').textContent = total;
-        $('pendingTasks').textContent = pending;
-        $('completedTasks').textContent = completed;
-        $('overdueTasks').textContent = overdue;
-        $('streakDays').textContent = streakDays;
-        $('pointsDisplay').textContent = points;
-        $('taskCountLabel').textContent = filtered.length + ' task' + (filtered.length !== 1 ? 's' : '');
-
-        if (currentView === 'list') {
-            renderList(filtered);
-            boardView.classList.remove('active');
-            calendarView.classList.remove('active');
-            taskList.style.display = 'flex';
-        } else if (currentView === 'board') {
-            renderBoard(filtered);
-            taskList.style.display = 'none';
-            calendarView.classList.remove('active');
-        } else if (currentView === 'calendar') {
-            renderCalendar();
-            taskList.style.display = 'none';
-            boardView.classList.remove('active');
-        }
-
-        if (!window._alarmChecker) {
-            window._alarmChecker = setInterval(checkDueTasks, 10000);
-            setTimeout(checkDueTasks, 2000);
-        }
-    }
-
-    function renderList(filtered) {
-        if (!filtered.length) {
-            taskList.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><h3>${tasks.length ? 'No matching tasks' : 'No tasks yet'}</h3><p>${tasks.length ? 'Try adjusting your filters.' : 'Add your first task above!'}</p></div>`;
-            return;
-        }
-        let html = '';
-        const alarmTaskIds = pendingAlarmTasks.map(t => t.id);
-        filtered.forEach(task => {
-            const overdue = isOverdue(task);
-            const completed = task.status === 'completed';
-            const isAlarmActive = alarmActive && alarmTaskIds.includes(task.id);
-            const repeatLabel = getRepeatLabel(task.repeatInterval);
-            const classes = [
-                'task-item',
-                completed ? 'completed' : '',
-                overdue && !completed ? 'overdue' : '',
-                isAlarmActive ? 'alarm-active' : ''
-            ].filter(Boolean).join(' ');
-            
-            html += `
-                <div class="${classes}" data-id="${task.id}">
-                    <input type="checkbox" class="task-checkbox" ${completed ? 'checked' : ''}>
-                    <div class="task-content">
-                        <div class="task-title">${escapeHtml(task.title)}</div>
-                        ${task.description ? `<div class="task-desc">${escapeHtml(task.description)}</div>` : ''}
-                        <div class="task-meta">
-                            <span class="task-tag tag-${task.priority}">${getPriorityLabel(task.priority)}</span>
-                            <span class="task-tag tag-category">${escapeHtml(task.category)}</span>
-                            <span class="task-tag tag-status">${getStatusLabel(task.status)}</span>
-                            ${overdue && !completed ? `<span class="task-tag tag-overdue">⚠️ OVERDUE</span>` : ''}
-                            <span class="task-tag ${overdue && !completed ? 'tag-overdue' : 'tag-due'}">${formatDate(task.dueDate)}</span>
-                            ${task.reminder !== 'none' ? `<span class="task-tag tag-due">🔔 ${getReminderLabel(task.reminder)}</span>` : ''}
-                            ${task.repeatInterval ? `<span class="task-tag tag-repeat">🔄 ${repeatLabel}</span>` : ''}
-                            ${isAlarmActive ? `<span class="task-tag tag-alarm">🔔 ALARM</span>` : ''}
-                        </div>
-                        <div class="task-progress">
-                            <div class="progress-bar"><div class="fill" style="width:${task.progress}%"></div></div>
-                            <span class="progress-text">${task.progress}%</span>
-                        </div>
-                    </div>
-                    <div class="task-actions-right">
-                        <button class="edit" data-id="${task.id}"><i class="fas fa-pen"></i></button>
-                        <button class="delete" data-id="${task.id}"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `;
-        });
-        taskList.innerHTML = html;
-    }
-
-    function renderBoard(filtered) {
-        boardView.classList.add('active');
-        const alarmTaskIds = pendingAlarmTasks.map(t => t.id);
-        document.querySelectorAll('.board-column').forEach(col => {
-            const status = col.dataset.status;
-            const tasksInCol = filtered.filter(t => t.status === status);
-            const container = col.querySelector('.board-tasks');
-            if (!tasksInCol.length) {
-                container.innerHTML = '<div style="color:var(--text-secondary);padding:16px;text-align:center;">No tasks</div>';
-                return;
+            if (vibrationInterval) {
+                clearInterval(vibrationInterval);
+                vibrationInterval = null;
+                if (navigator.vibrate) navigator.vibrate(0);
             }
-            container.innerHTML = tasksInCol.map(task => {
-                const isAlarmActive = alarmActive && alarmTaskIds.includes(task.id);
-                return `
-                    <div class="task-item ${task.status === 'completed' ? 'completed' : ''} ${isAlarmActive ? 'alarm-active' : ''}" 
-                         onclick="editTaskById('${task.id}')" style="cursor:pointer;padding:10px;">
-                        <div style="flex:1;">
-                            <div style="font-weight:600;">${escapeHtml(task.title)} ${isAlarmActive ? '🔔' : ''}</div>
-                            <div style="font-size:11px;color:var(--text-secondary);">${getPriorityLabel(task.priority)} · ${escapeHtml(task.category)}</div>
-                        </div>
-                        <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompletion('${task.id}')">
-                    </div>
-                `;
-            }).join('');
-        });
-    }
 
-    function renderCalendar() {
-        calendarView.classList.add('active');
-        const year = calendarDate.getFullYear();
-        const month = calendarDate.getMonth();
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const today = new Date();
-        const alarmTaskIds = pendingAlarmTasks.map(t => t.id);
-        $('calendarMonth').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        let grid = '';
-        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        dayNames.forEach(d => grid += `<div class="calendar-day-header">${d}</div>`);
-        for (let i = 0; i < firstDay; i++) { grid += `<div class="calendar-day other-month"></div>`; }
-        for (let d = 1; d <= daysInMonth; d++) {
-            const dateObj = new Date(year, month, d);
-            const dateStr = dateObj.toISOString().slice(0, 10);
-            const isToday = dateObj.toDateString() === today.toDateString();
-            const dayTasks = tasks.filter(t => t.dueDate && t.dueDate.slice(0, 10) === dateStr);
-            grid += `
-                <div class="calendar-day ${isToday ? 'today' : ''}">
-                    <div class="day-number">${d}</div>
-                    <div class="day-tasks">
-                        ${dayTasks.slice(0, 2).map(t => `
-                            <div class="day-task ${t.status === 'completed' ? 'completed' : ''} ${alarmActive && alarmTaskIds.includes(t.id) ? 'alarm-active' : ''}" 
-                                 onclick="editTaskById('${t.id}')" title="${escapeHtml(t.title)}">
-                                ${escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}
-                                ${alarmActive && alarmTaskIds.includes(t.id) ? '🔔' : ''}
-                            </div>
-                        `).join('')}
-                        ${dayTasks.length > 2 ? `<div style="font-size:10px;color:var(--text-secondary);">+${dayTasks.length - 2}</div>` : ''}
-                    </div>
-                </div>
-            `;
+            if (alarmInterval) {
+                clearInterval(alarmInterval);
+                alarmInterval = null;
+            }
+            if (alarmOscillator) {
+                try { alarmOscillator.stop(); } catch(e) {}
+                alarmOscillator = null;
+            }
+            if (alarmAudioCtx) {
+                try { alarmAudioCtx.close(); } catch(e) {}
+                alarmAudioCtx = null;
+            }
+
+            pendingAlarmTasks = [];
+            showToast('🔕 Alarm stopped', 'info');
         }
-        $('calendarGrid').innerHTML = grid;
-    }
 
-    // ─── TOAST ─────────────────────────────────────────────
-    function showToast(message, type = 'info') {
-        const container = $('toastContainer');
-        const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span><button class="toast-close">&times;</button>`;
-        toast.querySelector('.toast-close').onclick = () => toast.remove();
-        container.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    // ─── EDIT MODAL ────────────────────────────────────────
-    function editTaskById(id) {
-        const task = tasks.find(t => t.id === id);
-        if (!task) return;
-        $('editId').value = id;
-        $('editTitle').value = task.title;
-        $('editDesc').value = task.description;
-        $('editPriority').value = task.priority;
-        $('editCategory').value = task.category;
-        $('editStatus').value = task.status;
-        $('editProgress').value = task.progress;
-        $('editProgressLabel').textContent = task.progress + '%';
-        $('editDue').value = task.dueDate || '';
-        $('editDuration').value = task.estimatedDuration || 0;
-        const repeatVal = task.repeatInterval ? String(task.repeatInterval) : 'default';
-        $('editRepeatInterval').value = repeatVal;
-        clearEditErrors();
-        $('editModal').classList.add('active');
-    }
-
-    function closeEditModal() { $('editModal').classList.remove('active'); }
-    function clearEditErrors() {
-        document.querySelectorAll('#editModal .field-error').forEach(el => el.classList.remove('visible'));
-        document.querySelectorAll('#editModal input, #editModal select, #editModal textarea').forEach(el => el.style.borderColor = 'var(--border)');
-    }
-    function clearErrors() {
-        document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
-        document.querySelectorAll('.add-form input, .add-form select, .add-form textarea').forEach(el => el.style.borderColor = 'var(--border)');
-    }
-    function showError(id) { const el = document.getElementById(id); if (el) el.classList.add('visible'); }
-
-    // ─── TEMPLATES ─────────────────────────────────────────
-    let templates = [];
-    function loadTemplates() {
-        try { const raw = localStorage.getItem('taskMasterTemplates'); templates = raw ? JSON.parse(raw) : []; } catch(e) { templates = []; }
-        if (!templates.length) {
-            templates = [
-                { id: 't1', name: 'Daily Routine', taskData: { title: 'Complete Daily Routine', description: 'Follow daily checklist', priority: 'medium', category: 'Personal', repeatInterval: null } },
-                { id: 't2', name: 'Project Planning', taskData: { title: 'Plan Project', description: 'Create project timeline', priority: 'high', category: 'Work', repeatInterval: null } }
-            ];
-            saveTemplates();
-        }
-    }
-    function saveTemplates() { localStorage.setItem('taskMasterTemplates', JSON.stringify(templates)); }
-    function renderTemplates() {
-        const container = $('templateList');
-        if (!templates.length) { container.innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px;">No templates</div>'; return; }
-        container.innerHTML = templates.map((t, i) => `
-            <div style="display:flex;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;">
-                <div><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.taskData.title)}</small></div>
-                <div>
-                    <button onclick="applyTemplate(${i})" style="padding:4px 12px;background:var(--primary);color:white;border:none;border-radius:4px;cursor:pointer;">Apply</button>
-                    <button onclick="deleteTemplate(${i})" style="padding:4px 8px;background:#fee2e2;color:#dc2626;border:none;border-radius:4px;cursor:pointer;">✕</button>
-                </div>
-            </div>
-        `).join('');
-    }
-    function applyTemplate(index) {
-        const t = templates[index];
-        if (!t) return;
-        const d = t.taskData;
-        addTask(d.title, d.description || '', d.priority || 'medium', d.category || 'Other', '', 'none', d.repeatInterval || null);
-        $('templateModal').classList.remove('active');
-        showToast('Template applied!', 'success');
-    }
-    function deleteTemplate(index) {
-        if (confirm('Delete template?')) {
-            templates.splice(index, 1);
-            saveTemplates();
-            renderTemplates();
-            showToast('Template deleted', 'info');
-        }
-    }
-    function saveTemplate() {
-        const name = $('templateName').value.trim();
-        if (!name) { showToast('Enter a name', 'warning'); return; }
-        const data = {
-            title: $('taskTitle').value || 'Untitled',
-            description: $('taskDesc').value || '',
-            priority: $('taskPriority').value || 'medium',
-            category: $('taskCategory').value || 'Other',
-            repeatInterval: $('taskRepeatInterval').value === 'default' ? null : parseInt($('taskRepeatInterval').value)
-        };
-        templates.push({ id: generateId(), name, taskData: data });
-        saveTemplates();
-        $('templateName').value = '';
-        renderTemplates();
-        showToast('Template saved!', 'success');
-    }
-
-    // ─── SETTINGS ──────────────────────────────────────────
-    function loadSettings() {
-        try {
-            const raw = localStorage.getItem('taskMasterSettings');
-            const settings = raw ? JSON.parse(raw) : {};
-            $('settingsTheme').value = settings.theme || 'light';
-            $('settingsDefaultPriority').value = settings.defaultPriority || 'medium';
-            $('settingsDefaultCategory').value = settings.defaultCategory || 'Other';
-            $('settingsDefaultReminder').value = settings.defaultReminder || 'none';
-            $('settingsConfirmDelete').checked = settings.confirmDelete !== false;
-            applyTheme(settings.theme || 'light');
-        } catch(e) {}
-    }
-    function saveSettings() {
-        const settings = {
-            theme: $('settingsTheme').value,
-            defaultPriority: $('settingsDefaultPriority').value,
-            defaultCategory: $('settingsDefaultCategory').value,
-            defaultReminder: $('settingsDefaultReminder').value,
-            confirmDelete: $('settingsConfirmDelete').checked
-        };
-        localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
-        applyTheme(settings.theme);
-        showToast('Settings saved!', 'success');
-    }
-    function applyTheme(theme) {
-        if (theme === 'system') { theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-        document.documentElement.setAttribute('data-theme', theme);
-        const icon = document.querySelector('#menuThemeToggle i');
-        if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
-
-    // ─── EXPORT / IMPORT ──────────────────────────────────
-    function exportData() {
-        const data = { tasks, points, streak: streakDays };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'taskmaster_backup.json';
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('Exported!', 'success');
-    }
-    function importData() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        input.onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                try {
-                    const data = JSON.parse(ev.target.result);
-                    if (data.tasks) {
-                        tasks = data.tasks;
-                        points = data.points || 0;
-                        streakDays = data.streak || 0;
-                        saveData();
-                        render();
-                        showToast('Imported!', 'success');
-                    }
-                } catch(err) { showToast('Invalid file', 'error'); }
-            };
-            reader.readAsText(file);
-        };
-        input.click();
-    }
-
-    // ─── INIT ──────────────────────────────────────────────
-    function init() {
-        loadData();
-        loadTemplates();
-        loadSettings();
-        loadAlarmSettings();
-        render();
-        renderTemplates();
-
-        stopAlarmBtn.addEventListener('click', stopAlarm);
-
-        addForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = $('taskTitle').value.trim();
-            const description = $('taskDesc').value.trim();
-            const priority = $('taskPriority').value;
-            const category = $('taskCategory').value;
-            const dueDate = $('taskDue').value;
-            const reminder = $('taskReminder').value;
-            const repeatInterval = $('taskRepeatInterval').value;
-            
-            clearErrors();
-            let valid = true;
-            if (!title) { showError('titleError'); valid = false; }
-            if (!description) { showError('descError'); valid = false; }
-            if (!priority) { showError('priorityError'); valid = false; }
-            if (!category) { showError('categoryError'); valid = false; }
-            if (!dueDate) { showError('dueError'); valid = false; }
-            if (!reminder) { showError('reminderError'); valid = false; }
-            if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
-            
-            addTask(title, description, priority, category, dueDate, reminder, repeatInterval);
-            addForm.reset();
-            showToast('Task added!', 'success');
+        // ─── COMPLETED SECTION TOGGLE ──────────────────────
+        completedToggle.addEventListener('click', function() {
+            const isOpen = completedList.classList.toggle('open');
+            completedToggleIcon.className = isOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
+            if (isOpen) renderCompletedTasks();
         });
 
-        searchInput.addEventListener('input', function() { searchTerm = this.value; render(); });
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                render();
-            });
-        });
-
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentView = this.dataset.view;
-                render();
-            });
-        });
-
-        $('sortBtn').addEventListener('click', function() {
-            const orders = ['newest', 'oldest', 'priority', 'due'];
-            const labels = { newest: 'Newest', oldest: 'Oldest', priority: 'Priority', due: 'Due Date' };
-            let idx = orders.indexOf(sortOrder);
-            idx = (idx + 1) % orders.length;
-            sortOrder = orders[idx];
-            this.innerHTML = `<i class="fas fa-sort"></i> ${labels[sortOrder]}`;
-            render();
-        });
-
-        $('clearCompletedBtn').addEventListener('click', function() {
+        function renderCompletedTasks() {
             const completed = tasks.filter(t => t.status === 'completed');
-            if (!completed.length) { showToast('No completed tasks', 'info'); return; }
-            if (confirm(`Delete ${completed.length} completed tasks?`)) {
-                clearCompleted();
-                showToast('Cleared completed tasks', 'success');
-            }
-        });
-
-        $('selectAllBtn').addEventListener('click', function() {
-            const checkboxes = document.querySelectorAll('.task-checkbox:not(:checked)');
-            if (!checkboxes.length) { showToast('All tasks done', 'info'); return; }
-            checkboxes.forEach(cb => {
-                const id = cb.closest('.task-item')?.dataset.id;
-                if (id) toggleCompletion(id);
-            });
-            showToast(`Completed ${checkboxes.length} tasks`, 'success');
-        });
-
-        taskList.addEventListener('change', function(e) {
-            if (e.target.classList.contains('task-checkbox')) {
-                const id = e.target.closest('.task-item')?.dataset.id;
-                if (id) toggleCompletion(id);
-            }
-        });
-
-        taskList.addEventListener('click', function(e) {
-            const deleteBtn = e.target.closest('.delete');
-            if (deleteBtn) {
-                const id = deleteBtn.dataset.id;
-                const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
-                if (settings.confirmDelete !== false) {
-                    if (confirm('Delete this task?')) { deleteTask(id); showToast('Task deleted', 'info'); }
-                } else { deleteTask(id); showToast('Task deleted', 'info'); }
+            completedCountBadge.textContent = completed.length;
+            if (!completed.length) {
+                completedList.innerHTML =
+                    `<div style="color:var(--text-secondary);text-align:center;padding:12px;">No completed tasks</div>`;
                 return;
             }
-            const editBtn = e.target.closest('.edit');
-            if (editBtn) { editTaskById(editBtn.dataset.id); }
-        });
-
-        $('calPrev').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() - 1); render(); });
-        $('calNext').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() + 1); render(); });
-        $('calToday').addEventListener('click', function() { calendarDate = new Date(); render(); });
-
-        $('editForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = $('editId').value;
-            const title = $('editTitle').value.trim();
-            const description = $('editDesc').value.trim();
-            const priority = $('editPriority').value;
-            const category = $('editCategory').value;
-            const status = $('editStatus').value;
-            const progress = parseInt($('editProgress').value);
-            const dueDate = $('editDue').value;
-            const duration = parseInt($('editDuration').value) || 0;
-            const repeatInterval = $('editRepeatInterval').value;
-            
-            clearEditErrors();
-            let valid = true;
-            if (!title) { showError('editTitleError'); valid = false; }
-            if (!description) { showError('editDescError'); valid = false; }
-            if (!priority) { showError('editPriorityError'); valid = false; }
-            if (!category) { showError('editCategoryError'); valid = false; }
-            if (!status) { showError('editStatusError'); valid = false; }
-            if (!dueDate) { showError('editDueError'); valid = false; }
-            if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
-            
-            updateTask(id, {
-                title, description, priority, category, status, progress, dueDate,
-                estimatedDuration: duration,
-                repeatInterval: repeatInterval === 'default' ? null : parseInt(repeatInterval)
+            let html = '';
+            completed.forEach(task => {
+                html += `
+                        <div class="task-item completed" data-id="${task.id}">
+                            <input type="checkbox" class="task-checkbox" checked>
+                            <div class="task-content">
+                                <div class="task-title">${escapeHtml(task.title)}</div>
+                                ${task.description ? `<div class="task-desc">${escapeHtml(task.description)}</div>` : ''}
+                                <div class="task-meta">
+                                    <span class="task-tag tag-${task.priority}">${getPriorityLabel(task.priority)}</span>
+                                    <span class="task-tag tag-category">${escapeHtml(task.category)}</span>
+                                    <span class="task-tag tag-due">${formatDate(task.dueDate)}</span>
+                                    <span class="task-tag tag-duration">✅ Done</span>
+                                </div>
+                                <div class="task-progress">
+                                    <div class="progress-bar"><div class="fill" style="width:100%"></div></div>
+                                    <span class="progress-text">100%</span>
+                                </div>
+                            </div>
+                            <div class="task-actions-right">
+                                <button class="edit" data-id="${task.id}"><i class="fas fa-pen"></i></button>
+                                <button class="delete" data-id="${task.id}"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
             });
-            closeEditModal();
-            showToast('Task updated!', 'success');
-        });
+            completedList.innerHTML = html;
+            completedList.querySelectorAll('.task-checkbox').forEach(cb => {
+                cb.addEventListener('change', function(e) {
+                    const id = this.closest('.task-item').dataset.id;
+                    toggleCompletion(id);
+                    render();
+                });
+            });
+            completedList.querySelectorAll('.edit').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.dataset.id;
+                    editTaskById(id);
+                });
+            });
+            completedList.querySelectorAll('.delete').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.dataset.id;
+                    const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
+                    if (settings.confirmDelete !== false) {
+                        if (confirm('Delete this task?')) { deleteTask(id);
+                            showToast('Task deleted', 'info'); }
+                    } else { deleteTask(id);
+                        showToast('Task deleted', 'info'); }
+                });
+            });
+        }
 
-        $('closeEditBtn').addEventListener('click', closeEditModal);
-        $('editProgress').addEventListener('input', function() { $('editProgressLabel').textContent = this.value + '%'; });
-
-        $('closeTemplateBtn').addEventListener('click', function() { $('templateModal').classList.remove('active'); });
-        $('saveTemplateBtn').addEventListener('click', saveTemplate);
-
-        $('closeSettingsBtn').addEventListener('click', function() { saveSettings(); $('settingsModal').classList.remove('active'); });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'n') { e.preventDefault(); $('taskTitle').focus(); }
-            if (e.key === 'Escape') {
-                $('editModal').classList.remove('active');
-                $('templateModal').classList.remove('active');
-                $('settingsModal').classList.remove('active');
-                dropdownMenu.classList.remove('active');
-                snoozeOptions.classList.remove('active');
+        // ─── FILTER & SEARCH ──────────────────────────────────
+        function getFilteredTasks() {
+            let filtered = [...tasks];
+            const search = searchTerm.toLowerCase().trim();
+            if (search) {
+                filtered = filtered.filter(t =>
+                    t.title.toLowerCase().includes(search) ||
+                    t.description.toLowerCase().includes(search) ||
+                    t.category.toLowerCase().includes(search)
+                );
             }
-        });
+            filtered = filtered.filter(t => t.status !== 'completed');
+            switch (currentFilter) {
+                case 'pending':
+                    filtered = filtered.filter(t => t.status === 'pending' || t.status === 'in-progress');
+                    break;
+                case 'overdue':
+                    filtered = filtered.filter(t => isOverdue(t));
+                    break;
+                default:
+                    break;
+            }
+            switch (sortOrder) {
+                case 'newest':
+                    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'priority': {
+                    const order = { critical: 0, high: 1, medium: 2, low: 3 };
+                    filtered.sort((a, b) => order[a.priority] - order[b.priority]);
+                    break;
+                }
+                case 'due':
+                    filtered.sort((a, b) => (a.dueDate || '9999') > (b.dueDate || '9999') ? 1 : -1);
+                    break;
+                default:
+                    break;
+            }
+            return filtered;
+        }
 
-        console.log('✅ TaskMaster Pro loaded with visual cues!');
-        showToast('🔔 Visual cues active on tasks!', 'info');
-    }
+        function getFilteredTasksAll() {
+            let filtered = [...tasks];
+            const search = searchTerm.toLowerCase().trim();
+            if (search) {
+                filtered = filtered.filter(t =>
+                    t.title.toLowerCase().includes(search) ||
+                    t.description.toLowerCase().includes(search) ||
+                    t.category.toLowerCase().includes(search)
+                );
+            }
+            switch (currentFilter) {
+                case 'pending':
+                    filtered = filtered.filter(t => t.status === 'pending' || t.status === 'in-progress');
+                    break;
+                case 'completed':
+                    filtered = filtered.filter(t => t.status === 'completed');
+                    break;
+                case 'overdue':
+                    filtered = filtered.filter(t => isOverdue(t));
+                    break;
+                default:
+                    break;
+            }
+            switch (sortOrder) {
+                case 'newest':
+                    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'priority': {
+                    const order = { critical: 0, high: 1, medium: 2, low: 3 };
+                    filtered.sort((a, b) => order[a.priority] - order[b.priority]);
+                    break;
+                }
+                case 'due':
+                    filtered.sort((a, b) => (a.dueDate || '9999') > (b.dueDate || '9999') ? 1 : -1);
+                    break;
+                default:
+                    break;
+            }
+            return filtered;
+        }
 
-    // ─── GLOBALS ──────────────────────────────────────────
-    window.toggleCompletion = toggleCompletion;
-    window.editTaskById = editTaskById;
-    window.applyTemplate = applyTemplate;
-    window.deleteTemplate = deleteTemplate;
-    window.showToast = showToast;
-    window.stopAlarm = stopAlarm;
+        // ─── RENDER ────────────────────────────────────────────
+        function render() {
+            const filtered = getFilteredTasks();
+            const total = tasks.length;
+            const pending = tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length;
+            const completed = tasks.filter(t => t.status === 'completed').length;
+            const overdue = tasks.filter(t => isOverdue(t)).length;
 
-    document.addEventListener('DOMContentLoaded', init);
-})();
+            $('totalTasks').textContent = total;
+            $('pendingTasks').textContent = pending;
+            $('completedTasks').textContent = completed;
+            $('overdueTasks').textContent = overdue;
+            $('streakDays').textContent = streakDays;
+            $('pointsDisplay').textContent = points;
+            $('taskCountLabel').textContent = filtered.length + ' task' + (filtered.length !== 1 ? 's' : '');
+
+            completedCountBadge.textContent = completed;
+
+            if (currentView === 'list') {
+                renderList(filtered);
+                boardView.classList.remove('active');
+                calendarView.classList.remove('active');
+                taskList.style.display = 'flex';
+            } else if (currentView === 'board') {
+                const allFiltered = getFilteredTasksAll();
+                renderBoard(allFiltered);
+                taskList.style.display = 'none';
+                calendarView.classList.remove('active');
+            } else if (currentView === 'calendar') {
+                renderCalendar();
+                taskList.style.display = 'none';
+                boardView.classList.remove('active');
+            }
+
+            if (!window._alarmChecker) {
+                window._alarmChecker = setInterval(checkDueTasks, 10000);
+                setTimeout(checkDueTasks, 2000);
+            }
+
+            if (completedList.classList.contains('open')) {
+                renderCompletedTasks();
+            }
+        }
+
+        function renderList(filtered) {
+            if (!filtered.length) {
+                taskList.innerHTML =
+                    `<div class="empty-state"><i class="fas fa-inbox"></i><h3>${tasks.length ? 'No matching tasks' : 'No tasks yet'}</h3><p>${tasks.length ? 'Try adjusting your filters.' : 'Add your first task above!'}</p></div>`;
+                return;
+            }
+            let html = '';
+            filtered.forEach(task => {
+                const overdue = isOverdue(task);
+                const completed = task.status === 'completed';
+                const repeatLabel = getRepeatLabel(task.repeatInterval);
+                const dueDuration = getDueDuration(task);
+                const durationClass = overdue ? 'tag-duration overdue' : 'tag-duration';
+                html += `
+                        <div class="task-item ${completed ? 'completed' : ''}" data-id="${task.id}">
+                            <input type="checkbox" class="task-checkbox" ${completed ? 'checked' : ''}>
+                            <div class="task-content">
+                                <div class="task-title">${escapeHtml(task.title)}</div>
+                                ${task.description ? `<div class="task-desc">${escapeHtml(task.description)}</div>` : ''}
+                                <div class="task-meta">
+                                    <span class="task-tag tag-${task.priority}">${getPriorityLabel(task.priority)}</span>
+                                    <span class="task-tag tag-category">${escapeHtml(task.category)}</span>
+                                    <span class="task-tag tag-status">${getStatusLabel(task.status)}</span>
+                                    <span class="task-tag ${overdue ? 'tag-overdue' : 'tag-due'}">${formatDate(task.dueDate)}${overdue ? ' ⚠️' : ''}</span>
+                                    ${task.reminder !== 'none' ? `<span class="task-tag tag-due">🔔 ${getReminderLabel(task.reminder)}</span>` : ''}
+                                    ${task.repeatInterval ? `<span class="task-tag tag-repeat">🔄 ${repeatLabel}</span>` : ''}
+                                    ${dueDuration ? `<span class="task-tag ${durationClass}">${dueDuration}</span>` : ''}
+                                </div>
+                                <div class="task-progress">
+                                    <div class="progress-bar"><div class="fill" style="width:${task.progress}%"></div></div>
+                                    <span class="progress-text">${task.progress}%</span>
+                                </div>
+                            </div>
+                            <div class="task-actions-right">
+                                <button class="complete-btn" data-id="${task.id}" title="Toggle complete"><i class="fas fa-check"></i></button>
+                                <button class="edit" data-id="${task.id}"><i class="fas fa-pen"></i></button>
+                                <button class="delete" data-id="${task.id}"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
+            });
+            taskList.innerHTML = html;
+
+            taskList.querySelectorAll('.complete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.dataset.id;
+                    toggleCompletion(id);
+                    render();
+                });
+            });
+        }
+
+        function renderBoard(filtered) {
+            boardView.classList.add('active');
+            document.querySelectorAll('.board-column').forEach(col => {
+                const status = col.dataset.status;
+                const tasksInCol = filtered.filter(t => t.status === status);
+                const container = col.querySelector('.board-tasks');
+                if (!tasksInCol.length) {
+                    container.innerHTML =
+                        '<div style="color:var(--text-secondary);padding:16px;text-align:center;">No tasks</div>';
+                    return;
+                }
+                container.innerHTML = tasksInCol.map(task => `
+                            <div class="task-item ${task.status === 'completed' ? 'completed' : ''}" onclick="editTaskById('${task.id}')" style="cursor:pointer;padding:10px;">
+                                <div style="flex:1;">
+                                    <div style="font-weight:600;">${escapeHtml(task.title)}</div>
+                                    <div style="font-size:11px;color:var(--text-secondary);">${getPriorityLabel(task.priority)} · ${escapeHtml(task.category)} · ${getDueDuration(task)}</div>
+                                </div>
+                                <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompletion('${task.id}')">
+                            </div>
+                        `).join('');
+            });
+        }
+
+        function renderCalendar() {
+            calendarView.classList.add('active');
+            const year = calendarDate.getFullYear();
+            const month = calendarDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            $('calendarMonth').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long',
+                year: 'numeric' });
+            let grid = '';
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(d => grid += `<div class="calendar-day-header">${d}</div>`);
+            for (let i = 0; i < firstDay; i++) { grid += `<div class="calendar-day other-month"></div>`; }
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateObj = new Date(year, month, d);
+                const dateStr = dateObj.toISOString().slice(0, 10);
+                const isToday = dateObj.toDateString() === today.toDateString();
+                const dayTasks = tasks.filter(t => t.dueDate && t.dueDate.slice(0, 10) === dateStr);
+                grid += `
+                            <div class="calendar-day ${isToday ? 'today' : ''}">
+                                <div class="day-number">${d}</div>
+                                <div class="day-tasks">
+                                    ${dayTasks.slice(0, 2).map(t => `
+                                        <div class="day-task ${t.status === 'completed' ? 'completed' : ''}" onclick="editTaskById('${t.id}')" title="${escapeHtml(t.title)}">${escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}</div>
+                                    `).join('')}
+                                    ${dayTasks.length > 2 ? `<div style="font-size:10px;color:var(--text-secondary);">+${dayTasks.length - 2}</div>` : ''}
+                                </div>
+                            </div>
+                        `;
+            }
+            $('calendarGrid').innerHTML = grid;
+        }
+
+        // ─── TOAST ─────────────────────────────────────────────
+        function showToast(message, type = 'info') {
+            const container = $('toastContainer');
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML =
+                `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span><button class="toast-close">&times;</button>`;
+            toast.querySelector('.toast-close').onclick = () => toast.remove();
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ─── EDIT MODAL ────────────────────────────────────────
+        function editTaskById(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            $('editId').value = id;
+            $('editTitle').value = task.title;
+            $('editDesc').value = task.description;
+            $('editPriority').value = task.priority;
+            $('editCategory').value = task.category;
+            $('editStatus').value = task.status;
+            $('editProgress').value = task.progress;
+            $('editProgressLabel').textContent = task.progress + '%';
+            $('editDue').value = task.dueDate || '';
+            $('editDuration').value = task.estimatedDuration || 0;
+            const repeatVal = task.repeatInterval ? String(task.repeatInterval) : 'default';
+            $('editRepeatInterval').value = repeatVal;
+            clearEditErrors();
+            $('editModal').classList.add('active');
+        }
+
+        function closeEditModal() { $('editModal').classList.remove('active'); }
+
+        function clearEditErrors() {
+            document.querySelectorAll('#editModal .field-error').forEach(el => el.classList.remove('visible'));
+            document.querySelectorAll('#editModal input, #editModal select, #editModal textarea').forEach(el => el
+                .style.borderColor = 'var(--border)');
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
+            document.querySelectorAll('.add-form input, .add-form select, .add-form textarea').forEach(el => el.style
+                .borderColor = 'var(--border)');
+        }
+
+        function showError(id) { const el = document.getElementById(id); if (el) el.classList.add('visible'); }
+
+        // ─── TEMPLATES ─────────────────────────────────────────
+        let templates = [];
+
+        function loadTemplates() {
+            try { const raw = localStorage.getItem('taskMasterTemplates');
+                templates = raw ? JSON.parse(raw) : []; } catch(e) { templates = []; }
+            if (!templates.length) {
+                templates = [
+                    { id: 't1', name: 'Daily Routine', taskData: { title: 'Complete Daily Routine',
+                            description: 'Follow daily checklist', priority: 'medium', category: 'Personal',
+                            repeatInterval: null } },
+                    { id: 't2', name: 'Project Planning', taskData: { title: 'Plan Project',
+                            description: 'Create project timeline', priority: 'high', category: 'Work',
+                            repeatInterval: null } }
+                ];
+                saveTemplates();
+            }
+        }
+
+        function saveTemplates() { localStorage.setItem('taskMasterTemplates', JSON.stringify(templates)); }
+
+        function renderTemplates() {
+            const container = $('templateList');
+            if (!templates.length) { container.innerHTML =
+                    '<div style="color:var(--text-secondary);text-align:center;padding:20px;">No templates</div>'; return; }
+            container.innerHTML = templates.map((t, i) => `
+                        <div style="display:flex;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;">
+                            <div><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.taskData.title)}</small></div>
+                            <div>
+                                <button onclick="applyTemplate(${i})" style="padding:4px 12px;background:var(--primary);color:white;border:none;border-radius:4px;cursor:pointer;">Apply</button>
+                                <button onclick="deleteTemplate(${i})" style="padding:4px 8px;background:#fee2e2;color:#dc2626;border:none;border-radius:4px;cursor:pointer;">✕</button>
+                            </div>
+                        </div>
+                    `).join('');
+        }
+
+        function applyTemplate(index) {
+            const t = templates[index];
+            if (!t) return;
+            const d = t.taskData;
+            addTask(d.title, d.description || '', d.priority || 'medium', d.category || 'Other', '', 'none', d
+                .repeatInterval || null);
+            $('templateModal').classList.remove('active');
+            showToast('Template applied!', 'success');
+        }
+
+        function deleteTemplate(index) {
+            if (confirm('Delete template?')) {
+                templates.splice(index, 1);
+                saveTemplates();
+                renderTemplates();
+                showToast('Template deleted', 'info');
+            }
+        }
+
+        function saveTemplate() {
+            const name = $('templateName').value.trim();
+            if (!name) { showToast('Enter a name', 'warning'); return; }
+            const data = {
+                title: $('taskTitle').value || 'Untitled',
+                description: $('taskDesc').value || '',
+                priority: $('taskPriority').value || 'medium',
+                category: $('taskCategory').value || 'Other',
+                repeatInterval: $('taskRepeatInterval').value === 'default' ? null : parseInt($('taskRepeatInterval')
+                    .value)
+            };
+            templates.push({ id: generateId(), name, taskData: data });
+            saveTemplates();
+            $('templateName').value = '';
+            renderTemplates();
+            showToast('Template saved!', 'success');
+        }
+
+        // ─── SETTINGS ──────────────────────────────────────────
+        function loadSettings() {
+            try {
+                const raw = localStorage.getItem('taskMasterSettings');
+                const settings = raw ? JSON.parse(raw) : {};
+                $('settingsTheme').value = settings.theme || 'light';
+                $('settingsDefaultPriority').value = settings.defaultPriority || 'medium';
+                $('settingsDefaultCategory').value = settings.defaultCategory || 'Other';
+                $('settingsDefaultReminder').value = settings.defaultReminder || 'none';
+                $('settingsConfirmDelete').checked = settings.confirmDelete !== false;
+                applyTheme(settings.theme || 'light');
+            } catch(e) {}
+        }
+
+        function saveSettings() {
+            const settings = {
+                theme: $('settingsTheme').value,
+                defaultPriority: $('settingsDefaultPriority').value,
+                defaultCategory: $('settingsDefaultCategory').value,
+                defaultReminder: $('settingsDefaultReminder').value,
+                confirmDelete: $('settingsConfirmDelete').checked
+            };
+            localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
+            applyTheme(settings.theme);
+            showToast('Settings saved!', 'success');
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'system') { theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' :
+                'light'; }
+            document.documentElement.setAttribute('data-theme', theme);
+            const icon = document.querySelector('#menuThemeToggle i');
+            if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // ─── EXPORT / IMPORT ──────────────────────────────────
+        function exportData() {
+            const data = { tasks, points, streak: streakDays };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'taskmaster_backup.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Exported!', 'success');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const data = JSON.parse(ev.target.result);
+                        if (data.tasks) {
+                            tasks = data.tasks;
+                            points = data.points || 0;
+                            streakDays = data.streak || 0;
+                            saveData();
+                            render();
+                            showToast('Imported!', 'success');
+                        }
+                    } catch(err) { showToast('Invalid file', 'error'); }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // ─── INIT ──────────────────────────────────────────────
+        function init() {
+            loadData();
+            loadTemplates();
+            loadSettings();
+            loadAlarmSettings();
+            render();
+            renderTemplates();
+
+            stopAlarmBtn.addEventListener('click', stopAlarm);
+
+            addForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const title = $('taskTitle').value.trim();
+                const description = $('taskDesc').value.trim();
+                const priority = $('taskPriority').value;
+                const category = $('taskCategory').value;
+                const dueDate = $('taskDue').value;
+                const reminder = $('taskReminder').value;
+                const repeatInterval = $('taskRepeatInterval').value;
+
+                clearErrors();
+                let valid = true;
+                if (!title) { showError('titleError');
+                    valid = false; }
+                if (!description) { showError('descError');
+                    valid = false; }
+                if (!priority) { showError('priorityError');
+                    valid = false; }
+                if (!category) { showError('categoryError');
+                    valid = false; }
+                if (!dueDate) { showError('dueError');
+                    valid = false; }
+                if (!reminder) { showError('reminderError');
+                    valid = false; }
+                if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
+
+                addTask(title, description, priority, category, dueDate, reminder, repeatInterval);
+                addForm.reset();
+                showToast('Task added!', 'success');
+            });
+
+            searchInput.addEventListener('input', function() { searchTerm = this.value;
+                render(); });
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    render();
+                });
+            });
+
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentView = this.dataset.view;
+                    render();
+                });
+            });
+
+            $('sortBtn').addEventListener('click', function() {
+                const orders = ['newest', 'oldest', 'priority', 'due'];
+                const labels = { newest: 'Newest', oldest: 'Oldest', priority: 'Priority', due: 'Due Date' };
+                let idx = orders.indexOf(sortOrder);
+                idx = (idx + 1) % orders.length;
+                sortOrder = orders[idx];
+                this.innerHTML = `<i class="fas fa-sort"></i> ${labels[sortOrder]}`;
+                render();
+            });
+
+            $('clearCompletedBtn').addEventListener('click', function() {
+                const completed = tasks.filter(t => t.status === 'completed');
+                if (!completed.length) { showToast('No completed tasks', 'info'); return; }
+                if (confirm(`Delete ${completed.length} completed tasks?`)) {
+                    clearCompleted();
+                    showToast('Cleared completed tasks', 'success');
+                }
+            });
+
+            $('selectAllBtn').addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('.task-checkbox:not(:checked)');
+                if (!checkboxes.length) { showToast('All tasks done', 'info'); return; }
+                checkboxes.forEach(cb => {
+                    const id = cb.closest('.task-item')?.dataset.id;
+                    if (id) toggleCompletion(id);
+                });
+                showToast(`Completed ${checkboxes.length} tasks`, 'success');
+            });
+
+            taskList.addEventListener('change', function(e) {
+                if (e.target.classList.contains('task-checkbox')) {
+                    const id = e.target.closest('.task-item')?.dataset.id;
+                    if (id) toggleCompletion(id);
+                }
+            });
+
+            taskList.addEventListener('click', function(e) {
+                const deleteBtn = e.target.closest('.delete');
+                if (deleteBtn) {
+                    const id = deleteBtn.dataset.id;
+                    const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
+                    if (settings.confirmDelete !== false) {
+                        if (confirm('Delete this task?')) { deleteTask(id);
+                            showToast('Task deleted', 'info'); }
+                    } else { deleteTask(id);
+                        showToast('Task deleted', 'info'); }
+                    return;
+                }
+                const editBtn = e.target.closest('.edit');
+                if (editBtn) { editTaskById(editBtn.dataset.id); }
+            });
+
+            $('calPrev').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() - 1);
+                render(); });
+            $('calNext').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() + 1);
+                render(); });
+            $('calToday').addEventListener('click', function() { calendarDate = new Date();
+                render(); });
+
+            $('editForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const id = $('editId').value;
+                const title = $('editTitle').value.trim();
+                const description = $('editDesc').value.trim();
+                const priority = $('editPriority').value;
+                const category = $('editCategory').value;
+                const status = $('editStatus').value;
+                const progress = parseInt($('editProgress').value);
+                const dueDate = $('editDue').value;
+                const duration = parseInt($('editDuration').value) || 0;
+                const repeatInterval = $('editRepeatInterval').value;
+
+                clearEditErrors();
+                let valid = true;
+                if (!title) { showError('editTitleError');
+                    valid = false; }
+                if (!description) { showError('editDescError');
+                    valid = false; }
+                if (!priority) { showError('editPriorityError');
+                    valid = false; }
+                if (!category) { showError('editCategoryError');
+                    valid = false; }
+                if (!status) { showError('editStatusError');
+                    valid = false; }
+                if (!dueDate) { showError('editDueError');
+                    valid = false; }
+                if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
+
+                updateTask(id, {
+                    title,
+                    description,
+                    priority,
+                    category,
+                    status,
+                    progress,
+                    dueDate,
+                    estimatedDuration: duration,
+                    repeatInterval: repeatInterval === 'default' ? null : parseInt(repeatInterval)
+                });
+                closeEditModal();
+                showToast('Task updated!', 'success');
+            });
+
+            $('closeEditBtn').addEventListener('click', closeEditModal);
+            $('editProgress').addEventListener('input', function() { $('editProgressLabel').textContent = this.value +
+                    '%'; });
+
+            $('closeTemplateBtn').addEventListener('click', function() { $('templateModal').classList.remove(
+                'active'); });
+            $('saveTemplateBtn').addEventListener('click', saveTemplate);
+
+            $('closeSettingsBtn').addEventListener('click', function() { saveSettings();
+                $('settingsModal').classList.remove('active'); });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'n') { e.preventDefault();
+                    $('taskTitle').focus(); }
+                if (e.key === 'Escape') {
+                    $('editModal').classList.remove('active');
+                    $('templateModal').classList.remove('active');
+                    $('settingsModal').classList.remove('active');
+                    dropdownMenu.classList.remove('active');
+                    snoozeOptions.classList.remove('active');
+                }
+            });
+
+            console.log('✅ TaskMaster Pro loaded with DUE DURATION!');
+            showToast('⏱️ Due duration display active!', 'info');
+        }
+
+        // ─── GLOBALS ──────────────────────────────────────────
+        window.toggleCompletion = toggleCompletion;
+        window.editTaskById = editTaskById;
+        window.applyTemplate = applyTemplate;
+        window.deleteTemplate = deleteTemplate;
+        window.showToast = showToast;
+        window.stopAlarm = stopAlarm;
+
+        document.addEventListener('DOMContentLoaded', init);
+    })();
 </script>
 </body>
 </html>
