@@ -928,8 +928,8 @@
             <div class="field-error" id="priorityError">Priority is required</div>
         </div>
         <div class="form-group">
-            <label>Category <span class="req">*</span></label>
-            <select id="taskCategory" required>
+            <label>Category</label>
+            <select id="taskCategory">
                 <option value="">Select</option>
                 <option value="Work">Work</option>
                 <option value="Personal">Personal</option>
@@ -946,8 +946,8 @@
             <div class="field-error" id="dueError">Due date is required</div>
         </div>
         <div class="form-group" style="min-width:100px;">
-            <label>Reminder <span class="req">*</span></label>
-            <select id="taskReminder" required>
+            <label>Reminder</label>
+            <select id="taskReminder">
                 <option value="">Select</option>
                 <option value="15min">15 min</option>
                 <option value="30min">30 min</option>
@@ -2504,9 +2504,7 @@
             if (!title) { showError('titleError'); valid = false; }
             if (!description) { showError('descError'); valid = false; }
             if (!priority) { showError('priorityError'); valid = false; }
-            if (!category) { showError('categoryError'); valid = false; }
             if (!dueDate) { showError('dueError'); valid = false; }
-            if (!reminder) { showError('reminderError'); valid = false; }
             if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
 
             addTask(title, description, priority, category, dueDate, reminder, repeatInterval, recurrence, customDays);
