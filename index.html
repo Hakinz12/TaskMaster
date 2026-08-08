@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskMaster Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         /* ===== COMPLETE CSS ===== */
         :root {
@@ -37,40 +38,137 @@
             transition: 0.3s;
             min-height: 100vh;
         }
-        .app { max-width: 1200px; margin: 0 auto; }
+        .app { max-width: 1200px; margin: 0; }
         
-        /* Header */
+        /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 20px 30px;
+            padding: 16px 24px;
             border-radius: var(--radius);
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 20px;
+            position: relative;
         }
-        .header h1 { font-size: 24px; }
+        .header h1 { font-size: 22px; }
         .header h1 i { margin-right: 10px; }
-        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        .header-btn {
+        
+        /* ===== HAMBURGER MENU ===== */
+        .hamburger-btn {
             background: rgba(255,255,255,0.15);
             border: none;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 20px;
             transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
-        .header-btn:hover { background: rgba(255,255,255,0.3); }
+        .hamburger-btn:hover { background: rgba(255,255,255,0.3); }
+        .hamburger-btn span { font-size: 14px; font-weight: 500; }
         
-        /* Stats */
+        /* ===== DROPDOWN MENU ===== */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            min-width: 220px;
+            z-index: 100;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            padding: 6px 0;
+        }
+        .dropdown-menu.active { display: block; animation: dropIn 0.2s ease; }
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .dropdown-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            color: var(--text);
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 14px;
+            font-family: inherit;
+            text-align: left;
+        }
+        .dropdown-menu .menu-item:hover { background: var(--bg); }
+        .dropdown-menu .menu-item i { width: 20px; color: var(--primary); font-size: 16px; }
+        .dropdown-menu .menu-divider { height: 1px; background: var(--border); margin: 4px 12px; }
+        
+        /* Alarm Settings in Dropdown */
+        .alarm-settings-group {
+            padding: 8px 18px;
+        }
+        .alarm-settings-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .alarm-settings-group select {
+            padding: 4px 8px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 13px;
+            margin-left: 4px;
+        }
+        .alarm-settings-group .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: var(--border);
+            border-radius: 12px;
+            transition: 0.3s;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .toggle-switch.active { background: var(--primary); }
+        .toggle-switch .toggle-dot {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active .toggle-dot { left: 20px; }
+
+        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -87,10 +185,9 @@
         .stat-card .number { font-size: 24px; font-weight: 700; color: var(--primary); }
         .stat-card .label { font-size: 12px; color: var(--text-secondary); }
         .stat-card.primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; }
-        .stat-card.primary .number,
-        .stat-card.primary .label { color: white; }
+        .stat-card.primary .number, .stat-card.primary .label { color: white; }
         
-        /* Controls */
+        /* ===== CONTROLS ===== */
         .controls {
             background: var(--card);
             padding: 15px 20px;
@@ -145,7 +242,7 @@
             border-color: var(--primary);
         }
         
-        /* Add Task Form */
+        /* ===== ADD TASK FORM ===== */
         .add-form {
             background: var(--card);
             padding: 20px;
@@ -170,9 +267,7 @@
             text-transform: uppercase;
         }
         .form-group label .req { color: var(--error); }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 8px 12px;
             border: 2px solid var(--border);
@@ -182,9 +277,7 @@
             font-size: 14px;
             font-family: inherit;
         }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
         }
@@ -193,12 +286,7 @@
             min-height: 38px;
             max-height: 80px;
         }
-        .field-error {
-            display: none;
-            font-size: 12px;
-            color: var(--error);
-            margin-top: 4px;
-        }
+        .field-error { display: none; font-size: 12px; color: var(--error); margin-top: 4px; }
         .field-error.visible { display: block; }
         .add-btn {
             padding: 8px 28px;
@@ -217,7 +305,7 @@
         }
         .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
         
-        /* Task List */
+        /* ===== TASK LIST ===== */
         .task-header {
             display: flex;
             justify-content: space-between;
@@ -337,7 +425,7 @@
         .task-actions-right button.delete:hover { background: #fee2e2; color: #dc2626; }
         .task-actions-right button.edit:hover { background: #dbeafe; color: #2563eb; }
         
-        /* Board & Calendar */
+        /* ===== BOARD & CALENDAR ===== */
         .board-view, .calendar-view { display: none; }
         .board-view.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-height: 500px; }
         .board-column {
@@ -357,11 +445,7 @@
             margin-bottom: 10px;
             text-transform: uppercase;
         }
-        .board-column .task-item {
-            padding: 10px 12px;
-            margin-bottom: 6px;
-            cursor: pointer;
-        }
+        .board-column .task-item { padding: 10px 12px; margin-bottom: 6px; cursor: pointer; }
         .board-column .task-item .task-checkbox { width: 18px; height: 18px; }
         
         .calendar-view.active { display: block; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; max-height: 500px; overflow-y: auto; }
@@ -383,13 +467,7 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
         }
-        .calendar-day-header {
-            text-align: center;
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--text-secondary);
-            padding: 6px 0;
-        }
+        .calendar-day-header { text-align: center; font-weight: 600; font-size: 12px; color: var(--text-secondary); padding: 6px 0; }
         .calendar-day {
             min-height: 70px;
             border: 1px solid var(--border);
@@ -416,16 +494,12 @@
         .calendar-day.today { border-color: var(--primary); border-width: 2px; }
         .calendar-day.other-month .day-number { opacity: 0.3; }
         
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-        }
+        /* ===== EMPTY STATE ===== */
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
         .empty-state i { font-size: 40px; opacity: 0.3; margin-bottom: 10px; }
         .empty-state h3 { color: var(--text); margin-bottom: 4px; }
         
-        /* Modals */
+        /* ===== MODALS ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -479,7 +553,7 @@
         }
         .modal-actions .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
         
-        /* Toast */
+        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -517,25 +591,52 @@
             to { opacity: 1; transform: translateX(0); }
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .board-view.active { grid-template-columns: 1fr 1fr; }
-            .add-form { flex-direction: column; }
-            .add-btn { width: 100%; justify-content: center; }
-            .controls { flex-direction: column; }
-            .task-item { flex-direction: column; }
-            .task-actions-right { justify-content: flex-end; margin-top: 8px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .header { flex-direction: column; text-align: center; }
-            .header-actions { justify-content: center; }
+        /* ===== ALARM BAR ===== */
+        .alarm-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #dc2626;
+            color: white;
+            padding: 16px 20px;
+            z-index: 9999;
+            animation: pulse 1s infinite;
+            box-shadow: 0 -4px 20px rgba(220, 38, 38, 0.3);
         }
-        @media (max-width: 480px) {
-            .board-view.active { grid-template-columns: 1fr; }
-            .stat-card .number { font-size: 20px; }
-            .modal { padding: 20px; }
+        .alarm-bar.active {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .alarm-bar .alarm-text { flex: 1; font-weight: 600; font-size: 16px; }
+        .alarm-bar .alarm-btn {
+            background: white;
+            color: #dc2626;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .alarm-bar .alarm-btn:hover { transform: scale(1.05); }
+        .alarm-bar .alarm-info {
+            font-size: 12px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
-        /* Watermark */
+        /* ===== WATERMARK ===== */
         .watermark {
             text-align: center;
             padding: 20px;
@@ -546,25 +647,76 @@
             opacity: 0.7;
         }
         .watermark strong { color: var(--primary); }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .board-view.active { grid-template-columns: 1fr 1fr; }
+            .add-form { flex-direction: column; }
+            .add-btn { width: 100%; justify-content: center; }
+            .controls { flex-direction: column; }
+            .task-item { flex-direction: column; }
+            .task-actions-right { justify-content: flex-end; margin-top: 8px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .header { flex-direction: row; }
+            .alarm-bar { flex-direction: column; }
+            .hamburger-btn span { display: none; }
+            .dropdown-menu { position: fixed; top: 70px; right: 20px; left: 20px; width: auto; }
+        }
+        @media (max-width: 480px) {
+            .board-view.active { grid-template-columns: 1fr; }
+            .stat-card .number { font-size: 20px; }
+            .modal { padding: 20px; }
+            .hamburger-btn span { display: none; }
+        }
     </style>
 </head>
 <body>
 <div class="app" id="app">
-    <!-- HEADER -->
+    <!-- ===== HEADER ===== -->
     <header class="header">
-        <div class="header-left">
-            <h1><i class="fas fa-tasks"></i>TaskMaster Pro</h1>
-        </div>
-        <div class="header-actions">
-            <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
-            <button class="header-btn" id="templateBtn"><i class="fas fa-copy"></i> Templates</button>
-            <button class="header-btn" id="exportBtn"><i class="fas fa-file-export"></i></button>
-            <button class="header-btn" id="importBtn"><i class="fas fa-file-import"></i></button>
-            <button class="header-btn" id="settingsBtn"><i class="fas fa-cog"></i></button>
+        <h1><i class="fas fa-tasks"></i>TaskMaster Pro</h1>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+            <span>Menu</span>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <button class="menu-item" id="menuThemeToggle">
+                <i class="fas fa-moon"></i> Toggle Theme
+            </button>
+            <div class="menu-divider"></div>
+            <!-- Alarm Settings -->
+            <div class="alarm-settings-group">
+                <label class="toggle-label">
+                    <span>🔔 Alarm</span>
+                    <div class="toggle-switch active" id="alarmToggle">
+                        <div class="toggle-dot"></div>
+                    </div>
+                </label>
+                <label style="margin-top:6px;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+                    Repeat every:
+                    <select id="alarmRepeatInterval">
+                        <option value="30">30 seconds</option>
+                        <option value="60" selected>1 minute</option>
+                        <option value="120">2 minutes</option>
+                        <option value="180">3 minutes</option>
+                        <option value="300">5 minutes</option>
+                        <option value="600">10 minutes</option>
+                        <option value="900">15 minutes</option>
+                        <option value="1800">30 minutes</option>
+                        <option value="3600">1 hour</option>
+                    </select>
+                </label>
+            </div>
+            <div class="menu-divider"></div>
+            <button class="menu-item" id="menuTemplates"><i class="fas fa-copy"></i> Templates</button>
+            <button class="menu-item" id="menuExport"><i class="fas fa-file-export"></i> Export Data</button>
+            <button class="menu-item" id="menuImport"><i class="fas fa-file-import"></i> Import Data</button>
+            <div class="menu-divider"></div>
+            <button class="menu-item" id="menuSettings"><i class="fas fa-cog"></i> Settings</button>
         </div>
     </header>
 
-    <!-- STATS -->
+    <!-- ===== STATS ===== -->
     <div class="stats-grid">
         <div class="stat-card primary"><div class="number" id="totalTasks">0</div><div class="label">Total</div></div>
         <div class="stat-card"><div class="number" id="pendingTasks">0</div><div class="label">Pending</div></div>
@@ -574,7 +726,7 @@
         <div class="stat-card"><div class="number" id="pointsDisplay">0</div><div class="label">Points</div></div>
     </div>
 
-    <!-- CONTROLS -->
+    <!-- ===== CONTROLS ===== -->
     <div class="controls">
         <div class="search-box">
             <i class="fas fa-search"></i>
@@ -593,7 +745,7 @@
         </div>
     </div>
 
-    <!-- ADD TASK FORM -->
+    <!-- ===== ADD TASK FORM ===== -->
     <form class="add-form" id="addForm">
         <div class="form-group" style="flex:2;">
             <label>Title <span class="req">*</span></label>
@@ -654,7 +806,7 @@
         <button type="submit" class="add-btn"><i class="fas fa-plus"></i> Add</button>
     </form>
 
-    <!-- TASK LIST HEADER -->
+    <!-- ===== TASK LIST ===== -->
     <div class="task-header">
         <h2><i class="fas fa-list-ul"></i> <span id="taskCountLabel">Your Tasks</span></h2>
         <div class="task-actions">
@@ -664,7 +816,6 @@
         </div>
     </div>
 
-    <!-- TASK LIST -->
     <div class="task-list" id="taskList">
         <div class="empty-state">
             <i class="fas fa-inbox"></i>
@@ -673,7 +824,7 @@
         </div>
     </div>
 
-    <!-- BOARD VIEW -->
+    <!-- ===== BOARD VIEW ===== -->
     <div class="board-view" id="boardView">
         <div class="board-column" data-status="pending"><h3>To Do</h3><div class="board-tasks"></div></div>
         <div class="board-column" data-status="in-progress"><h3>In Progress</h3><div class="board-tasks"></div></div>
@@ -681,7 +832,7 @@
         <div class="board-column" data-status="deferred"><h3>Deferred</h3><div class="board-tasks"></div></div>
     </div>
 
-    <!-- CALENDAR VIEW -->
+    <!-- ===== CALENDAR VIEW ===== -->
     <div class="calendar-view" id="calendarView">
         <div class="calendar-header">
             <h3 id="calendarMonth">January 2024</h3>
@@ -694,12 +845,19 @@
         <div class="calendar-grid" id="calendarGrid"></div>
     </div>
 
-    <!-- WATERMARK -->
     <div class="watermark">Made with ❤ by <strong>BlaqHakinz</strong></div>
 </div>
 
+<!-- ===== ALARM BAR ===== -->
+<div class="alarm-bar" id="alarmBar">
+    <span class="alarm-text" id="alarmText"><i class="fas fa-bell"></i> ⏰ Task due!</span>
+    <div class="alarm-info">
+        <span id="alarmCountdown">🔁 Repeats in: --</span>
+    </div>
+    <button class="alarm-btn" id="stopAlarmBtn"><i class="fas fa-stop"></i> Stop Alarm</button>
+</div>
+
 <!-- ===== MODALS ===== -->
-<!-- Edit Modal -->
 <div class="modal-overlay" id="editModal">
     <div class="modal">
         <h2><i class="fas fa-edit"></i> Edit Task</h2>
@@ -772,7 +930,6 @@
     </div>
 </div>
 
-<!-- Template Modal -->
 <div class="modal-overlay" id="templateModal">
     <div class="modal">
         <h2><i class="fas fa-copy"></i> Templates</h2>
@@ -790,7 +947,6 @@
     </div>
 </div>
 
-<!-- Settings Modal -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal">
         <h2><i class="fas fa-cog"></i> Settings</h2>
@@ -845,13 +1001,11 @@
     </div>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ===== ALL JAVASCRIPT ===== -->
 <script>
 // ================================================================
-// COMPLETE TASK MANAGER - SINGLE FILE
+// TASKMASTER PRO - WITH REPEATING ALARM
 // ================================================================
 
 (function() {
@@ -867,6 +1021,19 @@
     let sortOrder = 'newest';
     let searchTerm = '';
     let calendarDate = new Date();
+    
+    // Alarm State
+    let alarmActive = false;
+    let alarmEnabled = true;
+    let alarmRepeatInterval = 60; // seconds
+    let alarmTimer = null;
+    let alarmCountdown = null;
+    let alarmAudioCtx = null;
+    let alarmOscillator = null;
+    let alarmInterval = null;
+    let vibrationInterval = null;
+    let repeatingAlarmInterval = null;
+    let pendingAlarmTasks = [];
 
     // ─── DOM REFS ─────────────────────────────────────────
     const $ = id => document.getElementById(id);
@@ -875,6 +1042,94 @@
     const calendarView = $('calendarView');
     const addForm = $('addForm');
     const searchInput = $('searchInput');
+    const alarmBar = $('alarmBar');
+    const alarmText = $('alarmText');
+    const alarmCountdown = $('alarmCountdown');
+    const stopAlarmBtn = $('stopAlarmBtn');
+    const dropdownMenu = $('dropdownMenu');
+    const hamburgerBtn = $('hamburgerBtn');
+    const alarmToggle = $('alarmToggle');
+    const alarmRepeatSelect = $('alarmRepeatInterval');
+
+    // ─── LOAD ALARM SETTINGS ─────────────────────────────
+    function loadAlarmSettings() {
+        try {
+            const raw = localStorage.getItem('alarmSettings');
+            if (raw) {
+                const settings = JSON.parse(raw);
+                alarmEnabled = settings.enabled !== undefined ? settings.enabled : true;
+                alarmRepeatInterval = settings.interval || 60;
+                alarmRepeatSelect.value = alarmRepeatInterval;
+                if (alarmEnabled) {
+                    alarmToggle.classList.add('active');
+                } else {
+                    alarmToggle.classList.remove('active');
+                }
+            }
+        } catch(e) {}
+    }
+
+    function saveAlarmSettings() {
+        try {
+            localStorage.setItem('alarmSettings', JSON.stringify({
+                enabled: alarmEnabled,
+                interval: alarmRepeatInterval
+            }));
+        } catch(e) {}
+    }
+
+    // ─── ALARM TOGGLE ─────────────────────────────────────
+    alarmToggle.addEventListener('click', function() {
+        alarmEnabled = !alarmEnabled;
+        this.classList.toggle('active');
+        saveAlarmSettings();
+        if (!alarmEnabled && alarmActive) {
+            stopAlarm();
+        }
+        showToast(alarmEnabled ? '🔔 Alarm enabled' : '🔕 Alarm disabled', 'info');
+    });
+
+    alarmRepeatSelect.addEventListener('change', function() {
+        alarmRepeatInterval = parseInt(this.value);
+        saveAlarmSettings();
+        showToast('⏱️ Repeat interval set to ' + this.options[this.selectedIndex].text, 'info');
+    });
+
+    // ─── HAMBURGER MENU ───────────────────────────────────
+    hamburgerBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('active');
+    });
+    document.addEventListener('click', function(e) {
+        if (!dropdownMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+            dropdownMenu.classList.remove('active');
+        }
+    });
+
+    // ─── MENU ITEMS ──────────────────────────────────────
+    $('menuThemeToggle').addEventListener('click', function() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
+        settings.theme = next;
+        localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
+        dropdownMenu.classList.remove('active');
+    });
+
+    $('menuTemplates').addEventListener('click', function() {
+        renderTemplates();
+        $('templateModal').classList.add('active');
+        dropdownMenu.classList.remove('active');
+    });
+
+    $('menuExport').addEventListener('click', function() { exportData(); dropdownMenu.classList.remove('active'); });
+    $('menuImport').addEventListener('click', function() { importData(); dropdownMenu.classList.remove('active'); });
+    $('menuSettings').addEventListener('click', function() {
+        loadSettings();
+        $('settingsModal').classList.add('active');
+        dropdownMenu.classList.remove('active');
+    });
 
     // ─── STORAGE ─────────────────────────────────────────
     function saveData() {
@@ -897,7 +1152,6 @@
                 return;
             }
         } catch(e) {}
-        // Seed default tasks
         tasks = [
             { id: '1', title: 'Complete project proposal', description: 'Finish Q4 proposal', priority: 'high', category: 'Work', status: 'pending', progress: 0, dueDate: new Date(Date.now() + 86400000).toISOString().slice(0,16), reminder: '1d', subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null },
             { id: '2', title: 'Buy groceries', description: 'Milk, eggs, bread', priority: 'medium', category: 'Shopping', status: 'pending', progress: 0, dueDate: new Date().toISOString().slice(0,16), reminder: '2h', subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null }
@@ -906,47 +1160,13 @@
     }
 
     // ─── HELPERS ──────────────────────────────────────────
-    function generateId() {
-        return Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8);
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function getPriorityLabel(p) {
-        const map = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' };
-        return map[p] || p;
-    }
-
-    function getStatusLabel(s) {
-        const map = { pending: 'Pending', 'in-progress': 'In Progress', completed: 'Completed', deferred: 'Deferred', cancelled: 'Cancelled' };
-        return map[s] || s;
-    }
-
-    function formatDate(d) {
-        if (!d) return 'No date';
-        const dt = new Date(d);
-        return dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-
-    function isOverdue(task) {
-        if (task.status === 'completed' || task.status === 'cancelled') return false;
-        if (!task.dueDate) return false;
-        return new Date(task.dueDate) < new Date();
-    }
-
-    function getReminderLabel(val) {
-        const map = {
-            'none': 'None', '15min': '15 min', '30min': '30 min', '1h': '1 hour',
-            '2h': '2 hours', '6h': '6 hours', '12h': '12 hours', '1d': '1 day',
-            '2d': '2 days', '1d+2h': '1 day + 2 hours', '2d+6h': '2 days + 6 hours'
-        };
-        return map[val] || val;
-    }
+    function generateId() { return Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8); }
+    function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+    function getPriorityLabel(p) { const map = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' }; return map[p] || p; }
+    function getStatusLabel(s) { const map = { pending: 'Pending', 'in-progress': 'In Progress', completed: 'Completed', deferred: 'Deferred', cancelled: 'Cancelled' }; return map[s] || s; }
+    function formatDate(d) { if (!d) return 'No date'; const dt = new Date(d); return dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+    function isOverdue(task) { if (task.status === 'completed' || task.status === 'cancelled') return false; if (!task.dueDate) return false; return new Date(task.dueDate) < new Date(); }
+    function getReminderLabel(val) { const map = { 'none': 'None', '15min': '15 min', '30min': '30 min', '1h': '1 hour', '2h': '2 hours', '6h': '6 hours', '12h': '12 hours', '1d': '1 day', '2d': '2 days', '1d+2h': '1 day + 2 hours', '2d+6h': '2 days + 6 hours' }; return map[val] || val; }
 
     // ─── CRUD ─────────────────────────────────────────────
     function addTask(title, description, priority, category, dueDate, reminder) {
@@ -982,6 +1202,17 @@
         if (task.status === 'completed' && !wasCompleted) {
             task.completedAt = new Date().toISOString();
             updateStreak();
+            // Check if this was an alarm task
+            if (alarmActive) {
+                const stillDue = tasks.filter(t => {
+                    if (t.status === 'completed' || t.status === 'cancelled') return false;
+                    if (!t.dueDate) return false;
+                    return new Date(t.dueDate) <= new Date();
+                });
+                if (stillDue.length === 0) {
+                    stopAlarm();
+                }
+            }
         }
         saveData();
         render();
@@ -992,6 +1223,16 @@
         tasks = tasks.filter(t => t.id !== id);
         saveData();
         render();
+        if (alarmActive) {
+            const stillDue = tasks.filter(t => {
+                if (t.status === 'completed' || t.status === 'cancelled') return false;
+                if (!t.dueDate) return false;
+                return new Date(t.dueDate) <= new Date();
+            });
+            if (stillDue.length === 0) {
+                stopAlarm();
+            }
+        }
     }
 
     function toggleCompletion(id) {
@@ -1025,6 +1266,207 @@
         saveData();
     }
 
+    // ─── REPEATING ALARM SYSTEM ──────────────────────────
+    function getReminderMinutes(reminder) {
+        const map = {
+            '15min': 15, '30min': 30, '1h': 60, '2h': 120, '6h': 360,
+            '12h': 720, '1d': 1440, '2d': 2880, '1d+2h': 1560, '2d+6h': 3240
+        };
+        return map[reminder] || 0;
+    }
+
+    function checkDueTasks() {
+        if (!alarmEnabled) return;
+        
+        const now = new Date();
+        const dueTasks = tasks.filter(task => {
+            if (task.status === 'completed' || task.status === 'cancelled') return false;
+            if (!task.dueDate) return false;
+            
+            const dueDate = new Date(task.dueDate);
+            if (dueDate <= now) return true;
+            
+            if (task.reminder && task.reminder !== 'none') {
+                const reminderMinutes = getReminderMinutes(task.reminder);
+                if (reminderMinutes > 0) {
+                    const reminderTime = new Date(dueDate.getTime() - reminderMinutes * 60000);
+                    const timeDiff = Math.abs(now - reminderTime);
+                    if (timeDiff < 300000) return true;
+                }
+            }
+            return false;
+        });
+
+        if (dueTasks.length > 0 && !alarmActive && alarmEnabled) {
+            triggerAlarm(dueTasks);
+        } else if (dueTasks.length > 0 && alarmActive && alarmEnabled) {
+            // Update alarm text if new tasks added
+            const titles = dueTasks.map(t => t.title).join(', ');
+            alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
+            pendingAlarmTasks = dueTasks;
+        } else if (dueTasks.length === 0 && alarmActive) {
+            stopAlarm();
+        }
+    }
+
+    function triggerAlarm(tasks) {
+        alarmActive = true;
+        pendingAlarmTasks = tasks;
+        const titles = tasks.map(t => t.title).join(', ');
+        alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
+        alarmBar.classList.add('active');
+        
+        // Start countdown for next repeat
+        startCountdown();
+
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Initial vibration
+        if (navigator.vibrate) {
+            navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+            vibrationInterval = setInterval(() => {
+                if (alarmActive && alarmEnabled) navigator.vibrate([200, 100, 200, 100, 200]);
+            }, 5000);
+        }
+
+        playAlarmSound();
+
+        if ('Notification' in window && Notification.permission === 'granted') {
+            tasks.forEach(task => {
+                new Notification('⏰ Task Due!', {
+                    body: `"${task.title}" is due now!`,
+                    icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
+                    requireInteraction: true,
+                    vibrate: [200, 100, 200]
+                });
+            });
+        }
+
+        showToast('⏰ Task due! ' + titles, 'warning');
+    }
+
+    function playAlarmSound() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.type = 'square';
+            oscillator.frequency.value = 880;
+            gainNode.gain.value = 0.3;
+            oscillator.start();
+            
+            alarmAudioCtx = audioCtx;
+            alarmOscillator = oscillator;
+
+            let toggle = true;
+            alarmInterval = setInterval(() => {
+                if (!alarmActive || !alarmEnabled) {
+                    oscillator.stop();
+                    audioCtx.close();
+                    clearInterval(alarmInterval);
+                    alarmInterval = null;
+                    return;
+                }
+                toggle = !toggle;
+                if (toggle) {
+                    oscillator.start();
+                } else {
+                    oscillator.stop();
+                }
+            }, 400);
+        } catch (e) {
+            console.warn('Audio not supported:', e);
+        }
+    }
+
+    function startCountdown() {
+        let seconds = alarmRepeatInterval;
+        updateCountdownDisplay(seconds);
+        
+        if (alarmCountdown) clearInterval(alarmCountdown);
+        alarmCountdown = setInterval(() => {
+            seconds--;
+            if (seconds <= 0) {
+                // Repeat the alarm
+                if (alarmActive && alarmEnabled) {
+                    // Re-trigger alarm sound and vibration
+                    playAlarmSound();
+                    if (navigator.vibrate) {
+                        navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+                    }
+                    // Show notification again
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        pendingAlarmTasks.forEach(task => {
+                            new Notification('⏰ Task Still Due!', {
+                                body: `"${task.title}" is still pending!`,
+                                icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
+                                requireInteraction: true,
+                                vibrate: [200, 100, 200]
+                            });
+                        });
+                    }
+                    seconds = alarmRepeatInterval;
+                } else {
+                    clearInterval(alarmCountdown);
+                    alarmCountdown = null;
+                    return;
+                }
+            }
+            updateCountdownDisplay(seconds);
+        }, 1000);
+    }
+
+    function updateCountdownDisplay(seconds) {
+        if (seconds < 60) {
+            alarmCountdown.textContent = `🔁 Repeats in: ${seconds}s`;
+        } else if (seconds < 3600) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            alarmCountdown.textContent = `🔁 Repeats in: ${mins}m ${secs}s`;
+        } else {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            alarmCountdown.textContent = `🔁 Repeats in: ${hrs}h ${mins}m`;
+        }
+    }
+
+    function stopAlarm() {
+        alarmActive = false;
+        alarmBar.classList.remove('active');
+        
+        if (alarmCountdown) {
+            clearInterval(alarmCountdown);
+            alarmCountdown = null;
+        }
+        alarmCountdown.textContent = '🔁 Repeats in: --';
+
+        if (vibrationInterval) {
+            clearInterval(vibrationInterval);
+            vibrationInterval = null;
+            if (navigator.vibrate) navigator.vibrate(0);
+        }
+
+        if (alarmInterval) {
+            clearInterval(alarmInterval);
+            alarmInterval = null;
+        }
+        if (alarmOscillator) {
+            try { alarmOscillator.stop(); } catch(e) {}
+            alarmOscillator = null;
+        }
+        if (alarmAudioCtx) {
+            try { alarmAudioCtx.close(); } catch(e) {}
+            alarmAudioCtx = null;
+        }
+
+        pendingAlarmTasks = [];
+        showToast('🔕 Alarm stopped', 'info');
+    }
+
     // ─── FILTER & SEARCH ──────────────────────────────────
     function getFilteredTasks() {
         let filtered = [...tasks];
@@ -1045,11 +1487,7 @@
         switch (sortOrder) {
             case 'newest': filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); break;
             case 'oldest': filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); break;
-            case 'priority': {
-                const order = { critical: 0, high: 1, medium: 2, low: 3 };
-                filtered.sort((a, b) => order[a.priority] - order[b.priority]);
-                break;
-            }
+            case 'priority': { const order = { critical: 0, high: 1, medium: 2, low: 3 }; filtered.sort((a, b) => order[a.priority] - order[b.priority]); break; }
             case 'due': filtered.sort((a, b) => (a.dueDate || '9999') > (b.dueDate || '9999') ? 1 : -1); break;
             default: break;
         }
@@ -1086,17 +1524,16 @@
             taskList.style.display = 'none';
             boardView.classList.remove('active');
         }
+
+        if (!window._alarmChecker) {
+            window._alarmChecker = setInterval(checkDueTasks, 10000);
+            setTimeout(checkDueTasks, 2000);
+        }
     }
 
     function renderList(filtered) {
         if (!filtered.length) {
-            taskList.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-inbox"></i>
-                    <h3>${tasks.length ? 'No matching tasks' : 'No tasks yet'}</h3>
-                    <p>${tasks.length ? 'Try adjusting your filters.' : 'Add your first task above!'}</p>
-                </div>
-            `;
+            taskList.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><h3>${tasks.length ? 'No matching tasks' : 'No tasks yet'}</h3><p>${tasks.length ? 'Try adjusting your filters.' : 'Add your first task above!'}</p></div>`;
             return;
         }
         let html = '';
@@ -1133,7 +1570,6 @@
 
     function renderBoard(filtered) {
         boardView.classList.add('active');
-        const columns = ['pending', 'in-progress', 'completed', 'deferred'];
         document.querySelectorAll('.board-column').forEach(col => {
             const status = col.dataset.status;
             const tasksInCol = filtered.filter(t => t.status === status);
@@ -1143,14 +1579,9 @@
                 return;
             }
             container.innerHTML = tasksInCol.map(task => `
-                <div class="task-item ${task.status === 'completed' ? 'completed' : ''}" 
-                     onclick="editTaskById('${task.id}')" style="cursor:pointer;padding:10px;">
-                    <div style="flex:1;">
-                        <div style="font-weight:600;">${escapeHtml(task.title)}</div>
-                        <div style="font-size:11px;color:var(--text-secondary);">${getPriorityLabel(task.priority)} · ${escapeHtml(task.category)}</div>
-                    </div>
-                    <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''}
-                           onclick="event.stopPropagation(); toggleCompletion('${task.id}')">
+                <div class="task-item ${task.status === 'completed' ? 'completed' : ''}" onclick="editTaskById('${task.id}')" style="cursor:pointer;padding:10px;">
+                    <div style="flex:1;"><div style="font-weight:600;">${escapeHtml(task.title)}</div><div style="font-size:11px;color:var(--text-secondary);">${getPriorityLabel(task.priority)} · ${escapeHtml(task.category)}</div></div>
+                    <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompletion('${task.id}')">
                 </div>
             `).join('');
         });
@@ -1163,33 +1594,22 @@
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const today = new Date();
-        
         $('calendarMonth').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        
         let grid = '';
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         dayNames.forEach(d => grid += `<div class="calendar-day-header">${d}</div>`);
-        
-        for (let i = 0; i < firstDay; i++) {
-            grid += `<div class="calendar-day other-month"></div>`;
-        }
-        
+        for (let i = 0; i < firstDay; i++) { grid += `<div class="calendar-day other-month"></div>`; }
         for (let d = 1; d <= daysInMonth; d++) {
             const dateObj = new Date(year, month, d);
             const dateStr = dateObj.toISOString().slice(0, 10);
             const isToday = dateObj.toDateString() === today.toDateString();
             const dayTasks = tasks.filter(t => t.dueDate && t.dueDate.slice(0, 10) === dateStr);
-            
             grid += `
                 <div class="calendar-day ${isToday ? 'today' : ''}">
                     <div class="day-number">${d}</div>
                     <div class="day-tasks">
                         ${dayTasks.slice(0, 2).map(t => `
-                            <div class="day-task ${t.status === 'completed' ? 'completed' : ''}"
-                                 onclick="editTaskById('${t.id}')"
-                                 title="${escapeHtml(t.title)}">
-                                ${escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}
-                            </div>
+                            <div class="day-task ${t.status === 'completed' ? 'completed' : ''}" onclick="editTaskById('${t.id}')" title="${escapeHtml(t.title)}">${escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}</div>
                         `).join('')}
                         ${dayTasks.length > 2 ? `<div style="font-size:10px;color:var(--text-secondary);">+${dayTasks.length - 2}</div>` : ''}
                     </div>
@@ -1205,11 +1625,7 @@
         const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        toast.innerHTML = `
-            <i class="fas ${icons[type] || icons.info} toast-icon"></i>
-            <span>${message}</span>
-            <button class="toast-close">&times;</button>
-        `;
+        toast.innerHTML = `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span><button class="toast-close">&times;</button>`;
         toast.querySelector('.toast-close').onclick = () => toast.remove();
         container.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
@@ -1233,33 +1649,21 @@
         $('editModal').classList.add('active');
     }
 
-    function closeEditModal() {
-        $('editModal').classList.remove('active');
-    }
-
+    function closeEditModal() { $('editModal').classList.remove('active'); }
     function clearEditErrors() {
         document.querySelectorAll('#editModal .field-error').forEach(el => el.classList.remove('visible'));
         document.querySelectorAll('#editModal input, #editModal select, #editModal textarea').forEach(el => el.style.borderColor = 'var(--border)');
     }
-
     function clearErrors() {
         document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
         document.querySelectorAll('.add-form input, .add-form select, .add-form textarea').forEach(el => el.style.borderColor = 'var(--border)');
     }
-
-    function showError(id) {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('visible');
-    }
+    function showError(id) { const el = document.getElementById(id); if (el) el.classList.add('visible'); }
 
     // ─── TEMPLATES ─────────────────────────────────────────
     let templates = [];
-
     function loadTemplates() {
-        try {
-            const raw = localStorage.getItem('taskMasterTemplates');
-            templates = raw ? JSON.parse(raw) : [];
-        } catch(e) { templates = []; }
+        try { const raw = localStorage.getItem('taskMasterTemplates'); templates = raw ? JSON.parse(raw) : []; } catch(e) { templates = []; }
         if (!templates.length) {
             templates = [
                 { id: 't1', name: 'Daily Routine', taskData: { title: 'Complete Daily Routine', description: 'Follow daily checklist', priority: 'medium', category: 'Personal' } },
@@ -1268,17 +1672,10 @@
             saveTemplates();
         }
     }
-
-    function saveTemplates() {
-        localStorage.setItem('taskMasterTemplates', JSON.stringify(templates));
-    }
-
+    function saveTemplates() { localStorage.setItem('taskMasterTemplates', JSON.stringify(templates)); }
     function renderTemplates() {
         const container = $('templateList');
-        if (!templates.length) {
-            container.innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px;">No templates</div>';
-            return;
-        }
+        if (!templates.length) { container.innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px;">No templates</div>'; return; }
         container.innerHTML = templates.map((t, i) => `
             <div style="display:flex;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;">
                 <div><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.taskData.title)}</small></div>
@@ -1289,7 +1686,6 @@
             </div>
         `).join('');
     }
-
     function applyTemplate(index) {
         const t = templates[index];
         if (!t) return;
@@ -1298,7 +1694,6 @@
         $('templateModal').classList.remove('active');
         showToast('Template applied!', 'success');
     }
-
     function deleteTemplate(index) {
         if (confirm('Delete template?')) {
             templates.splice(index, 1);
@@ -1307,16 +1702,10 @@
             showToast('Template deleted', 'info');
         }
     }
-
     function saveTemplate() {
         const name = $('templateName').value.trim();
         if (!name) { showToast('Enter a name', 'warning'); return; }
-        const data = {
-            title: $('taskTitle').value || 'Untitled',
-            description: $('taskDesc').value || '',
-            priority: $('taskPriority').value || 'medium',
-            category: $('taskCategory').value || 'Other'
-        };
+        const data = { title: $('taskTitle').value || 'Untitled', description: $('taskDesc').value || '', priority: $('taskPriority').value || 'medium', category: $('taskCategory').value || 'Other' };
         templates.push({ id: generateId(), name, taskData: data });
         saveTemplates();
         $('templateName').value = '';
@@ -1337,7 +1726,6 @@
             applyTheme(settings.theme || 'light');
         } catch(e) {}
     }
-
     function saveSettings() {
         const settings = {
             theme: $('settingsTheme').value,
@@ -1350,13 +1738,10 @@
         applyTheme(settings.theme);
         showToast('Settings saved!', 'success');
     }
-
     function applyTheme(theme) {
-        if (theme === 'system') {
-            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        if (theme === 'system') { theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
         document.documentElement.setAttribute('data-theme', theme);
-        const icon = document.querySelector('#themeToggle i');
+        const icon = document.querySelector('#menuThemeToggle i');
         if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
 
@@ -1372,7 +1757,6 @@
         URL.revokeObjectURL(url);
         showToast('Exported!', 'success');
     }
-
     function importData() {
         const input = document.createElement('input');
         input.type = 'file';
@@ -1392,9 +1776,7 @@
                         render();
                         showToast('Imported!', 'success');
                     }
-                } catch(err) {
-                    showToast('Invalid file', 'error');
-                }
+                } catch(err) { showToast('Invalid file', 'error'); }
             };
             reader.readAsText(file);
         };
@@ -1406,10 +1788,12 @@
         loadData();
         loadTemplates();
         loadSettings();
+        loadAlarmSettings();
         render();
         renderTemplates();
 
-        // Add Task
+        stopAlarmBtn.addEventListener('click', stopAlarm);
+
         addForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const title = $('taskTitle').value.trim();
@@ -1427,24 +1811,15 @@
             if (!category) { showError('categoryError'); valid = false; }
             if (!dueDate) { showError('dueError'); valid = false; }
             if (!reminder) { showError('reminderError'); valid = false; }
-            
-            if (!valid) {
-                showToast('Please fill in all fields', 'warning');
-                return;
-            }
+            if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
             
             addTask(title, description, priority, category, dueDate, reminder);
             addForm.reset();
             showToast('Task added!', 'success');
         });
 
-        // Search
-        searchInput.addEventListener('input', function() {
-            searchTerm = this.value;
-            render();
-        });
+        searchInput.addEventListener('input', function() { searchTerm = this.value; render(); });
 
-        // Filters
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1454,7 +1829,6 @@
             });
         });
 
-        // Views
         document.querySelectorAll('.view-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -1464,7 +1838,6 @@
             });
         });
 
-        // Sort
         $('sortBtn').addEventListener('click', function() {
             const orders = ['newest', 'oldest', 'priority', 'due'];
             const labels = { newest: 'Newest', oldest: 'Oldest', priority: 'Priority', due: 'Due Date' };
@@ -1475,26 +1848,18 @@
             render();
         });
 
-        // Clear Completed
         $('clearCompletedBtn').addEventListener('click', function() {
             const completed = tasks.filter(t => t.status === 'completed');
-            if (!completed.length) {
-                showToast('No completed tasks', 'info');
-                return;
-            }
+            if (!completed.length) { showToast('No completed tasks', 'info'); return; }
             if (confirm(`Delete ${completed.length} completed tasks?`)) {
                 clearCompleted();
                 showToast('Cleared completed tasks', 'success');
             }
         });
 
-        // Select All
         $('selectAllBtn').addEventListener('click', function() {
             const checkboxes = document.querySelectorAll('.task-checkbox:not(:checked)');
-            if (!checkboxes.length) {
-                showToast('All tasks done', 'info');
-                return;
-            }
+            if (!checkboxes.length) { showToast('All tasks done', 'info'); return; }
             checkboxes.forEach(cb => {
                 const id = cb.closest('.task-item')?.dataset.id;
                 if (id) toggleCompletion(id);
@@ -1502,7 +1867,6 @@
             showToast(`Completed ${checkboxes.length} tasks`, 'success');
         });
 
-        // Task List Delegation
         taskList.addEventListener('change', function(e) {
             if (e.target.classList.contains('task-checkbox')) {
                 const id = e.target.closest('.task-item')?.dataset.id;
@@ -1516,47 +1880,18 @@
                 const id = deleteBtn.dataset.id;
                 const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
                 if (settings.confirmDelete !== false) {
-                    if (confirm('Delete this task?')) {
-                        deleteTask(id);
-                        showToast('Task deleted', 'info');
-                    }
-                } else {
-                    deleteTask(id);
-                    showToast('Task deleted', 'info');
-                }
+                    if (confirm('Delete this task?')) { deleteTask(id); showToast('Task deleted', 'info'); }
+                } else { deleteTask(id); showToast('Task deleted', 'info'); }
                 return;
             }
             const editBtn = e.target.closest('.edit');
-            if (editBtn) {
-                editTaskById(editBtn.dataset.id);
-            }
+            if (editBtn) { editTaskById(editBtn.dataset.id); }
         });
 
-        // Theme Toggle
-        $('themeToggle').addEventListener('click', function() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            applyTheme(next);
-            const settings = JSON.parse(localStorage.getItem('taskMasterSettings') || '{}');
-            settings.theme = next;
-            localStorage.setItem('taskMasterSettings', JSON.stringify(settings));
-        });
+        $('calPrev').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() - 1); render(); });
+        $('calNext').addEventListener('click', function() { calendarDate.setMonth(calendarDate.getMonth() + 1); render(); });
+        $('calToday').addEventListener('click', function() { calendarDate = new Date(); render(); });
 
-        // Calendar
-        $('calPrev').addEventListener('click', function() {
-            calendarDate.setMonth(calendarDate.getMonth() - 1);
-            render();
-        });
-        $('calNext').addEventListener('click', function() {
-            calendarDate.setMonth(calendarDate.getMonth() + 1);
-            render();
-        });
-        $('calToday').addEventListener('click', function() {
-            calendarDate = new Date();
-            render();
-        });
-
-        // Edit Form
         $('editForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const id = $('editId').value;
@@ -1577,11 +1912,7 @@
             if (!category) { showError('editCategoryError'); valid = false; }
             if (!status) { showError('editStatusError'); valid = false; }
             if (!dueDate) { showError('editDueError'); valid = false; }
-            
-            if (!valid) {
-                showToast('Please fill in all fields', 'warning');
-                return;
-            }
+            if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
             
             updateTask(id, { title, description, priority, category, status, progress, dueDate, estimatedDuration: duration });
             closeEditModal();
@@ -1589,56 +1920,35 @@
         });
 
         $('closeEditBtn').addEventListener('click', closeEditModal);
-        $('editProgress').addEventListener('input', function() {
-            $('editProgressLabel').textContent = this.value + '%';
-        });
+        $('editProgress').addEventListener('input', function() { $('editProgressLabel').textContent = this.value + '%'; });
 
-        // Templates
-        $('templateBtn').addEventListener('click', function() {
-            renderTemplates();
-            $('templateModal').classList.add('active');
-        });
-        $('closeTemplateBtn').addEventListener('click', function() {
-            $('templateModal').classList.remove('active');
-        });
+        $('closeTemplateBtn').addEventListener('click', function() { $('templateModal').classList.remove('active'); });
         $('saveTemplateBtn').addEventListener('click', saveTemplate);
 
-        // Settings
-        $('settingsBtn').addEventListener('click', function() {
-            loadSettings();
-            $('settingsModal').classList.add('active');
-        });
-        $('closeSettingsBtn').addEventListener('click', function() {
-            saveSettings();
-            $('settingsModal').classList.remove('active');
-        });
+        $('closeSettingsBtn').addEventListener('click', function() { saveSettings(); $('settingsModal').classList.remove('active'); });
 
-        // Export/Import
-        $('exportBtn').addEventListener('click', exportData);
-        $('importBtn').addEventListener('click', importData);
-
-        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'n') { e.preventDefault(); $('taskTitle').focus(); }
             if (e.key === 'Escape') {
                 $('editModal').classList.remove('active');
                 $('templateModal').classList.remove('active');
                 $('settingsModal').classList.remove('active');
+                dropdownMenu.classList.remove('active');
             }
         });
 
-        console.log('✅ TaskMaster Pro loaded!');
-        showToast('Welcome to TaskMaster Pro! 🚀', 'info');
+        console.log('✅ TaskMaster Pro loaded with REPEATING ALARM!');
+        showToast('🔔 Alarm repeats every ' + alarmRepeatInterval + ' seconds', 'info');
     }
 
-    // Make functions globally accessible for onclick handlers
+    // ─── GLOBALS ──────────────────────────────────────────
     window.toggleCompletion = toggleCompletion;
     window.editTaskById = editTaskById;
     window.applyTemplate = applyTemplate;
     window.deleteTemplate = deleteTemplate;
     window.showToast = showToast;
+    window.stopAlarm = stopAlarm;
 
-    // Start the app
     document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
