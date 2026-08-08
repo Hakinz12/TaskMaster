@@ -10,7 +10,7 @@
         /* ===== COMPLETE CSS ===== */
         :root {
             --primary: #667eea;
-            --secondary: #4b4ca2;
+            --secondary: #764ba2;
             --bg: #f0f4f8;
             --card: #ffffff;
             --text: #1e293b;
@@ -19,7 +19,8 @@
             --shadow: 0 4px 12px rgba(0,0,0,0.08);
             --radius: 12px;
             --error: #dc2626;
-            --success: #056196;
+            --success: #059669;
+            --alarm-color: #dc2626;
         }
         [data-theme="dark"] {
             --bg: #0f172a;
@@ -349,10 +350,32 @@
             align-items: flex-start;
             gap: 12px;
             transition: 0.3s;
+            position: relative;
         }
         .task-item:hover { border-color: var(--primary); }
         .task-item.completed { opacity: 0.6; }
         .task-item.completed .task-title { text-decoration: line-through; }
+        
+        /* ===== VISUAL CUE: ALARM ACTIVE ===== */
+        .task-item.alarm-active {
+            border-color: var(--alarm-color);
+            border-width: 3px;
+            animation: alarmPulse 1.5s infinite;
+            background: rgba(220, 38, 38, 0.05);
+        }
+        [data-theme="dark"] .task-item.alarm-active {
+            background: rgba(220, 38, 38, 0.15);
+        }
+        @keyframes alarmPulse {
+            0%, 100% { border-color: var(--alarm-color); box-shadow: 0 0 0 0 rgba(220,38,38,0.3); }
+            50% { border-color: #f87171; box-shadow: 0 0 20px rgba(220,38,38,0.15); }
+        }
+        
+        /* ===== VISUAL CUE: OVERDUE ===== */
+        .task-item.overdue:not(.completed) {
+            border-left: 4px solid var(--alarm-color);
+        }
+        
         .task-checkbox {
             margin-top: 3px;
             width: 20px;
@@ -384,7 +407,21 @@
         .tag-category { background: #dbeafe; color: #2563eb; }
         .tag-status { background: #e0e7ff; color: #4338ca; }
         .tag-due { background: var(--border); color: var(--text-secondary); }
-        .tag-overdue { background: #fee2e2; color: #dc2626; }
+        .tag-overdue { background: #fee2e2; color: #dc2626; animation: overduePulse 2s infinite; }
+        @keyframes overduePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .tag-repeat { background: #f3e8ff; color: #7c3aed; }
+        .tag-alarm {
+            background: #dc2626;
+            color: white;
+            animation: alarmTagPulse 1s infinite;
+        }
+        @keyframes alarmTagPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
         
         .task-progress {
             margin-top: 6px;
@@ -447,6 +484,7 @@
         }
         .board-column .task-item { padding: 10px 12px; margin-bottom: 6px; cursor: pointer; }
         .board-column .task-item .task-checkbox { width: 18px; height: 18px; }
+        .board-column .task-item.alarm-active { border-width: 2px; }
         
         .calendar-view.active { display: block; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; max-height: 500px; overflow-y: auto; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
@@ -491,6 +529,10 @@
             cursor: pointer;
         }
         .calendar-day .day-task.completed { background: var(--success); opacity: 0.6; }
+        .calendar-day .day-task.alarm-active {
+            background: var(--alarm-color);
+            animation: alarmTagPulse 1s infinite;
+        }
         .calendar-day.today { border-color: var(--primary); border-width: 2px; }
         .calendar-day.other-month .day-number { opacity: 0.3; }
         
@@ -604,37 +646,72 @@
             z-index: 9999;
             animation: pulse 1s infinite;
             box-shadow: 0 -4px 20px rgba(220, 38, 38, 0.3);
-        }
-        .alarm-bar.active {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            align-items: center;
         }
-        .alarm-bar .alarm-text { flex: 1; font-weight: 600; font-size: 16px; }
-        .alarm-bar .alarm-btn {
-            background: white;
-            color: #dc2626;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .alarm-bar .alarm-btn:hover { transform: scale(1.05); }
+        .alarm-bar.active { display: flex; }
+        .alarm-bar .alarm-text { flex: 1; font-weight: 600; font-size: 16px; min-width: 150px; }
         .alarm-bar .alarm-info {
             font-size: 12px;
             opacity: 0.8;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
+        .alarm-bar .alarm-btn {
+            background: white;
+            color: #dc2626;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .alarm-bar .alarm-btn:hover { transform: scale(1.05); }
+        .alarm-bar .snooze-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .alarm-bar .snooze-btn:hover { background: rgba(255,255,255,0.3); }
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+        /* Snooze dropdown inside alarm bar */
+        .snooze-options {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            min-width: 150px;
+            border: 1px solid var(--border);
+            padding: 6px 0;
+            z-index: 10000;
+        }
+        .snooze-options.active { display: block; }
+        .snooze-options .snooze-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 14px;
+            transition: 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .snooze-options .snooze-item:hover { background: var(--bg); }
         
         /* ===== WATERMARK ===== */
         .watermark {
@@ -658,9 +735,12 @@
             .task-actions-right { justify-content: flex-end; margin-top: 8px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .header { flex-direction: row; }
-            .alarm-bar { flex-direction: column; }
+            .alarm-bar { flex-direction: column; align-items: stretch; }
+            .alarm-bar .alarm-text { text-align: center; }
+            .alarm-bar .alarm-info { justify-content: center; }
             .hamburger-btn span { display: none; }
             .dropdown-menu { position: fixed; top: 70px; right: 20px; left: 20px; width: auto; }
+            .snooze-options { right: 10px; left: 10px; bottom: 80px; }
         }
         @media (max-width: 480px) {
             .board-view.active { grid-template-columns: 1fr; }
@@ -693,7 +773,7 @@
                     </div>
                 </label>
                 <label style="margin-top:6px;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
-                    Repeat every:
+                    Global repeat:
                     <select id="alarmRepeatInterval">
                         <option value="30">30 seconds</option>
                         <option value="60" selected>1 minute</option>
@@ -803,6 +883,22 @@
             </select>
             <div class="field-error" id="reminderError">Reminder is required</div>
         </div>
+        <!-- NEW: Repeat interval per task -->
+        <div class="form-group" style="min-width:100px;">
+            <label>Repeat interval</label>
+            <select id="taskRepeatInterval">
+                <option value="default">Default (global)</option>
+                <option value="30">30 seconds</option>
+                <option value="60">1 minute</option>
+                <option value="120">2 minutes</option>
+                <option value="180">3 minutes</option>
+                <option value="300">5 minutes</option>
+                <option value="600">10 minutes</option>
+                <option value="900">15 minutes</option>
+                <option value="1800">30 minutes</option>
+                <option value="3600">1 hour</option>
+            </select>
+        </div>
         <button type="submit" class="add-btn"><i class="fas fa-plus"></i> Add</button>
     </form>
 
@@ -853,8 +949,19 @@
     <span class="alarm-text" id="alarmText"><i class="fas fa-bell"></i> ⏰ Task due!</span>
     <div class="alarm-info">
         <span id="alarmCountdown">🔁 Repeats in: --</span>
+        <span id="alarmStatus"></span>
     </div>
-    <button class="alarm-btn" id="stopAlarmBtn"><i class="fas fa-stop"></i> Stop Alarm</button>
+    <div style="display:flex; gap:6px; align-items:center;">
+        <button class="alarm-btn snooze-btn" id="snoozeBtn"><i class="fas fa-clock"></i> Snooze</button>
+        <button class="alarm-btn" id="stopAlarmBtn"><i class="fas fa-stop"></i> Stop</button>
+    </div>
+    <!-- Snooze options dropdown -->
+    <div class="snooze-options" id="snoozeOptions">
+        <button class="snooze-item" data-minutes="5">5 minutes</button>
+        <button class="snooze-item" data-minutes="10">10 minutes</button>
+        <button class="snooze-item" data-minutes="15">15 minutes</button>
+        <button class="snooze-item" data-minutes="30">30 minutes</button>
+    </div>
 </div>
 
 <!-- ===== MODALS ===== -->
@@ -921,6 +1028,22 @@
             <div class="form-group">
                 <label>Duration (minutes)</label>
                 <input type="number" id="editDuration" min="0" value="0">
+            </div>
+            <!-- Repeat interval in edit -->
+            <div class="form-group">
+                <label>Repeat interval</label>
+                <select id="editRepeatInterval">
+                    <option value="default">Default (global)</option>
+                    <option value="30">30 seconds</option>
+                    <option value="60">1 minute</option>
+                    <option value="120">2 minutes</option>
+                    <option value="180">3 minutes</option>
+                    <option value="300">5 minutes</option>
+                    <option value="600">10 minutes</option>
+                    <option value="900">15 minutes</option>
+                    <option value="1800">30 minutes</option>
+                    <option value="3600">1 hour</option>
+                </select>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-cancel" id="closeEditBtn">Cancel</button>
@@ -1005,7 +1128,7 @@
 
 <script>
 // ================================================================
-// TASKMASTER PRO - WITH REPEATING ALARM (FIXED)
+// TASKMASTER PRO - PER-TASK REPEAT INTERVALS + SNOOZE + VISUAL CUES
 // ================================================================
 
 (function() {
@@ -1025,15 +1148,15 @@
     // Alarm State
     let alarmActive = false;
     let alarmEnabled = true;
-    let alarmRepeatInterval = 60; // seconds
-    let alarmTimer = null;
-    let alarmCountdownTimer = null;  // ← FIXED: renamed to avoid duplicate
+    let alarmRepeatInterval = 60; // seconds (global default)
+    let alarmCountdownTimer = null;
     let alarmAudioCtx = null;
     let alarmOscillator = null;
     let alarmInterval = null;
     let vibrationInterval = null;
-    let repeatingAlarmInterval = null;
     let pendingAlarmTasks = [];
+    let isSnoozed = false;
+    let snoozeTimeout = null;
 
     // ─── DOM REFS ─────────────────────────────────────────
     const $ = id => document.getElementById(id);
@@ -1045,7 +1168,10 @@
     const alarmBar = $('alarmBar');
     const alarmText = $('alarmText');
     const alarmCountdown = $('alarmCountdown');
+    const alarmStatus = $('alarmStatus');
     const stopAlarmBtn = $('stopAlarmBtn');
+    const snoozeBtn = $('snoozeBtn');
+    const snoozeOptions = $('snoozeOptions');
     const dropdownMenu = $('dropdownMenu');
     const hamburgerBtn = $('hamburgerBtn');
     const alarmToggle = $('alarmToggle');
@@ -1092,7 +1218,10 @@
     alarmRepeatSelect.addEventListener('change', function() {
         alarmRepeatInterval = parseInt(this.value);
         saveAlarmSettings();
-        showToast('⏱️ Repeat interval set to ' + this.options[this.selectedIndex].text, 'info');
+        showToast('⏱️ Global repeat set to ' + this.options[this.selectedIndex].text, 'info');
+        if (alarmActive && !isSnoozed) {
+            startCountdown();
+        }
     });
 
     // ─── HAMBURGER MENU ───────────────────────────────────
@@ -1153,8 +1282,8 @@
             }
         } catch(e) {}
         tasks = [
-            { id: '1', title: 'Complete project proposal', description: 'Finish Q4 proposal', priority: 'high', category: 'Work', status: 'pending', progress: 0, dueDate: new Date(Date.now() + 86400000).toISOString().slice(0,16), reminder: '1d', subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null },
-            { id: '2', title: 'Buy groceries', description: 'Milk, eggs, bread', priority: 'medium', category: 'Shopping', status: 'pending', progress: 0, dueDate: new Date().toISOString().slice(0,16), reminder: '2h', subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null }
+            { id: '1', title: 'Complete project proposal', description: 'Finish Q4 proposal', priority: 'high', category: 'Work', status: 'pending', progress: 0, dueDate: new Date(Date.now() + 86400000).toISOString().slice(0,16), reminder: '1d', repeatInterval: null, subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null },
+            { id: '2', title: 'Buy groceries', description: 'Milk, eggs, bread', priority: 'medium', category: 'Shopping', status: 'pending', progress: 0, dueDate: new Date().toISOString().slice(0,16), reminder: '2h', repeatInterval: null, subtasks: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), completedAt: null }
         ];
         saveData();
     }
@@ -1167,9 +1296,14 @@
     function formatDate(d) { if (!d) return 'No date'; const dt = new Date(d); return dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
     function isOverdue(task) { if (task.status === 'completed' || task.status === 'cancelled') return false; if (!task.dueDate) return false; return new Date(task.dueDate) < new Date(); }
     function getReminderLabel(val) { const map = { 'none': 'None', '15min': '15 min', '30min': '30 min', '1h': '1 hour', '2h': '2 hours', '6h': '6 hours', '12h': '12 hours', '1d': '1 day', '2d': '2 days', '1d+2h': '1 day + 2 hours', '2d+6h': '2 days + 6 hours' }; return map[val] || val; }
+    function getRepeatLabel(val) {
+        if (!val || val === 'default' || val === null) return 'Default';
+        const map = { '30':'30s', '60':'1m', '120':'2m', '180':'3m', '300':'5m', '600':'10m', '900':'15m', '1800':'30m', '3600':'1h' };
+        return map[val] || val;
+    }
 
     // ─── CRUD ─────────────────────────────────────────────
-    function addTask(title, description, priority, category, dueDate, reminder) {
+    function addTask(title, description, priority, category, dueDate, reminder, repeatInterval) {
         const task = {
             id: generateId(),
             title: title.trim(),
@@ -1182,6 +1316,7 @@
             estimatedDuration: 0,
             actualDuration: 0,
             reminder: reminder || 'none',
+            repeatInterval: repeatInterval && repeatInterval !== 'default' ? parseInt(repeatInterval) : null,
             subtasks: [],
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
@@ -1274,6 +1409,13 @@
         return map[reminder] || 0;
     }
 
+    function getTaskRepeatInterval(task) {
+        if (task.repeatInterval && task.repeatInterval > 0) {
+            return task.repeatInterval;
+        }
+        return alarmRepeatInterval;
+    }
+
     function checkDueTasks() {
         if (!alarmEnabled) return;
         
@@ -1302,6 +1444,8 @@
             const titles = dueTasks.map(t => t.title).join(', ');
             alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
             pendingAlarmTasks = dueTasks;
+            // Update visual cues
+            render();
         } else if (dueTasks.length === 0 && alarmActive) {
             stopAlarm();
         }
@@ -1309,12 +1453,16 @@
 
     function triggerAlarm(tasks) {
         alarmActive = true;
+        isSnoozed = false;
         pendingAlarmTasks = tasks;
         const titles = tasks.map(t => t.title).join(', ');
         alarmText.innerHTML = `<i class="fas fa-bell"></i> ⏰ Due: ${titles}`;
         alarmBar.classList.add('active');
+        alarmStatus.textContent = '🔔 Ringing';
         
-        startCountdown();
+        let intervals = tasks.map(t => getTaskRepeatInterval(t));
+        let minInterval = Math.min(...intervals);
+        startCountdown(minInterval);
 
         if ('Notification' in window && Notification.permission === 'default') {
             Notification.requestPermission();
@@ -1323,7 +1471,7 @@
         if (navigator.vibrate) {
             navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
             vibrationInterval = setInterval(() => {
-                if (alarmActive && alarmEnabled) navigator.vibrate([200, 100, 200, 100, 200]);
+                if (alarmActive && alarmEnabled && !isSnoozed) navigator.vibrate([200, 100, 200, 100, 200]);
             }, 5000);
         }
 
@@ -1340,6 +1488,8 @@
             });
         }
 
+        // Update visual cues on tasks
+        render();
         showToast('⏰ Task due! ' + titles, 'warning');
     }
 
@@ -1360,7 +1510,7 @@
 
             let toggle = true;
             alarmInterval = setInterval(() => {
-                if (!alarmActive || !alarmEnabled) {
+                if (!alarmActive || !alarmEnabled || isSnoozed) {
                     oscillator.stop();
                     audioCtx.close();
                     clearInterval(alarmInterval);
@@ -1379,15 +1529,20 @@
         }
     }
 
-    function startCountdown() {
-        let seconds = alarmRepeatInterval;
+    function startCountdown(intervalSeconds) {
+        if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);
+        if (snoozeTimeout) {
+            clearTimeout(snoozeTimeout);
+            snoozeTimeout = null;
+        }
+        let seconds = intervalSeconds || alarmRepeatInterval;
         updateCountdownDisplay(seconds);
+        alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '🔔 Ringing';
         
-        if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);  // ← FIXED: using the renamed variable
         alarmCountdownTimer = setInterval(() => {
             seconds--;
             if (seconds <= 0) {
-                if (alarmActive && alarmEnabled) {
+                if (alarmActive && alarmEnabled && !isSnoozed) {
                     playAlarmSound();
                     if (navigator.vibrate) {
                         navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
@@ -1402,14 +1557,19 @@
                             });
                         });
                     }
-                    seconds = alarmRepeatInterval;
+                    let intervals = pendingAlarmTasks.map(t => getTaskRepeatInterval(t));
+                    let minInterval = Math.min(...intervals);
+                    seconds = minInterval;
+                    updateCountdownDisplay(seconds);
+                    alarmStatus.textContent = '🔔 Ringing';
                 } else {
-                    clearInterval(alarmCountdownTimer);  // ← FIXED: using the renamed variable
+                    clearInterval(alarmCountdownTimer);
                     alarmCountdownTimer = null;
-                    return;
+                    alarmStatus.textContent = isSnoozed ? '😴 Snoozed' : '';
                 }
+            } else {
+                updateCountdownDisplay(seconds);
             }
-            updateCountdownDisplay(seconds);
         }, 1000);
     }
 
@@ -1427,15 +1587,101 @@
         }
     }
 
-    function stopAlarm() {
-        alarmActive = false;
-        alarmBar.classList.remove('active');
-        
-        if (alarmCountdownTimer) {  // ← FIXED: using the renamed variable
+    // ─── SNOOZE ──────────────────────────────────────────
+    snoozeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        snoozeOptions.classList.toggle('active');
+    });
+    document.addEventListener('click', function() {
+        snoozeOptions.classList.remove('active');
+    });
+
+    document.querySelectorAll('.snooze-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const minutes = parseInt(this.dataset.minutes);
+            snoozeAlarm(minutes);
+            snoozeOptions.classList.remove('active');
+        });
+    });
+
+    function snoozeAlarm(minutes) {
+        if (!alarmActive) return;
+        if (alarmInterval) {
+            clearInterval(alarmInterval);
+            alarmInterval = null;
+        }
+        if (alarmOscillator) {
+            try { alarmOscillator.stop(); } catch(e) {}
+            alarmOscillator = null;
+        }
+        if (alarmAudioCtx) {
+            try { alarmAudioCtx.close(); } catch(e) {}
+            alarmAudioCtx = null;
+        }
+        if (vibrationInterval) {
+            clearInterval(vibrationInterval);
+            vibrationInterval = null;
+            if (navigator.vibrate) navigator.vibrate(0);
+        }
+        if (alarmCountdownTimer) {
             clearInterval(alarmCountdownTimer);
             alarmCountdownTimer = null;
         }
+
+        isSnoozed = true;
+        alarmStatus.textContent = `😴 Snoozed for ${minutes}m`;
+        alarmCountdown.textContent = `⏰ Snooze ends in ${minutes}m`;
+
+        if (snoozeTimeout) clearTimeout(snoozeTimeout);
+        snoozeTimeout = setTimeout(() => {
+            if (alarmActive && alarmEnabled) {
+                isSnoozed = false;
+                alarmStatus.textContent = '🔔 Ringing';
+                playAlarmSound();
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+                    vibrationInterval = setInterval(() => {
+                        if (alarmActive && alarmEnabled && !isSnoozed) navigator.vibrate([200, 100, 200, 100, 200]);
+                    }, 5000);
+                }
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    pendingAlarmTasks.forEach(task => {
+                        new Notification('⏰ Snooze ended!', {
+                            body: `"${task.title}" is still due!`,
+                            icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" rx="20" fill="%23667eea"/%3E%3Ctext x="50" y="68" font-family="Arial" font-size="48" font-weight="bold" fill="white" text-anchor="middle"%3ET%3C/text%3E%3C/svg%3E',
+                            requireInteraction: true,
+                            vibrate: [200, 100, 200]
+                        });
+                    });
+                }
+                let intervals = pendingAlarmTasks.map(t => getTaskRepeatInterval(t));
+                let minInterval = Math.min(...intervals);
+                startCountdown(minInterval);
+                render();
+                showToast('⏰ Snooze ended!', 'warning');
+            }
+            snoozeTimeout = null;
+        }, minutes * 60000);
+
+        render();
+        showToast(`😴 Snoozed for ${minutes} minutes`, 'info');
+    }
+
+    function stopAlarm() {
+        alarmActive = false;
+        isSnoozed = false;
+        alarmBar.classList.remove('active');
+        
+        if (alarmCountdownTimer) {
+            clearInterval(alarmCountdownTimer);
+            alarmCountdownTimer = null;
+        }
+        if (snoozeTimeout) {
+            clearTimeout(snoozeTimeout);
+            snoozeTimeout = null;
+        }
         alarmCountdown.textContent = '🔁 Repeats in: --';
+        alarmStatus.textContent = '';
 
         if (vibrationInterval) {
             clearInterval(vibrationInterval);
@@ -1457,6 +1703,7 @@
         }
 
         pendingAlarmTasks = [];
+        render();
         showToast('🔕 Alarm stopped', 'info');
     }
 
@@ -1530,11 +1777,21 @@
             return;
         }
         let html = '';
+        const alarmTaskIds = pendingAlarmTasks.map(t => t.id);
         filtered.forEach(task => {
             const overdue = isOverdue(task);
             const completed = task.status === 'completed';
+            const isAlarmActive = alarmActive && alarmTaskIds.includes(task.id);
+            const repeatLabel = getRepeatLabel(task.repeatInterval);
+            const classes = [
+                'task-item',
+                completed ? 'completed' : '',
+                overdue && !completed ? 'overdue' : '',
+                isAlarmActive ? 'alarm-active' : ''
+            ].filter(Boolean).join(' ');
+            
             html += `
-                <div class="task-item ${completed ? 'completed' : ''}" data-id="${task.id}">
+                <div class="${classes}" data-id="${task.id}">
                     <input type="checkbox" class="task-checkbox" ${completed ? 'checked' : ''}>
                     <div class="task-content">
                         <div class="task-title">${escapeHtml(task.title)}</div>
@@ -1543,8 +1800,11 @@
                             <span class="task-tag tag-${task.priority}">${getPriorityLabel(task.priority)}</span>
                             <span class="task-tag tag-category">${escapeHtml(task.category)}</span>
                             <span class="task-tag tag-status">${getStatusLabel(task.status)}</span>
-                            <span class="task-tag ${overdue ? 'tag-overdue' : 'tag-due'}">${formatDate(task.dueDate)}${overdue ? ' ⚠️' : ''}</span>
+                            ${overdue && !completed ? `<span class="task-tag tag-overdue">⚠️ OVERDUE</span>` : ''}
+                            <span class="task-tag ${overdue && !completed ? 'tag-overdue' : 'tag-due'}">${formatDate(task.dueDate)}</span>
                             ${task.reminder !== 'none' ? `<span class="task-tag tag-due">🔔 ${getReminderLabel(task.reminder)}</span>` : ''}
+                            ${task.repeatInterval ? `<span class="task-tag tag-repeat">🔄 ${repeatLabel}</span>` : ''}
+                            ${isAlarmActive ? `<span class="task-tag tag-alarm">🔔 ALARM</span>` : ''}
                         </div>
                         <div class="task-progress">
                             <div class="progress-bar"><div class="fill" style="width:${task.progress}%"></div></div>
@@ -1563,6 +1823,7 @@
 
     function renderBoard(filtered) {
         boardView.classList.add('active');
+        const alarmTaskIds = pendingAlarmTasks.map(t => t.id);
         document.querySelectorAll('.board-column').forEach(col => {
             const status = col.dataset.status;
             const tasksInCol = filtered.filter(t => t.status === status);
@@ -1571,12 +1832,19 @@
                 container.innerHTML = '<div style="color:var(--text-secondary);padding:16px;text-align:center;">No tasks</div>';
                 return;
             }
-            container.innerHTML = tasksInCol.map(task => `
-                <div class="task-item ${task.status === 'completed' ? 'completed' : ''}" onclick="editTaskById('${task.id}')" style="cursor:pointer;padding:10px;">
-                    <div style="flex:1;"><div style="font-weight:600;">${escapeHtml(task.title)}</div><div style="font-size:11px;color:var(--text-secondary);">${getPriorityLabel(task.priority)} · ${escapeHtml(task.category)}</div></div>
-                    <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompletion('${task.id}')">
-                </div>
-            `).join('');
+            container.innerHTML = tasksInCol.map(task => {
+                const isAlarmActive = alarmActive && alarmTaskIds.includes(task.id);
+                return `
+                    <div class="task-item ${task.status === 'completed' ? 'completed' : ''} ${isAlarmActive ? 'alarm-active' : ''}" 
+                         onclick="editTaskById('${task.id}')" style="cursor:pointer;padding:10px;">
+                        <div style="flex:1;">
+                            <div style="font-weight:600;">${escapeHtml(task.title)} ${isAlarmActive ? '🔔' : ''}</div>
+                            <div style="font-size:11px;color:var(--text-secondary);">${getPriorityLabel(task.priority)} · ${escapeHtml(task.category)}</div>
+                        </div>
+                        <input type="checkbox" class="task-checkbox" ${task.status === 'completed' ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompletion('${task.id}')">
+                    </div>
+                `;
+            }).join('');
         });
     }
 
@@ -1587,6 +1855,7 @@
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const today = new Date();
+        const alarmTaskIds = pendingAlarmTasks.map(t => t.id);
         $('calendarMonth').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
         let grid = '';
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -1602,7 +1871,11 @@
                     <div class="day-number">${d}</div>
                     <div class="day-tasks">
                         ${dayTasks.slice(0, 2).map(t => `
-                            <div class="day-task ${t.status === 'completed' ? 'completed' : ''}" onclick="editTaskById('${t.id}')" title="${escapeHtml(t.title)}">${escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}</div>
+                            <div class="day-task ${t.status === 'completed' ? 'completed' : ''} ${alarmActive && alarmTaskIds.includes(t.id) ? 'alarm-active' : ''}" 
+                                 onclick="editTaskById('${t.id}')" title="${escapeHtml(t.title)}">
+                                ${escapeHtml(t.title.length > 15 ? t.title.slice(0, 15) + '…' : t.title)}
+                                ${alarmActive && alarmTaskIds.includes(t.id) ? '🔔' : ''}
+                            </div>
                         `).join('')}
                         ${dayTasks.length > 2 ? `<div style="font-size:10px;color:var(--text-secondary);">+${dayTasks.length - 2}</div>` : ''}
                     </div>
@@ -1638,6 +1911,8 @@
         $('editProgressLabel').textContent = task.progress + '%';
         $('editDue').value = task.dueDate || '';
         $('editDuration').value = task.estimatedDuration || 0;
+        const repeatVal = task.repeatInterval ? String(task.repeatInterval) : 'default';
+        $('editRepeatInterval').value = repeatVal;
         clearEditErrors();
         $('editModal').classList.add('active');
     }
@@ -1659,8 +1934,8 @@
         try { const raw = localStorage.getItem('taskMasterTemplates'); templates = raw ? JSON.parse(raw) : []; } catch(e) { templates = []; }
         if (!templates.length) {
             templates = [
-                { id: 't1', name: 'Daily Routine', taskData: { title: 'Complete Daily Routine', description: 'Follow daily checklist', priority: 'medium', category: 'Personal' } },
-                { id: 't2', name: 'Project Planning', taskData: { title: 'Plan Project', description: 'Create project timeline', priority: 'high', category: 'Work' } }
+                { id: 't1', name: 'Daily Routine', taskData: { title: 'Complete Daily Routine', description: 'Follow daily checklist', priority: 'medium', category: 'Personal', repeatInterval: null } },
+                { id: 't2', name: 'Project Planning', taskData: { title: 'Plan Project', description: 'Create project timeline', priority: 'high', category: 'Work', repeatInterval: null } }
             ];
             saveTemplates();
         }
@@ -1683,7 +1958,7 @@
         const t = templates[index];
         if (!t) return;
         const d = t.taskData;
-        addTask(d.title, d.description || '', d.priority || 'medium', d.category || 'Other', '', 'none');
+        addTask(d.title, d.description || '', d.priority || 'medium', d.category || 'Other', '', 'none', d.repeatInterval || null);
         $('templateModal').classList.remove('active');
         showToast('Template applied!', 'success');
     }
@@ -1698,7 +1973,13 @@
     function saveTemplate() {
         const name = $('templateName').value.trim();
         if (!name) { showToast('Enter a name', 'warning'); return; }
-        const data = { title: $('taskTitle').value || 'Untitled', description: $('taskDesc').value || '', priority: $('taskPriority').value || 'medium', category: $('taskCategory').value || 'Other' };
+        const data = {
+            title: $('taskTitle').value || 'Untitled',
+            description: $('taskDesc').value || '',
+            priority: $('taskPriority').value || 'medium',
+            category: $('taskCategory').value || 'Other',
+            repeatInterval: $('taskRepeatInterval').value === 'default' ? null : parseInt($('taskRepeatInterval').value)
+        };
         templates.push({ id: generateId(), name, taskData: data });
         saveTemplates();
         $('templateName').value = '';
@@ -1795,6 +2076,7 @@
             const category = $('taskCategory').value;
             const dueDate = $('taskDue').value;
             const reminder = $('taskReminder').value;
+            const repeatInterval = $('taskRepeatInterval').value;
             
             clearErrors();
             let valid = true;
@@ -1806,7 +2088,7 @@
             if (!reminder) { showError('reminderError'); valid = false; }
             if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
             
-            addTask(title, description, priority, category, dueDate, reminder);
+            addTask(title, description, priority, category, dueDate, reminder, repeatInterval);
             addForm.reset();
             showToast('Task added!', 'success');
         });
@@ -1896,6 +2178,7 @@
             const progress = parseInt($('editProgress').value);
             const dueDate = $('editDue').value;
             const duration = parseInt($('editDuration').value) || 0;
+            const repeatInterval = $('editRepeatInterval').value;
             
             clearEditErrors();
             let valid = true;
@@ -1907,7 +2190,11 @@
             if (!dueDate) { showError('editDueError'); valid = false; }
             if (!valid) { showToast('Please fill in all fields', 'warning'); return; }
             
-            updateTask(id, { title, description, priority, category, status, progress, dueDate, estimatedDuration: duration });
+            updateTask(id, {
+                title, description, priority, category, status, progress, dueDate,
+                estimatedDuration: duration,
+                repeatInterval: repeatInterval === 'default' ? null : parseInt(repeatInterval)
+            });
             closeEditModal();
             showToast('Task updated!', 'success');
         });
@@ -1927,11 +2214,12 @@
                 $('templateModal').classList.remove('active');
                 $('settingsModal').classList.remove('active');
                 dropdownMenu.classList.remove('active');
+                snoozeOptions.classList.remove('active');
             }
         });
 
-        console.log('✅ TaskMaster Pro loaded with REPEATING ALARM!');
-        showToast('🔔 Alarm repeats every ' + alarmRepeatInterval + ' seconds', 'info');
+        console.log('✅ TaskMaster Pro loaded with visual cues!');
+        showToast('🔔 Visual cues active on tasks!', 'info');
     }
 
     // ─── GLOBALS ──────────────────────────────────────────
